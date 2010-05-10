@@ -2,19 +2,21 @@
 <!-- You may freely edit this file. See commented blocks below for -->
 <!-- some examples of how to customize the build. -->
 <!-- (If you delete it and reopen the project it will be recreated.) -->
-<!-- By default, only the Clean and Build commands use this build script. -->
-<!-- Commands such as Run, Debug, and Test only use this build script if -->
-<!-- the Compile on Save feature is turned off for the project. -->
-<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
-<!-- in the project's Project Properties dialog box.-->
-<project name="SpeechOO" default="default" basedir=".">
-    <description>Builds, tests, and runs the project SpeechOO.</description>
-    <import file="nbproject/build-impl.xml"/>
+<project name="SpeechOO" default="default" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+
+    <!-- Define Maven-ant-tasks -->
+    <path id="maven-ant-tasks.classpath" path="nbproject/tasks/maven-ant-tasks-2.0.10.jar" />
+    <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
+            uri="antlib:org.apache.maven.artifact.ant"
+            classpathref="maven-ant-tasks.classpath" />
+
+    <description>Builds, tests, and runs the project extension project.</description>
+    <import file="nbproject/build-uno-impl.xml"/>
     <!--
 
-    There exist several targets which are by default empty and which can be 
-    used for execution of your tasks. These targets are usually executed 
-    before and after some main targets. They are: 
+    There exist several targets which are by default empty and which can be
+    used for execution of your tasks. These targets are usually executed
+    before and after some main targets. They are:
 
       -pre-init:                 called before initialization of project properties
       -post-init:                called after initialization of project properties
@@ -28,6 +30,8 @@
       -post-compile-test-single: called after javac compilation of single JUunit test
       -pre-jar:                  called before JAR building
       -post-jar:                 called after JAR building
+      -pre-uno-package:          called before OXT creation
+      -post-uno-package:         called after OXT creation
       -post-clean:               called after cleaning build products
 
     (Targets beginning with '-' are not intended to be called on their own.)
@@ -40,12 +44,12 @@
             </obfuscate>
         </target>
 
-    For list of available properties check the imported 
-    nbproject/build-impl.xml file. 
+    For list of available properties check the imported
+    nbproject/build-impl.xml file.
 
 
     Another way to customize the build is by overriding existing main targets.
-    The targets of interest are: 
+    The targets of interest are:
 
       -init-macrodef-javac:     defines macro for javac compilation
       -init-macrodef-junit:     defines macro for junit execution
@@ -53,22 +57,87 @@
       -init-macrodef-java:      defines macro for class execution
       -do-jar-with-manifest:    JAR building (if you are using a manifest)
       -do-jar-without-manifest: JAR building (if you are not using a manifest)
-      run:                      execution of project 
+      run:                      execution of project
       -javadoc-build:           Javadoc generation
       test-report:              JUnit report generation
 
     An example of overriding the target for project execution could look like this:
 
-        <target name="run" depends="SpeechOO-impl.jar">
+        <target name="run" depends="TypeBrowser2-impl.jar">
             <exec dir="bin" executable="launcher.exe">
                 <arg file="${dist.jar}"/>
             </exec>
         </target>
 
-    Notice that the overridden target depends on the jar target and not only on 
-    the compile target as the regular run target does. Again, for a list of available 
+    Notice that the overridden target depends on the jar target and not only on
+    the compile target as the regular run target does. Again, for a list of available
     properties which you can use, check the target you are overriding in the
-    nbproject/build-impl.xml file. 
+    nbproject/build-impl.xml file.
 
     -->
+
+    <target name="-post-uno-package">
+        <!-- Download native code and copy to dist folder -->
+        <artifact:dependencies filesetId="dependency.fileset"
+            sourcesFilesetId="sources.dependency.fileset"
+            javadocFilesetId="javadoc.dependency.fileset"
+            versionsId="dependency.versions">
+
+            <dependency
+                groupId="org.speechoo.native.linux"
+                artifactId="libCorujaJNI"
+                version="0.0.1-SNAPSHOT"
+                type="so"
+                scope="provided"/>
+
+        </artifact:dependencies>
+
+        <copy todir="tmp/base">
+            <fileset refid="dependency.fileset"/>
+            <mapper classpathref="maven-ant-tasks.classpath"
+                classname="org.apache.maven.artifact.ant.VersionMapper"
+                from="${dependency.versions}" to="flatten" />
+        </copy>
+
+        <zip update="true" destfile="${uno.package.name}">
+            <fileset dir="tmp/base" casesensitive="yes">
+                <include name="lib*"/>
+                <include name="*.jar"/>
+            </fileset>
+        </zip>
+
+    </target>
+
+    <target name="download-libs">
+
+        <mkdir dir="lib"/>
+        <delete includeemptydirs="true">
+            <fileset dir="lib" includes="**/*.jar" defaultexcludes="false"/>
+        </delete>
+
+
+        <artifact:dependencies filesetId="dependency.fileset"
+            sourcesFilesetId="sources.dependency.fileset"
+            javadocFilesetId="javadoc.dependency.fileset"
+            versionsId="dependency.versions">
+
+
+            <dependency
+                groupId="org.speechoo"
+                artifactId="CorujaJNI"
+                version="0.0.1-SNAPSHOT"/>
+
+        </artifact:dependencies>
+
+        <copy todir="lib">
+            <fileset refid="dependency.fileset" />
+            <mapper classpathref="maven-ant-tasks.classpath"
+                  classname="org.apache.maven.artifact.ant.VersionMapper"
+                  from="${dependency.versions}" to="flatten" />
+        </copy>
+
+
+    </target>
+
+
 </project>
