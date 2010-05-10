@@ -1,0 +1,127 @@
+<!--
+
+    Copyright (C) 2010 SpeechOO Team (speechoo-dev AT googlegroups DOT com)
+
+    SpeechOO (speechoo-dev AT googlegroups DOT com)
+
+    CCSL-IME/USP (FLOSS Competence Center at IME - University of São Paulo),
+    Rua do Matão, 1010
+    CEP 05508-090 - São Paulo - SP - BRAZIL
+
+    LAPS-UFPA (Signal Processing Laboratory - Federal University of Pará),
+    Rua Augusto Correa, 1
+    CEP 660750-110 - Belém - PA - Brazil
+
+    http://code.google.com/p/speechoo
+
+    This file is part of SpeechOO.
+
+    SpeechOO is free software; you can redistribute it and/or modify it
+    under the terms of the GNU Lesser General Public as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    SpeechOO is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with SpeechOO. If not, see <http://www.gnu.org/licenses/>.
+
+-->
+
+<assembly>
+    <id>bin.oxt</id>
+    <formats>
+        <format>zip</format>
+        <format>dir</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>target/cogroo</directory>
+            <outputDirectory></outputDirectory>
+            <useDefaultExcludes>true</useDefaultExcludes>
+            <filtered>true</filtered>
+            <includes>
+                <include>**</include>
+            </includes>
+            <excludes>
+                <exclude>*.jar</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <includes>
+                <include>README*</include>
+                <include>LICENSE*</include>
+                <include>NOTICE*</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>src</directory>
+            <outputDirectory></outputDirectory>
+            <includes>
+                <include>*.xcs</include>
+                <include>*.xcu</include>
+                <include>*.xml</include>
+                <include>license*</include>
+            </includes>
+            <excludes>
+                <exclude>uno-extension-manifest.xml</exclude>
+            </excludes>
+            <filtered>true</filtered>
+        </fileSet>
+        <fileSet>
+            <directory>images</directory>
+            <outputDirectory>images</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>description</directory>
+            <outputDirectory>description</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>licenses</directory>
+            <outputDirectory>licenses</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>registry</directory>
+            <outputDirectory>registry</outputDirectory>
+        </fileSet>
+    </fileSets>
+    <files>
+        <file>
+            <source>src/uno-extension-manifest.xml</source>
+            <outputDirectory>META-INF</outputDirectory>
+            <destName>manifest.xml</destName>
+        </file>
+        <file>
+            <source>target/${pom.artifactId}-${pom.version}.jar</source>
+            <outputDirectory></outputDirectory>
+            <destName>${pom.artifactId}.jar</destName>
+        </file>
+    </files>
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>lib</outputDirectory>
+            <scope>runtime</scope>
+            <useProjectAttachments>false</useProjectAttachments>
+            <useProjectArtifact>false</useProjectArtifact>
+            <useTransitiveDependencies>true</useTransitiveDependencies>
+            <excludes>
+                <exclude>*native*</exclude>
+            </excludes>
+        </dependencySet>
+        <dependencySet>
+				<outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+            <outputDirectory>lib</outputDirectory>
+            <scope>runtime</scope>
+            <useProjectAttachments>false</useProjectAttachments>
+            <useProjectArtifact>false</useProjectArtifact>
+            <useTransitiveDependencies>true</useTransitiveDependencies>
+            <includes>
+                <include>*native*</include>
+            </includes>
+        </dependencySet>
+    </dependencySets>
+</assembly>

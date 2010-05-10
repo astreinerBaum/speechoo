@@ -1,0 +1,16 @@
+<project>
+
+	<parent>
+		<groupId>org.speechoo</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.speechoo</groupId>
+	<artifactId>build-utils</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Build Utils</name>
+	<packaging>jar</packaging>
+
+</project>
