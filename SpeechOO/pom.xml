@@ -1,0 +1,93 @@
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.speechoo</groupId>
+  <artifactId>parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>SpeechOO aggregate project</name>
+  
+  <packaging>pom</packaging>
+  
+  
+	<modules>
+	 	<module>CorujaJNI</module>
+	 	<module>SpeechOO</module>
+		<module>build-utils</module>
+	</modules>
+	<pluginRepositories>
+		<pluginRepository>
+			 <id>mc-release</id>
+			 <name>Local Maven repository of releases</name>
+			 <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+			 <snapshots>
+				  <enabled>false</enabled>
+			 </snapshots>
+			 <releases>
+				  <enabled>true</enabled>
+			 </releases>
+		</pluginRepository>
+	</pluginRepositories>
+  <build>
+		<plugins>
+			<!--START: LICENSE PLUGIN -->
+			<plugin>
+            <groupId>com.mycila.maven-license-plugin</groupId>
+            <artifactId>maven-license-plugin</artifactId>
+				<inherited>true</inherited>
+				<configuration>
+					<basedir>${basedir}</basedir>
+					<header>/src-header/header.txt</header>
+					<failIfMissing>true</failIfMissing>
+					<useDefaultExcludes>true</useDefaultExcludes>
+					<excludes>
+						<exclude>**/src/docs/**</exclude>
+						<exclude>**/src/etc/**</exclude>
+						<exclude>**/.settings/**</exclude>
+						<exclude>**/.classpath</exclude>
+						<exclude>**/.project</exclude>
+						<exclude>**/licenseAbout.txt</exclude>
+						<exclude>**/*COPYING.LESSER</exclude>
+						<exclude>**/*COPYING</exclude>
+						<exclude>**/*.class</exclude>
+						<exclude>**/*.jar</exclude>
+						<exclude>**/*.gz</exclude>
+						<exclude>**/*.launch</exclude>
+						<exclude>**/*.dic</exclude>
+						<exclude>**/*.bmp</exclude>
+						<exclude>**/*.MF</exclude>
+						<exclude>**/*.filtered</exclude>
+						<exclude>**/*.xcu</exclude>
+						<exclude>**/*.marked</exclude>
+						<exclude>**/*.serialized</exclude>
+						<exclude>**/*.README</exclude>
+						<exclude>**/target/*</exclude>
+						<exclude>**/header.txt</exclude>
+						<exclude>**/build/**</exclude>
+						<exclude>**/build/**</exclude>
+						<exclude>**/dist/**</exclude>
+						<exclude>**/tmp/**</exclude>
+						<exclude>**/nbproject/**</exclude>
+						<exclude>**/description/**</exclude>
+						<exclude>**/licenses/**</exclude>
+					</excludes>
+					<useDefaultMapping>true</useDefaultMapping>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<!-- <goal>check</goal>-->
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.speechoo</groupId>
+						<artifactId>build-utils</artifactId>
+						<version>0.0.1-SNAPSHOT</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+  </build>
+  
+</project>
