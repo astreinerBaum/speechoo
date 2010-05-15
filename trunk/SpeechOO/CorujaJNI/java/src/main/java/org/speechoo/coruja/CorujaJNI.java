@@ -75,6 +75,13 @@ public class CorujaJNI extends Observable {
         instance.notifyObservers(uterrance);
     }
 
+    /**
+     * To try the Java C++ bind.
+     * 
+     * @param args
+     *          0 - The root execution path. Inside this path we should have
+     *              the lib/libCorujaJNI.so file
+     */
     public static void main(String args[]) {
         try {
 	    if(args != null && args.length > 0) {
