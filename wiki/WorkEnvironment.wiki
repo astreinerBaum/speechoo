@@ -1,4 +1,4 @@
-#Preparing the work environment
+Preparing the work environment
 
 = Introduction =
 
