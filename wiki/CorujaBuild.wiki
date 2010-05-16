@@ -1,0 +1,24 @@
+#summary How to set the environment to build Coruja.
+#labels Phase-Implementation
+
+= Introduction =
+
+Manual to build the Coruja package in Linux systems (using pthread).
+
+
+= Julius =
+
+In the folder LaPSAPI you have the julius-4.1.4 you need to build this. Just $./configure and $make
+
+= Eclipse Project =
+
+The LaPSAPI project is a project for Eclipse C++ IDE, you can just import it into your workspace (it is important to see that you need the julius folder).
+
+Once you have imported the project you can just compile it. LaPSAPI is a project of a Shared Library to control Julius.
+
+
+= Teste Project =
+
+The TestLaPSAPI folder has another Eclipse Project that test the developed API. To test it you need an Acoustic Model and a Grammar, here you can use the LaPS models.
+
+To run you have to copy the shared library to one of your library folders (/usr/lib, /lib, ...), or just set the variable LD_LIBRARY_PATH to the path that contains the compiled LaPSAPI that is LaPSAPI.so.
