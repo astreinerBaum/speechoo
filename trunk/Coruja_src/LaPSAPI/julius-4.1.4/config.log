@@ -1,0 +1,16 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:555: checking host system type
+configure:577: checking host specific optimization flag
+configure:593: checking for gcc
+configure:706: checking whether the C compiler (gcc -O6 -fomit-frame-pointer ) works
+configure:722: gcc -o conftest -O6 -fomit-frame-pointer   conftest.c  1>&5
+configure:748: checking whether the C compiler (gcc -O6 -fomit-frame-pointer ) is a cross-compiler
+configure:753: checking whether we are using GNU C
+configure:762: gcc -E conftest.c
+configure:781: checking whether gcc accepts -g
+configure:813: checking how to run the C preprocessor
+configure:834: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:904: checking for a BSD compatible install
+configure:959: checking for rm

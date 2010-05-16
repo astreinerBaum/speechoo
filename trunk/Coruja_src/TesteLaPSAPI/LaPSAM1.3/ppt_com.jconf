@@ -1,0 +1,145 @@
+######################################################################
+# Julius Conf File
+######################################################################
+
+################### Caminho para a gramática #######################
+#-dfa "C:/Documents and Settings/Pedro/My Documents/Visual Studio 2008/Projects/LapsAPI/Gramaticas/pptGrammar/comandos.dfa"
+#-v "C:/Documents and Settings/Pedro/My Documents/Visual Studio 2008/Projects/LapsAPI/Gramaticas/pptGrammar/comandos.dict"
+-dfa "../Grammar/comandos.dfa"
+-v "../Grammar/comandos.dict"
+
+################### Hmm model #####################
+#Caminhos para modelos de linguagem
+#-h "C:/Documents and Settings/Pedro/My Documents/Visual Studio 2008/Projects/LapsAPI/LapsAM1.3/LapsAM1.3.bin"
+-h "./LapsAM1.3.bin"
+# triphone model needs HMMList that maps logical triphone to physical ones.
+#-hlist "C:/Documents and Settings/Pedro/My Documents/Visual Studio 2008/Projects/LapsAPI/LapsAM1.3/tiedlist"
+-hlist "./tiedlist"
+#-htkconf "C:/Documents and Settings/Pedro/My Documents/Visual Studio 2008/Projects/LapsAPI/LapsAM1.3/edaz.conf"
+-htkconf "./LaPSAM1.3/edaz.conf"
+#-htkconf edaz.conf
+
+#-tmix 10 ###### TESTAR !!!! 
+
+-input mic
+
+-cmalpha 0.05
+# Specify short pause model name to be treated as special
+-spmodel "sp"		# HMM model name
+#-iwspword
+
+# Context-dependency handling will be enabled according to the model type.
+# Try below if julius wrongly detect the type of hmmdefs
+#
+#-no_ccd		# disable context-dependency handling
+-force_ccd		# enable context-dependency handling
+
+###################################################
+#
+-progout         # progressive output while decoding
+
+# Context-dependency handling will be enabled according to the model type.
+# Try below if julius wrongly detect the type of hmmdefs
+#
+#-no_ccd		# disable context-dependency handling
+-force_ccd		# enable context-dependency handling
+
+
+####################################################  
+#Envelope beam width (number of hypothesis) - deixa o decoder bem mais lento !!
+
+-b 200.0
+#-b2 80.0
+ 
+# The number of candidates Julius tries to find.
+#-n 5 
+
+-penalty1 -5.0
+#-penalty2 20.0
+
+#-sb 200.0
+#-multipath
+
+###################################################
+## (PTM/triphone) switch computation method of IWCD on 1st pass
+##
+#-iwcd1 best 5	# assign average of N-best likelihood of the same context
+#-iwcd1 max	# assign maximum likelihood of the same context 
+#-iwcd1 avg	# assign average likelihood of the same context (default)
+
+
+#### Gaussian Pruning ####
+## Number of mixtures to select in a mixture pdf.
+## This default value is optimized for IPA99's PTM,
+## with 64 Gaussians per codebook
+#-tmix 2
+
+## Select Gaussian pruning algorithm
+## defulat: beam (standard setting), safe (others)
+-gprune safe		# safe pruning, accurate but slow
+#-gprune heuristic	# heuristic pruning
+#-gprune beam		# beam pruning, fast but sensitive
+#-gprune none		# no pruning
+
+
+#### Search Parameters ####
+
+#-b 400                 # beam width on 1st pass (#nodes) for monophone
+#-b 800                 # beam width on 1st pass (#nodes) for triphone,PTM
+#-b 1000                # beam width on 1st pass (#nodes) for triphone,PTM,engine=v2.1
+#-s 50			# Stack size
+#-b2 200                # beam width on 2nd pass (#words)
+#-sb 200.0		# score beam envelope threshold
+#-s 500                 # hypotheses stack size on 2nd pass (#hypo)
+#-m 2000                # hypotheses overflow threshold (#hypo)
+#-lookuprange 5         # lookup range for word expansion (#frame)
+#-n 1                   # num of sentences to find (#sentence)
+#-n 10                  #   (default for 'standard' configuration)
+#-output 1              # num of found sentences to output (#sentence)
+#-looktrellis		# search within only backtrellis words
+
+
+## For insertion of context-free short-term inter-word pauses between words
+##  (multi-path version only)
+##
+-iwsp			# append a skippable sp model at all word ends
+#-iwsppenalty -5.0	# transition penalty for the appenede sp models
+
+#### Acoustic HMM file ####
+## support ascii hmmdefs or binary format (converted by "mkbinhmm")
+
+#-record records/
+
+##-cutsilence         # detection on
+##-nocutsilence         # detection off
+-lv 3000         # level threshold (0-32767)
+-zc 150            # zero-cross threshold (times in sec.)
+-headmargin 800      # head silence margin (msec)
+-tailmargin 900      # tail silence margin (msec)
+-rejectshort 50         # reject shorter input (msec)
+
+#-realtime         # force real-time processing
+-norealtime         # force non real-time processing
+
+##-looktrellis
+
+################# Isolated Word ######################
+
+#-w julius/gram_camera_pil.dict  	# word dictionary
+
+#-wsil sil sil NULL      		# head / tail silence models to be appended
+
+######################################################################
+#### Acoustic Analysis
+######################################################################
+-smpFreq 22050		# sampling rate (Hz)
+#-smpPeriod 227		# sampling period (ns) (= 10000000 / smpFreq)
+#-fsize 400		# window size (samples)
+#-fshift 160		# frame shift (samples)
+#-delwin 2		# delta window (frames)
+#-hifreq -1		# cut-off hi frequency (Hz) (-1: disable)
+#-lofreq -1		# cut-off low frequency (Hz) (-1: disable)
+#-cmnsave filename	# save CMN param to file (update per input)
+#-cmnload filename	# load initial CMN param from file on startup
+
+
