@@ -3,21 +3,23 @@
 
 = Introduction =
 
-Manual to build the Coruja package in Linux systems (using pthread).
+Manual to build the Coruja package in Linux systems.
 
 
 = Julius =
 
-In the folder LaPSAPI you have the julius-4.1.4 you need to build this.
-Execute ./configure
+Inside the folder LaPSAPI, you have a folder called julius-4.1.4. Build it executing:
 
-*PATCH:* for now we have to manually modify the libjulius and libsent Makefile file: change the CPPFLAGS to include the flag -fPIC
+./configure
+make
+
+*PATCH:* had to modify Makefile.in libjulius and libsent to include -fPIC to the CPPFLAGS. _Should investigate how to avoid it_.
 
 Verify if Julius was correctly built. Open julius-4.1.4/julius and try ./julius
 
 = Eclipse Project =
 
-The LaPSAPI project is a project for Eclipse C++ IDE, you can just import it into your workspace (it is important to see that you need the julius folder).
+The LaPSAPI is a project for Eclipse C++ IDE, you can just import it into your workspace (it is important to see that you need the julius folder).
 
 Once you have imported the project you can just compile it. LaPSAPI is a project of a Shared Library to control Julius.
 
