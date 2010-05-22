@@ -29,6 +29,7 @@
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/include}&quot;"/>
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/julius-4.1.4/libjulius/include}&quot;"/>
 </option>
+<option id="gnu.cpp.compiler.option.other.other.1642998181" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fPIC -fmessage-length=0" valueType="string"/>
 <inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1786929485" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 </tool>
 <tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.1404036088" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
@@ -511,6 +512,7 @@
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/include}&quot;"/>
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/julius-4.1.4/libjulius/include}&quot;"/>
 </option>
+<option id="gnu.cpp.compiler.option.other.other.422668723" superClass="gnu.cpp.compiler.option.other.other" value="-c -fPIC -fmessage-length=0" valueType="string"/>
 <inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.708936482" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 </tool>
 <tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.release.1615214335" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.release">
@@ -528,7 +530,7 @@
 </option>
 <option id="gnu.cpp.link.option.flags.2087567625" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="`${workspace_loc:/LaPSAPI/julius-4.1.4/libjulius/libjulius-config} --libs` `${workspace_loc:/LaPSAPI/julius-4.1.4/libsent/libsent-config} --libs`" valueType="string"/>
 <option defaultValue="true" id="gnu.cpp.link.option.shared.223103697" name="Shared (-shared)" superClass="gnu.cpp.link.option.shared" valueType="boolean"/>
-<option id="gnu.cpp.link.option.libs.707995742" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs"/>
+<option id="gnu.cpp.link.option.libs.707995742" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs"/>
 <inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.406572709" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 <additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 <additionalInput kind="additionalinput" paths="$(LIBS)"/>
