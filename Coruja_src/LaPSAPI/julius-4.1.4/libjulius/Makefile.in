@@ -17,7 +17,7 @@ LIBSENT=../libsent
 
 CC=@CC@
 CFLAGS=@CFLAGS@
-CPPFLAGS=-Iinclude -I$(LIBSENT)/include @CPPFLAGS@ `$(LIBSENT)/libsent-config --cflags`
+CPPFLAGS=-Iinclude -fPIC -I$(LIBSENT)/include @CPPFLAGS@ `$(LIBSENT)/libsent-config --cflags`
 LDFLAGS=@LDFLAGS@ @LIBS@ -L$(LIBSENT) `$(LIBSENT)/libsent-config --libs` 
 RM=@RM@ -f
 AR=@AR@ r
