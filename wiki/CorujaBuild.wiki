@@ -8,7 +8,12 @@ Manual to build the Coruja package in Linux systems (using pthread).
 
 = Julius =
 
-In the folder LaPSAPI you have the julius-4.1.4 you need to build this. Just $./configure and $make
+In the folder LaPSAPI you have the julius-4.1.4 you need to build this.
+Execute ./configure
+
+*PATCH:* for now we have to manually modify the libjulius and libsent Makefile file: change the CPPFLAGS to include the flag -fPIC
+
+Verify if Julius was correctly built. Open julius-4.1.4/julius and try ./julius
 
 = Eclipse Project =
 
