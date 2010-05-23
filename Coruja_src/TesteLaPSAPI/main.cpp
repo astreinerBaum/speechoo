@@ -17,7 +17,7 @@ void handleResults(RecoResult *recoResult) {
 }
 
 int main() {
-	SREngine *engine = new SREngine("./LaPSAM1.3/ppt_com.jconf");
+	SREngine *engine = new SREngine("/home/colen/programs/julius-3.5.2-quickstart-linux/julian.jconf");
 	engine->setOnRecognizedAction(handleResults);
 	engine->startRecognition();
 	cout << "ok reconhecendo" << endl;
