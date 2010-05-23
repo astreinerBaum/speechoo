@@ -50,12 +50,12 @@
 <tool commandLinePattern="${COMMAND} ${OUTPUT_FLAG}${OUTPUT_PREFIX}${OUTPUT} ${INPUTS} ${FLAGS}" id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.1474346036" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
 <option id="gnu.cpp.link.option.paths.1498273836" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/Debug}&quot;"/>
+<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/julius-4.1.4/libjulius}&quot;"/>
+<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/julius-4.1.4/libsent}&quot;"/>
 </option>
-<option id="gnu.cpp.link.option.flags.1644164300" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="" valueType="string"/>
+<option id="gnu.cpp.link.option.flags.1644164300" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="`${workspace_loc:/LaPSAPI/Debug} --libs` `${workspace_loc:/LaPSAPI/julius-4.1.4/libjulius/libjulius-config} --libs` `${workspace_loc:/LaPSAPI/julius-4.1.4/libsent/libsent-config} --libs`" valueType="string"/>
 <option defaultValue="true" id="gnu.cpp.link.option.shared.189896403" name="Shared (-shared)" superClass="gnu.cpp.link.option.shared" value="true" valueType="boolean"/>
-<option id="gnu.cpp.link.option.libs.1153651586" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-<listOptionValue builtIn="false" value="LaPSAPI"/>
-</option>
+<option id="gnu.cpp.link.option.libs.1153651586" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs"/>
 <option id="gnu.cpp.link.option.userobjs.1213139986" name="Other objects" superClass="gnu.cpp.link.option.userobjs"/>
 <option id="gnu.cpp.link.option.soname.1565837211" name="Shared object name (-Wl,-soname=)" superClass="gnu.cpp.link.option.soname" value="" valueType="string"/>
 <inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1519480341" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
@@ -540,13 +540,13 @@
 </tool>
 <tool commandLinePattern="${COMMAND} ${OUTPUT_FLAG}${OUTPUT_PREFIX}${OUTPUT} ${INPUTS} ${FLAGS}" id="cdt.managedbuild.tool.gnu.cpp.linker.exe.release.1658462256" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.release">
 <option id="gnu.cpp.link.option.paths.677207657" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/julius-4.1.4/libjulius}&quot;"/>
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/Release}&quot;"/>
-<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/julius-4.1.4/libsent}&quot;"/>
 </option>
-<option id="gnu.cpp.link.option.flags.2087567625" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="" valueType="string"/>
+<option id="gnu.cpp.link.option.flags.2087567625" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="`${workspace_loc:/LaPSAPI/julius-4.1.4/libjulius/Debug} --libs`" valueType="string"/>
 <option defaultValue="true" id="gnu.cpp.link.option.shared.223103697" name="Shared (-shared)" superClass="gnu.cpp.link.option.shared" valueType="boolean"/>
-<option id="gnu.cpp.link.option.libs.707995742" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs"/>
+<option id="gnu.cpp.link.option.libs.707995742" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
+<listOptionValue builtIn="false" value="LaPSAPI"/>
+</option>
 <option id="gnu.cpp.link.option.soname.23071970" name="Shared object name (-Wl,-soname=)" superClass="gnu.cpp.link.option.soname" value="libCorujaJNI.so" valueType="string"/>
 <inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.406572709" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 <additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
