@@ -25,9 +25,9 @@
 <option id="gnu.cpp.compiler.exe.debug.option.optimization.level.1646282754" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 <option id="gnu.cpp.compiler.exe.debug.option.debugging.level.1689564365" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 <option id="gnu.cpp.compiler.option.include.paths.687162059" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/julius-4.1.4/libjulius/include}&quot;"/>
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/julius-4.1.4/libsent/include}&quot;"/>
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/include}&quot;"/>
-<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/julius-4.1.4/libjulius/include}&quot;"/>
 </option>
 <option id="gnu.cpp.compiler.option.other.other.1642998181" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fPIC -fmessage-length=0" valueType="string"/>
 <inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1786929485" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -512,7 +512,7 @@
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/include}&quot;"/>
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/julius-4.1.4/libjulius/include}&quot;"/>
 </option>
-<option id="gnu.cpp.compiler.option.other.other.422668723" superClass="gnu.cpp.compiler.option.other.other" value="-c -fPIC -fmessage-length=0" valueType="string"/>
+<option id="gnu.cpp.compiler.option.other.other.422668723" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fPIC -fmessage-length=0" valueType="string"/>
 <inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.708936482" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 </tool>
 <tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.release.1615214335" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.release">

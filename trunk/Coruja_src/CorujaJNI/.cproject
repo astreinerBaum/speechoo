@@ -29,7 +29,6 @@
 <option id="gnu.cpp.compiler.exe.debug.option.optimization.level.1646282754" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 <option id="gnu.cpp.compiler.exe.debug.option.debugging.level.1689564365" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 <option id="gnu.cpp.compiler.option.include.paths.687162059" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/include}&quot;"/>
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/julius-4.1.4/libjulius/include}&quot;"/>
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/julius-4.1.4/libsent/include}&quot;"/>
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/CorujaJNI/include}&quot;"/>
@@ -49,15 +48,18 @@
 </tool>
 <tool commandLinePattern="${COMMAND} ${OUTPUT_FLAG}${OUTPUT_PREFIX}${OUTPUT} ${INPUTS} ${FLAGS}" id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.1474346036" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
 <option id="gnu.cpp.link.option.paths.1498273836" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/Debug}&quot;"/>
-<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/julius-4.1.4/libjulius}&quot;"/>
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/julius-4.1.4/libsent}&quot;"/>
+<listOptionValue builtIn="false" value="&quot;${workspace_loc:/LaPSAPI/julius-4.1.4/libjulius}&quot;"/>
 </option>
-<option id="gnu.cpp.link.option.flags.1644164300" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="`${workspace_loc:/LaPSAPI/Debug} --libs` `${workspace_loc:/LaPSAPI/julius-4.1.4/libjulius/libjulius-config} --libs` `${workspace_loc:/LaPSAPI/julius-4.1.4/libsent/libsent-config} --libs`" valueType="string"/>
+<option id="gnu.cpp.link.option.flags.1644164300" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="`${workspace_loc:/LaPSAPI/julius-4.1.4/libjulius/libjulius-config} --libs` `${workspace_loc:/LaPSAPI/julius-4.1.4/libsent/libsent-config} --libs`" valueType="string"/>
 <option defaultValue="true" id="gnu.cpp.link.option.shared.189896403" name="Shared (-shared)" superClass="gnu.cpp.link.option.shared" value="true" valueType="boolean"/>
 <option id="gnu.cpp.link.option.libs.1153651586" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs"/>
 <option id="gnu.cpp.link.option.userobjs.1213139986" name="Other objects" superClass="gnu.cpp.link.option.userobjs"/>
 <option id="gnu.cpp.link.option.soname.1565837211" name="Shared object name (-Wl,-soname=)" superClass="gnu.cpp.link.option.soname" value="" valueType="string"/>
+<option id="gnu.cpp.link.option.strip.243063544" name="Omit all symbol information (-s)" superClass="gnu.cpp.link.option.strip" value="false" valueType="boolean"/>
+<option id="gnu.cpp.link.option.nostart.797139456" name="Do not use standard start files (-nostartfiles)" superClass="gnu.cpp.link.option.nostart" value="false" valueType="boolean"/>
+<option id="gnu.cpp.link.option.nodeflibs.1916267010" name="Do not use default libraries (-nodefaultlibs)" superClass="gnu.cpp.link.option.nodeflibs" value="false" valueType="boolean"/>
+<option id="gnu.cpp.link.option.nostdlibs.1377515073" name="No startup or default libs (-nostdlib)" superClass="gnu.cpp.link.option.nostdlibs" value="false" valueType="boolean"/>
 <inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1519480341" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 <additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 <additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -245,7 +247,7 @@
 </scannerInfoProvider>
 </profile>
 </scannerConfigBuildInfo>
-<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1474044110;cdt.managedbuild.config.gnu.exe.debug.1474044110.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.932780477;cdt.managedbuild.tool.gnu.cpp.compiler.input.1786929485">
+<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.release.1290265056;cdt.managedbuild.config.gnu.exe.release.1290265056.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.311023449;cdt.managedbuild.tool.gnu.cpp.compiler.input.708936482">
 <autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
 <profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">
 <buildOutputProvider>
@@ -328,7 +330,7 @@
 </scannerInfoProvider>
 </profile>
 </scannerConfigBuildInfo>
-<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.release.1290265056;cdt.managedbuild.config.gnu.exe.release.1290265056.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.311023449;cdt.managedbuild.tool.gnu.cpp.compiler.input.708936482">
+<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1474044110;cdt.managedbuild.config.gnu.exe.debug.1474044110.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.932780477;cdt.managedbuild.tool.gnu.cpp.compiler.input.1786929485">
 <autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
 <profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">
 <buildOutputProvider>
@@ -734,7 +736,7 @@
 </scannerInfoProvider>
 </profile>
 </scannerConfigBuildInfo>
-<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1474044110;cdt.managedbuild.config.gnu.exe.debug.1474044110.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.932780477;cdt.managedbuild.tool.gnu.cpp.compiler.input.1786929485">
+<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.release.1290265056;cdt.managedbuild.config.gnu.exe.release.1290265056.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.311023449;cdt.managedbuild.tool.gnu.cpp.compiler.input.708936482">
 <autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
 <profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">
 <buildOutputProvider>
@@ -817,7 +819,7 @@
 </scannerInfoProvider>
 </profile>
 </scannerConfigBuildInfo>
-<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.release.1290265056;cdt.managedbuild.config.gnu.exe.release.1290265056.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.release.311023449;cdt.managedbuild.tool.gnu.cpp.compiler.input.708936482">
+<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1474044110;cdt.managedbuild.config.gnu.exe.debug.1474044110.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.932780477;cdt.managedbuild.tool.gnu.cpp.compiler.input.1786929485">
 <autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
 <profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">
 <buildOutputProvider>
