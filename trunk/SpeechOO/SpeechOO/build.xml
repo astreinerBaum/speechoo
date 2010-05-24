@@ -78,7 +78,7 @@
 
     <target name="-post-uno-package">
         <!-- Download native code and copy to dist folder -->
-        <artifact:dependencies filesetId="dependency.fileset"
+        <!--<artifact:dependencies filesetId="dependency.fileset"
             sourcesFilesetId="sources.dependency.fileset"
             javadocFilesetId="javadoc.dependency.fileset"
             versionsId="dependency.versions">
@@ -97,16 +97,22 @@
             <mapper classpathref="maven-ant-tasks.classpath"
                 classname="org.apache.maven.artifact.ant.VersionMapper"
                 from="${dependency.versions}" to="flatten" />
-        </copy>
 
         <zip update="true" destfile="${uno.package.name}">
             <fileset dir="tmp/native" casesensitive="yes">
                 <include name="**/lib/**"/>
             </fileset>
+        </zip>-->
+
+        <zip update="true" destfile="${uno.package.name}">
+            <fileset dir="jni" casesensitive="yes">
+                <include name="*.so"/>
+                <include name="*.dll"/>
+            </fileset>
         </zip>
 
     </target>
-
+<!--
     <target name="download-libs">
 
         <mkdir dir="lib"/>
@@ -137,6 +143,6 @@
 
 
     </target>
-
+-->
 
 </project>

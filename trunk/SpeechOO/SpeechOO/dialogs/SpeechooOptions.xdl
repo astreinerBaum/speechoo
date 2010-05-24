@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
+<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="SpeechooOptions" dlg:left="41" dlg:top="28" dlg:width="265" dlg:height="185" dlg:help-text="&amp;0.SpeechooOptions.HelpText" dlg:help-url="org.speechoo.SpeechOO:About" dlg:closeable="true" dlg:moveable="true" dlg:title="&amp;1.SpeechooOptions.Title" dlg:withtitlebar="false">
+ <dlg:styles>
+  <dlg:style dlg:style-id="0" dlg:text-color="0x80" dlg:font-height="32" dlg:font-weight="150"/>
+ </dlg:styles>
+ <dlg:bulletinboard>
+  <dlg:text dlg:style-id="0" dlg:id="TitleLabel" dlg:tab-index="0" dlg:left="15" dlg:top="15" dlg:width="233" dlg:height="28" dlg:help-text="&amp;2.SpeechooOptions.TitleLabel.HelpText" dlg:value="&amp;3.SpeechooOptions.TitleLabel.Label"/>
+  <dlg:text dlg:id="JuliusConfigLabel" dlg:tab-index="1" dlg:left="15" dlg:top="50" dlg:width="75" dlg:height="10" dlg:help-text="&amp;4.SpeechooOptions.JuliusConfigLabel.HelpText" dlg:value="&amp;5.SpeechooOptions.JuliusConfigLabel.Label"/>
+  <dlg:filecontrol dlg:style-id="2" dlg:id="ConfigFile" dlg:tab-index="1" dlg:left="90" dlg:top="50" dlg:width="150" dlg:height="15" dlg:tabstop="false" dlg:value="">
+  </dlg:filecontrol>
+ </dlg:bulletinboard>
+</dlg:window>

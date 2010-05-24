@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oor:component-schema xmlns:oor="http://openoffice.org/2001/registry" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     oor:name="SpeechooOptions" oor:package="org.speechoo" xml:lang="en-US">
+     <info>
+         <author></author>
+         <desc>Contains the options data used for the options SpeechOO extension.</desc>
+     </info>
+     <component>
+         <group oor:name="SREngineOptions">
+             <info>
+                 <desc>The data properties for the julius.</desc>
+             </info>
+             <prop oor:name="JConfiFile" oor:type="xs:string">
+                 <value>/home/colen/wrk/coruja/Coruja_src/JNITest/julian.jconf</value>
+             </prop>
+         </group>
+     </component>
+ </oor:component-schema>
