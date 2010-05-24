@@ -67,11 +67,11 @@ void recognized(RecoResult *result){
 }
 
 
-JNIEXPORT void JNICALL Java_org_speechoo_coruja_CorujaJNI_setRootDirectory
-	(JNIEnv *env, jobject obj, jstring rootDirectory)
+JNIEXPORT void JNICALL JNICALL Java_org_speechoo_coruja_CorujaJNI_startSREngine
+	(JNIEnv *env, jobject obj, jstring cfgFile)
 	{
 		jboolean iscopy;
-		rootDir = env->GetStringUTFChars(rootDirectory, &iscopy);
+		rootDir = env->GetStringUTFChars(cfgFile, &iscopy);
 
 		char *config = new char[strlen(rootDir) + 1];
 		std::strcpy ( config, rootDir );
@@ -79,6 +79,12 @@ JNIEXPORT void JNICALL Java_org_speechoo_coruja_CorujaJNI_setRootDirectory
 		en = new SREngine(config);
 
 		en->setOnRecognizedAction(&recognized);
+	}
+
+JNIEXPORT void JNICALL JNICALL Java_org_speechoo_coruja_CorujaJNI_stopSREngine
+	(JNIEnv *env, jobject obj)
+	{
+		en->~SREngine();
 	}
 
 JNIEXPORT void JNICALL Java_org_speechoo_coruja_CorujaJNI_enableDictation
