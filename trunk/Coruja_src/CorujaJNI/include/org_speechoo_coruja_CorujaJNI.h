@@ -17,11 +17,19 @@ JNIEXPORT void JNICALL Java_org_speechoo_coruja_CorujaJNI_enableDictation
 
 /*
  * Class:     org_speechoo_coruja_CorujaJNI
- * Method:    setRootDirectory
+ * Method:    startSREngine
  * Signature: (Ljava/lang/String;)V
  */
-JNIEXPORT void JNICALL Java_org_speechoo_coruja_CorujaJNI_setRootDirectory
+JNIEXPORT void JNICALL Java_org_speechoo_coruja_CorujaJNI_startSREngine
   (JNIEnv *, jobject, jstring);
+
+/*
+ * Class:     org_speechoo_coruja_CorujaJNI
+ * Method:    stopSREngine
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_org_speechoo_coruja_CorujaJNI_stopSREngine
+  (JNIEnv *, jobject);
 
 #ifdef __cplusplus
 }
