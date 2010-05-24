@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<helpdocument version="1.0">
+  <meta>
+    <topic id="textoptionsdemoxml" indexer="include" status="PUBLISH">
+      <title id="tit" xml-lang="en-US">About Options Page Demo</title>
+      <filename>/org.openoffice.demo.OptionsPageDemo/OptionsPageDemo.xhp</filename>
+    </topic>
+  </meta>
+  <body>
+    <bookmark xml-lang="en-US" branch="index" id="bm_id00001">
+      <bookmark_value>Options Page Demo</bookmark_value>
+    </bookmark>
+    <bookmark xml-lang="en-US" branch="hid/org.openoffice.demo.OptionsPageDemo:Message" id="bm_id00002" localize="false"/>
+    <paragraph role="paragraph" id="par_id00001" xml-lang="en-US" l10n="NEW"><ahelp hid="hid/org.openoffice.demo.OptionsPageDemo:MessageTooltip" visibility="hidden">Enter a message that will later inserted by the demo insert command</ahelp></paragraph>
+    <bookmark xml-lang="en-US" branch="hid/org.openoffice.demo.OptionsPageDemo:ColoredMessage" id="bm_id00003" localize="false"/>
+    <paragraph role="paragraph" id="par_id00002" xml-lang="en-US" l10n="NEW"><ahelp hid="hid/org.openoffice.demo.OptionsPageDemo:ColoredMessageTooltip" visibility="hidden">Check box to enable a colored demo message.</ahelp></paragraph>
+
+    <bookmark xml-lang="en-US" branch="hid/org.openoffice.demo.OptionsPageDemo:About" id="bm_id00004" localize="false"/>
+    <paragraph role="heading" id="hd_id00001" xml-lang="en-US" level="1" l10n="NEW">About Options Page Demo</paragraph>
+    <paragraph role="paragraph" id="par_id000003" xml-lang="en-US" l10n="NEW"><ahelp hid=".">The Options Page Demo is a simple demo extension that shows how you can integrate an own Options page with your extension. The new options page integrates smooth in the normal Office options dialog.</ahelp></paragraph>
+    <paragraph role="heading" id="hd_id00002" xml-lang="en-US" level="2" l10n="NEW">System Requirements</paragraph>
+    <list type="unordered">
+      <listitem>
+        <paragraph role="paragraph" id="par_id00004" xml-lang="en-US" l10n="NEW">OpenOffice.org 2.4 or later</paragraph>
+      </listitem>
+    </list>
+    <paragraph role="heading" id="hd_id00003" xml-lang="en-US" level="2" l10n="NEW">Demo Options</paragraph>
+    <paragraph role="paragraph" id="par_id00005" xml-lang="en-US" level="3" l10n="NEW">The demo options are very simple and should show how you can easy manage your own configuration entries.</paragraph>
+    <list type="ordered">
+      <listitem>
+        <paragraph role="paragraph" id="par_id00006" xml-lang="en-US" l10n="NEW">Message, you can insert here any text message that will be inserted by the demo "Insert Messaage" command.</paragraph>
+      </listitem>
+      <listitem>
+        <paragraph role="paragraph" id="par_id00007" xml-lang="en-US" l10n="NEW">Colored Message, simple check mark this entry to insert the meesage in red.</paragraph>
+      </listitem>
+    </list>
+    <paragraph role="heading" id="hd_id00004" xml-lang="en-US" level="2" l10n="NEW">Functionality</paragraph>
+    <paragraph role="paragraph" id="par_id00008" xml-lang="en-US" level="3" l10n="NEW">The provided functionality of this demo is quite simple. It provides a new menu <item type="menuitem">Options Demo - Insert Message</item> and a toolbar with one button <item type="menuitem">Insert Message</item> in the context of a text document. This <item type="menuitem">Insert Message</item> command simply inserts the message that can be configured via the options page at the end of a text document. That's it.</paragraph>
+  </body>
+</helpdocument>

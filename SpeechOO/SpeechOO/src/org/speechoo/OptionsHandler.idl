@@ -1,0 +1,20 @@
+/*
+ * OptionsHandler.idl
+ *
+ * Created on 2010.05.23 - 15:32:00
+ *
+ */
+
+#ifndef __org_speechoo_OptionsHandler__
+#define __org_speechoo_OptionsHandler__
+
+#ifndef __com_sun_star_awt_XContainerWindowEventHandler_idl__
+#import <com/sun/star/awt/XContainerWindowEventHandler.idl>
+#endif
+
+
+module org { module speechoo {
+    service OptionsHandler : com::sun::star::awt::XContainerWindowEventHandler;
+}; };
+
+#endif
