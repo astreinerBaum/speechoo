@@ -37,6 +37,13 @@ import com.sun.star.beans.PropertyState;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.deployment.PackageInformationProvider;
+import com.sun.star.frame.FeatureStateEvent;
+import com.sun.star.frame.TerminationVetoException;
+import com.sun.star.frame.XDesktop;
+import com.sun.star.frame.XDispatch;
+import com.sun.star.frame.XTerminateListener;
+import com.sun.star.lang.EventObject;
+import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.lang.XMultiServiceFactory;
 import com.sun.star.uno.Exception;
 import com.sun.star.uno.UnoRuntime;
@@ -64,6 +71,7 @@ public final class SpeechOO extends WeakBase
         com.sun.star.frame.XDispatch,
         com.sun.star.frame.XDispatchProvider,
         com.sun.star.lang.XServiceInfo,
+        XTerminateListener,
         Observer {
 
     private final XComponentContext m_xContext;
@@ -78,7 +86,17 @@ public final class SpeechOO extends WeakBase
     private boolean isInitialized = false;
 
     public SpeechOO(XComponentContext context) {
+
         m_xContext = context;
+        try {
+            XMultiComponentFactory serviceManager = m_xContext.getServiceManager();
+            // get Desktop instance
+            Object desktop = serviceManager.createInstanceWithContext("com.sun.star.frame.Desktop", m_xContext);
+            XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);
+            xDesktop.addTerminateListener(this);
+        } catch (Exception ex) {
+            Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
 
     }
@@ -149,8 +167,16 @@ public final class SpeechOO extends WeakBase
 
     public void addStatusListener(com.sun.star.frame.XStatusListener xControl,
             com.sun.star.util.URL aURL) {
-        // add your own code here
+        if (aURL.Path.compareTo("startDictation") == 0) {
+          FeatureStateEvent aEvent = new FeatureStateEvent();
+          aEvent.FeatureURL = aURL;
+          aEvent.Source = (XDispatch) this;
+          aEvent.IsEnabled = !this.isActive;
+          aEvent.Requery = false;
+          xControl.statusChanged(aEvent);
+        }
     }
+    
 
     public void removeStatusListener(com.sun.star.frame.XStatusListener xControl,
             com.sun.star.util.URL aURL) {
@@ -286,6 +312,24 @@ public final class SpeechOO extends WeakBase
         CorujaJNI.getSingleton().dictation(true);
 
         Thread.sleep(50000);
+    }
+
+    private void terminate() {
+        CorujaJNI.getSingleton().stopSpeechRecognitionEngine();
+    }
+
+    // usage example:
+    // http://wiki.services.openoffice.org/wiki/Documentation/DevGuide/OfficeDev/Using_the_Desktop
+    public void queryTermination(EventObject arg0) throws TerminationVetoException {
+        // nothing to do
+    }
+
+    public void notifyTermination(EventObject arg0) {
+        terminate();
+    }
+
+    public void disposing(EventObject arg0) {
+        terminate();
     }
 
 
