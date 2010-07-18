@@ -33,6 +33,11 @@ package org.speechoo.coruja;
 
 import java.util.Observable;
 
+/**
+ * Java wrapper of Coruja.
+ *
+ * @author William Colen
+ */
 public class CorujaJNI extends Observable {
 
     private volatile static CorujaJNI instance;

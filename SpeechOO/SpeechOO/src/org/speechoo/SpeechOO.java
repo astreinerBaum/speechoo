@@ -32,7 +32,6 @@
 package org.speechoo;
 
 import com.sun.star.awt.PushButtonType;
-import com.sun.star.awt.XTextComponent;
 import com.sun.star.beans.PropertyState;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
@@ -66,6 +65,11 @@ import java.util.logging.Logger;
 import org.speechoo.coruja.*;
 import org.speechoo.gui.Dialog;
 
+/**
+ * OOo Add-on entry point.
+ *
+ * @author William Colen
+ */
 public final class SpeechOO extends WeakBase
         implements com.sun.star.lang.XInitialization,
         com.sun.star.frame.XDispatch,
@@ -84,6 +88,8 @@ public final class SpeechOO extends WeakBase
 
     private boolean isActive = false;
     private boolean isInitialized = false;
+
+    private PostProcessor postProcessor;
 
     public SpeechOO(XComponentContext context) {
 
@@ -125,6 +131,22 @@ public final class SpeechOO extends WeakBase
         }
     }
 
+    private void initialize() throws Exception {
+        // check configuration
+        String jconfig = getJuliusConfig();
+        File f = new File(jconfig);
+        if(!f.exists()) {
+            showError("Couldn't find Julius configuration.");
+            return;
+        }
+        String oxtRoot = PackageInformationProvider.get(m_xContext).getPackageLocation("org.speechoo.SpeechOO");
+        oxtRoot = oxtRoot.substring(7);
+        CorujaJNI.init(oxtRoot);
+        CorujaJNI.getSingleton().addObserver(this);
+        postProcessor = new PostProcessor();
+        this.isInitialized = true;
+    }
+
     // com.sun.star.frame.XDispatch:
     public void dispatch(com.sun.star.util.URL aURL,
             com.sun.star.beans.PropertyValue[] aArguments) {
@@ -133,26 +155,20 @@ public final class SpeechOO extends WeakBase
                 synchronized (this) {
                     try {
                         if(!this.isInitialized) {
-                            // check configuration
-                            String jconfig = getJuliusConfig();
-                            File f = new File(jconfig);
-                            if(!f.exists()) {
-                                showError("Couldn't find Julius configuration.");
-                                return;
-                            }
-                            String oxtRoot = PackageInformationProvider.get(m_xContext).getPackageLocation("org.speechoo.SpeechOO");
-                            oxtRoot = oxtRoot.substring(7);
-                            CorujaJNI.init(oxtRoot);
-                            CorujaJNI.getSingleton().addObserver(this);
-                            this.isInitialized = true;
+                            initialize();
                         }
                         if (this.isActive) {
                             CorujaJNI.getSingleton().dictation(false);
                             this.isActive = false;
                         } else {
-                            CorujaJNI.getSingleton().startSpeechRecognitionEngine(getJuliusConfig());
-                            CorujaJNI.getSingleton().dictation(true);
-                            this.isActive = true;
+                            try {
+                                CorujaJNI.getSingleton().startSpeechRecognitionEngine(getJuliusConfig());
+                                CorujaJNI.getSingleton().dictation(true);
+                                this.isActive = true;
+                            } catch (Exception e) {
+                                showError("Couldn't load julius configuration.");
+                            }
+
                         }
                     } catch (com.sun.star.uno.Exception e) {
                         // TODO: improved error handling;
