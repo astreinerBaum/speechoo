@@ -103,13 +103,13 @@
                         <value>%origin%/../../../../../images/gnome-sound-recorder.png</value>
                     </prop>
                     <prop oor:name="ImageBigURL">
-                        <value/>
+                        <value>%origin%/../../../../../images/gnome-sound-recorder_48.png</value>
                     </prop>
                     <prop oor:name="ImageSmallHCURL">
-                        <value/>
+                        <value>%origin%/../../../../../images/gnome-sound-recorder.png</value>
                     </prop>
                     <prop oor:name="ImageBigHCURL">
-                        <value/>
+                        <value>%origin%/../../../../../images/gnome-sound-recorder.png</value>
                     </prop>
                 </node>
             </node>
