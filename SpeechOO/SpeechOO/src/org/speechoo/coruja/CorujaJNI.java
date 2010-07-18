@@ -46,8 +46,11 @@ public class CorujaJNI extends Observable {
 
     private boolean started = false;
 
+    private PostProcessor postProcessor;
+
     private CorujaJNI() {
         // prevents instantiation
+        postProcessor = new PostProcessor();
     }
 
     public static void init(String oxtRoot) {
@@ -90,15 +93,15 @@ public class CorujaJNI extends Observable {
     public void stopSpeechRecognitionEngine() {
         synchronized(this) {
             if(started == true) {
-                this.stopSREngine();
-                started = false;
+                this.dictation(false);
             }
         }
     }
 
     private static void newSentence(String uterrance) {
+        String processedUterrance = instance.postProcessor.processUtterance(uterrance);
         instance.setChanged();
-        instance.notifyObservers(uterrance);
+        instance.notifyObservers(processedUterrance);
     }
 
      /**

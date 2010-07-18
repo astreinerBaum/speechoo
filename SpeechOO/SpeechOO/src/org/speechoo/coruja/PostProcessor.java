@@ -39,6 +39,7 @@ package org.speechoo.coruja;
 public class PostProcessor {
     public String processUtterance(String utterance) {
         if(utterance != null && utterance.length() > 0) {
+            utterance = utterance.trim();
             char f = utterance.charAt(0);
             f = Character.toUpperCase(f);
             utterance = f + utterance.substring(1) + ". ";

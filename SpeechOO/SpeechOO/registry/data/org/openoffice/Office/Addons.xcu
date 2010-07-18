@@ -100,16 +100,16 @@
                 </prop>
                 <node oor:name="UserDefinedImages">
                     <prop oor:name="ImageSmallURL">
-                        <value>%origin%/../../../../../images/gnome-sound-recorder.png</value>
+                        <value>%origin%/../../../../../images/gnome-sound-recorder_16.png</value>
                     </prop>
                     <prop oor:name="ImageBigURL">
-                        <value>%origin%/../../../../../images/gnome-sound-recorder_48.png</value>
+                        <value>%origin%/../../../../../images/gnome-sound-recorder_26.png</value>
                     </prop>
                     <prop oor:name="ImageSmallHCURL">
-                        <value>%origin%/../../../../../images/gnome-sound-recorder.png</value>
+                        <value>%origin%/../../../../../images/gnome-sound-recorder_16.png</value>
                     </prop>
                     <prop oor:name="ImageBigHCURL">
-                        <value>%origin%/../../../../../images/gnome-sound-recorder.png</value>
+                        <value>%origin%/../../../../../images/gnome-sound-recorder_26.png</value>
                     </prop>
                 </node>
             </node>
