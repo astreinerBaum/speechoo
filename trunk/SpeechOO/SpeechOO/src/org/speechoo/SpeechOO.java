@@ -89,22 +89,8 @@ public final class SpeechOO extends WeakBase
     private boolean isActive = false;
     private boolean isInitialized = false;
 
-    private PostProcessor postProcessor;
-
     public SpeechOO(XComponentContext context) {
-
         m_xContext = context;
-        try {
-            XMultiComponentFactory serviceManager = m_xContext.getServiceManager();
-            // get Desktop instance
-            Object desktop = serviceManager.createInstanceWithContext("com.sun.star.frame.Desktop", m_xContext);
-            XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);
-            xDesktop.addTerminateListener(this);
-        } catch (Exception ex) {
-            Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-
     }
 
     public static XSingleComponentFactory __getComponentFactory(String sImplementationName) {
@@ -132,6 +118,17 @@ public final class SpeechOO extends WeakBase
     }
 
     private void initialize() throws Exception {
+
+        try {
+            XMultiComponentFactory serviceManager = m_xContext.getServiceManager();
+            // get Desktop instance
+            Object desktop = serviceManager.createInstanceWithContext("com.sun.star.frame.Desktop", m_xContext);
+            XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);
+            xDesktop.addTerminateListener(this);
+        } catch (Exception ex) {
+            Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         // check configuration
         String jconfig = getJuliusConfig();
         File f = new File(jconfig);
@@ -143,7 +140,6 @@ public final class SpeechOO extends WeakBase
         oxtRoot = oxtRoot.substring(7);
         CorujaJNI.init(oxtRoot);
         CorujaJNI.getSingleton().addObserver(this);
-        postProcessor = new PostProcessor();
         this.isInitialized = true;
     }
 
@@ -247,7 +243,7 @@ public final class SpeechOO extends WeakBase
     }
 
     public void insertNewSentence(String sentence) {
-                         try {
+//                  try {
                      XTextDocument xDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class,
                              m_xFrame.getController().getModel());
                      XText xText = xDoc.getText();
@@ -255,12 +251,12 @@ public final class SpeechOO extends WeakBase
                      xCursor.gotoEnd(false);
                      xText.insertString(xCursor, sentence, true);
                      xCursor.gotoEnd(false);
-                     xText.insertControlCharacter(xCursor, ControlCharacter.PARAGRAPH_BREAK, false);
-                 } catch (com.sun.star.uno.Exception e) {
-                     // TODO: improved error handling;
-                     throw new com.sun.star.lang.WrappedTargetRuntimeException("wrapped UNO exception",
-			      this, new Any(new com.sun.star.uno.Type(Exception.class), e));
-                 }
+                     //xText.insertControlCharacter(xCursor, ControlCharacter.PARAGRAPH_BREAK, false);
+//                 } catch (com.sun.star.uno.Exception e) {
+//                     // TODO: improved error handling;
+//                     throw new com.sun.star.lang.WrappedTargetRuntimeException("wrapped UNO exception",
+//			      this, new Any(new com.sun.star.uno.Type(Exception.class), e));
+//                 }
 
     }
 
@@ -330,8 +326,13 @@ public final class SpeechOO extends WeakBase
         Thread.sleep(50000);
     }
 
+    private boolean terminated = false;
+
     private void terminate() {
-        CorujaJNI.getSingleton().stopSpeechRecognitionEngine();
+        if(terminated == false) {
+             CorujaJNI.getSingleton().stopSpeechRecognitionEngine();
+             terminated = true;
+        }
     }
 
     // usage example:
@@ -345,7 +346,6 @@ public final class SpeechOO extends WeakBase
     }
 
     public void disposing(EventObject arg0) {
-        terminate();
     }
 
 
