@@ -38,6 +38,8 @@ public class CorujaJNI extends Observable {
 
     private volatile static CorujaJNI instance;
 
+    private static final String LIB_NAME = "CorujaJNI";
+
     private CorujaJNI() {
         // prevents instantiation
     }
@@ -45,9 +47,9 @@ public class CorujaJNI extends Observable {
     public static void init(String oxtRoot) {
         synchronized (CorujaJNI.class) {
             if (instance == null) {
-                System.load(oxtRoot + "/lib/libCorujaJNI.so");
+                System.load(oxtRoot + "/" + libName());
                 instance = new CorujaJNI();
-		instance.setRootDirectory(oxtRoot);
+		instance.startSREngine("/home/colen/wrk/coruja/Coruja_src/JNITest/julian.jconf");
 
             } else {
                 throw new RuntimeException("Already initialized");
@@ -64,7 +66,9 @@ public class CorujaJNI extends Observable {
 
     private native void enableDictation(boolean enableDictation);
 
-    private native void setRootDirectory(String rootDirectory);
+    private native void startSREngine(String config);
+
+    private native void stopSREngine();
 
     public void dictation(boolean enableDictation) {
         enableDictation(enableDictation);
@@ -73,6 +77,67 @@ public class CorujaJNI extends Observable {
     private static void newSentence(String uterrance) {
         instance.setChanged();
         instance.notifyObservers(uterrance);
+    }
+
+     /**
+     * Calculate the filename of the native hunspell lib.
+     * The files have completely different names to allow them to live
+     * in the same directory and avoid confusion.
+     */
+    private static String libName() throws UnsupportedOperationException {
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.startsWith("windows")) {
+            return libNameBare() + ".dll";
+
+        } else if (os.startsWith("mac os x")) {
+            //return "lib"+libNameBare()+".dylib";
+            throw new UnsupportedOperationException("mac os x is unsupported");
+
+        } else {
+            return "lib" + libNameBare() + ".so";
+        }
+    }
+
+    public static String libNameBare() throws UnsupportedOperationException {
+        String os = System.getProperty("os.name").toLowerCase();
+        String arch = System.getProperty("os.arch").toLowerCase();
+
+        // Annoying that Java doesn't have consistent names for the arch types:
+        boolean x86 = arch.equals("x86") || arch.equals("i386") || arch.equals("i686");
+        boolean amd64 = arch.equals("x86_64") || arch.equals("amd64") || arch.equals("ia64n");
+
+        if (os.startsWith("windows")) {
+            if (x86) {
+                return "hunspell-win-x86-32";
+            }
+            //if (amd64) {
+            // Note: No bindings exist for this yet (no JNA support).
+            //	return "hunspell-win-x86-64";
+            //}
+
+        } else if (os.startsWith("mac os x")) {
+            if (x86) {
+                return LIB_NAME + "-darwin-x86-32";
+            }
+            if (arch.equals("ppc")) {
+                return LIB_NAME + "-darwin-ppc-32";
+            }
+
+        } else if (os.startsWith("linux")) {
+            if (x86) {
+                return LIB_NAME + "-linux-x86-32";
+            }
+            if (amd64) {
+                return LIB_NAME + "-linux-x86-64";
+            }
+
+        } else if (os.startsWith("sunos")) {
+            //if (arch.equals("sparc")) {
+            //	return "hunspell-sunos-sparc-64";
+            //}
+        }
+
+        throw new UnsupportedOperationException("Unknown OS/arch: " + os + "/" + arch);
     }
 
     /**
@@ -106,3 +171,4 @@ public class CorujaJNI extends Observable {
 
     }
 }
+
