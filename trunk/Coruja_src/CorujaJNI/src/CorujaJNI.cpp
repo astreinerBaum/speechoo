@@ -85,6 +85,8 @@ JNIEXPORT void JNICALL JNICALL Java_org_speechoo_coruja_CorujaJNI_stopSREngine
 	(JNIEnv *env, jobject obj)
 	{
 		en->~SREngine();
+		rootDir = NULL;
+		en = NULL;
 	}
 
 JNIEXPORT void JNICALL Java_org_speechoo_coruja_CorujaJNI_enableDictation
