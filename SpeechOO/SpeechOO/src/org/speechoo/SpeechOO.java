@@ -28,7 +28,6 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with SpeechOO. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.speechoo;
 
 import com.sun.star.awt.PushButtonType;
@@ -51,19 +50,19 @@ import com.sun.star.lib.uno.helper.Factory;
 import com.sun.star.lang.XSingleComponentFactory;
 import com.sun.star.registry.XRegistryKey;
 import com.sun.star.lib.uno.helper.WeakBase;
-import com.sun.star.text.ControlCharacter;
-import com.sun.star.text.XText;
-import com.sun.star.text.XTextCursor;
-import com.sun.star.text.XTextDocument;
-import com.sun.star.uno.Any;
-import com.sun.star.uno.AnyConverter;
-import java.io.File;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.speechoo.coruja.*;
+import javax.speech.AudioException;
+
+import javax.speech.Central;
+import javax.speech.EngineStateError;
+import javax.speech.recognition.RecognizerModeDesc;
+import javax.speech.EngineException;
+import javax.speech.recognition.Recognizer;
+
 import org.speechoo.gui.Dialog;
+import org.speechoo.recognized.Recognized;
+//import br.ufpa.laps.jlapsapi.recognizer.Recognizer;
 
 /**
  * OOo Add-on entry point.
@@ -75,17 +74,19 @@ public final class SpeechOO extends WeakBase
         com.sun.star.frame.XDispatch,
         com.sun.star.frame.XDispatchProvider,
         com.sun.star.lang.XServiceInfo,
-        XTerminateListener,
-        Observer {
+        XTerminateListener {
 
     private final XComponentContext m_xContext;
-    private com.sun.star.frame.XFrame m_xFrame;
+    public static com.sun.star.frame.XFrame m_xFrame;
     private static final String m_implementationName = SpeechOO.class.getName();
     private static final String[] m_serviceNames = {
         "com.sun.star.frame.ProtocolHandler"};
 
-    private XPropertySet m_xDemoOptions = null;
+    boolean isResumed = false;
+    static Recognizer rec;
+    Recognized recognized = new Recognized();
 
+    private XPropertySet m_xDemoOptions = null;
     private boolean isActive = false;
     private boolean isInitialized = false;
 
@@ -129,50 +130,64 @@ public final class SpeechOO extends WeakBase
             Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // check configuration
-        String jconfig = getJuliusConfig();
-        File f = new File(jconfig);
-        if(!f.exists()) {
-            showError("Couldn't find Julius configuration.");
-            return;
+        RecognizerModeDesc rmd = (RecognizerModeDesc) Central.availableRecognizers(null).firstElement();System.out.println("133 RecognizerModeDesc");
+        try {
+            rec = (Recognizer) Central.createRecognizer(rmd);System.out.println("135 createRecognizer");
+        } catch (IllegalArgumentException ex) {
+            ex.printStackTrace();
+        } catch (EngineException ex) {
+            ex.printStackTrace();
+        } catch (SecurityException ex) {
+            ex.printStackTrace();
         }
-        String oxtRoot = PackageInformationProvider.get(m_xContext).getPackageLocation("org.speechoo.SpeechOO");
-        oxtRoot = oxtRoot.substring(7);
-        CorujaJNI.init(oxtRoot);
-        CorujaJNI.getSingleton().addObserver(this);
+        try {
+            rec.allocate();System.out.println("144 allocate");
+        } catch (EngineException ex) {
+            ex.printStackTrace();
+        }
+        rec.addResultListener(recognized);System.out.println("148 listener");
         this.isInitialized = true;
     }
 
     // com.sun.star.frame.XDispatch:
     public void dispatch(com.sun.star.util.URL aURL,
-            com.sun.star.beans.PropertyValue[] aArguments) {
+            com.sun.star.beans.PropertyValue[] aArguments) {System.out.println("154 dispatch");
         if (aURL.Protocol.compareTo("org.speechoo.speechoo:") == 0) {
             if (aURL.Path.compareTo("startDictation") == 0) {
                 synchronized (this) {
-                    try {
-                        if(!this.isInitialized) {
-                            initialize();
+                    if (!this.isInitialized) {
+                        try {
+                            initialize();System.out.println("160 initialize");
+                        } catch (Exception ex) {
+                            Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        if (this.isActive) {
-                            CorujaJNI.getSingleton().dictation(false);
-                            this.isActive = false;
-                        } else {
+                    }
+                    if (this.isActive) {
+                        try {
+                            rec.deallocate();System.out.println("167 deallocate");
+                        } catch (EngineException ex) {
+                            Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (EngineStateError ex) {
+                            Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        this.isActive = false;
+                    } else {
+                        if (!isResumed) {
                             try {
-                                CorujaJNI.getSingleton().startSpeechRecognitionEngine(getJuliusConfig());
-                                CorujaJNI.getSingleton().dictation(true);
-                                this.isActive = true;
-                            } catch (Exception e) {
-                                showError("Couldn't load julius configuration.");
+                                rec.resume();System.out.println("177 Resumed");
+                            } catch (AudioException ex) {
+                                Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (EngineStateError ex) {
+                                Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
                             }
-
+                            isResumed=true;
+                            //this.isActive = true;
+                        } else {
+                            rec.pause();System.out.println("185 Paused");
+                            isResumed=false;
                         }
-                    } catch (com.sun.star.uno.Exception e) {
-                        // TODO: improved error handling;
-                        throw new com.sun.star.lang.WrappedTargetRuntimeException("wrapped UNO exception",
-                                this, new Any(new com.sun.star.uno.Type(Exception.class), e));
                     }
                 }
-
             }
         }
     }
@@ -180,15 +195,14 @@ public final class SpeechOO extends WeakBase
     public void addStatusListener(com.sun.star.frame.XStatusListener xControl,
             com.sun.star.util.URL aURL) {
         if (aURL.Path.compareTo("startDictation") == 0) {
-          FeatureStateEvent aEvent = new FeatureStateEvent();
-          aEvent.FeatureURL = aURL;
-          aEvent.Source = (XDispatch) this;
-          aEvent.IsEnabled = !this.isActive;
-          aEvent.Requery = false;
-          xControl.statusChanged(aEvent);
+            FeatureStateEvent aEvent = new FeatureStateEvent();
+            aEvent.FeatureURL = aURL;
+            aEvent.Source = (XDispatch) this;
+            aEvent.IsEnabled = !this.isActive;
+            aEvent.Requery = false;
+            xControl.statusChanged(aEvent);
         }
     }
-    
 
     public void removeStatusListener(com.sun.star.frame.XStatusListener xControl,
             com.sun.star.util.URL aURL) {
@@ -242,96 +256,51 @@ public final class SpeechOO extends WeakBase
         return m_serviceNames;
     }
 
-    public void insertNewSentence(String sentence) {
-//                  try {
-                     XTextDocument xDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class,
-                             m_xFrame.getController().getModel());
-                     XText xText = xDoc.getText();
-                     XTextCursor xCursor = xText.createTextCursor();
-                     xCursor.gotoEnd(false);
-                     xText.insertString(xCursor, sentence, true);
-                     xCursor.gotoEnd(false);
-                     //xText.insertControlCharacter(xCursor, ControlCharacter.PARAGRAPH_BREAK, false);
-//                 } catch (com.sun.star.uno.Exception e) {
-//                     // TODO: improved error handling;
-//                     throw new com.sun.star.lang.WrappedTargetRuntimeException("wrapped UNO exception",
-//			      this, new Any(new com.sun.star.uno.Type(Exception.class), e));
-//                 }
-
-    }
-
-    public void update(Observable o, Object arg) {
-
-        if (arg instanceof String) {
-            insertNewSentence((String) arg);
-        }
-
-    }
-    
-
+    /**
     private String getJuliusConfig() throws com.sun.star.uno.Exception {
-         if (m_xDemoOptions == null) {
-             initOptionsData();
-         }
+    if (m_xDemoOptions == null) {
+    initOptionsData();
+    }
 
-         return AnyConverter.toString(m_xDemoOptions.getPropertyValue("JConfiFile"));
-     }
+    return AnyConverter.toString(m_xDemoOptions.getPropertyValue("JConfiFile"));
+    }
 
-     private void initOptionsData() throws com.sun.star.uno.Exception {
-         XMultiServiceFactory xConfig = (XMultiServiceFactory)
-		UnoRuntime.queryInterface(XMultiServiceFactory.class,
+    private void initOptionsData() throws com.sun.star.uno.Exception {
+    XMultiServiceFactory xConfig = (XMultiServiceFactory)
+    UnoRuntime.queryInterface(XMultiServiceFactory.class,
 
-        m_xContext.getServiceManager().createInstanceWithContext("com.sun.star.configuration.ConfigurationProvider",
-         m_xContext));
+    m_xContext.getServiceManager().createInstanceWithContext("com.sun.star.configuration.ConfigurationProvider",
+    m_xContext));
 
-         Object[] args = new Object[1];
-         args[0] = new PropertyValue("nodepath", 0, "/org.speechoo.SpeechooOptions/SREngineOptions",
-                 PropertyState.DIRECT_VALUE);
+    Object[] args = new Object[1];
+    args[0] = new PropertyValue("nodepath", 0, "/org.speechoo.SpeechooOptions/SREngineOptions",
+    PropertyState.DIRECT_VALUE);
 
-         m_xDemoOptions = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class,
-                 xConfig.createInstanceWithArguments("com.sun.star.configuration.ConfigurationAccess",
-		  args));
-     }
+    m_xDemoOptions = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class,
+    xConfig.createInstanceWithArguments("com.sun.star.configuration.ConfigurationAccess",
+    args));
+    }
 
     private void showError(String errorMsg) {
-        try {
-            Dialog dialog = new Dialog(this.m_xContext, 100, 100, 50, 150, "SpeechOO Error", "errorDialog");
-            dialog.insertFixedText(10, 10, 130, errorMsg);
-            dialog.insertButton(60, 30, 30, "OK", PushButtonType.OK_value);
-            short returnValue = dialog.execute();
-            dialog.dispose();
-        } catch (Exception ex) {
-            Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    try {
+    Dialog dialog = new Dialog(this.m_xContext, 100, 100, 50, 150, "SpeechOO Error", "errorDialog");
+    dialog.insertFixedText(10, 10, 130, errorMsg);
+    dialog.insertButton(60, 30, 30, "OK", PushButtonType.OK_value);
+    short returnValue = dialog.execute();
+    dialog.dispose();
+    } catch (Exception ex) {
+    Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
     }
-
+    }
+     */
     public static void main(String args[]) throws InterruptedException {
-
-        Observer observer = new Observer() {
-
-            public void update(Observable o, Object arg) {
-                if (arg instanceof String) {
-                    System.out.println((String) arg);
-                }
-            }
-        };
-
-        String path = "/home/colen/NetBeansProjects/CorujaJNI/native/linux/target";
-        //path = path.substring(7);
-
-        CorujaJNI.init(path);
-        CorujaJNI.getSingleton().addObserver(observer);
-        CorujaJNI.getSingleton().dictation(true);
-
         Thread.sleep(50000);
     }
-
     private boolean terminated = false;
 
     private void terminate() {
-        if(terminated == false) {
-             CorujaJNI.getSingleton().stopSpeechRecognitionEngine();
-             terminated = true;
+        if (terminated == false) {
+            terminated = true;
         }
     }
 
@@ -347,7 +316,4 @@ public final class SpeechOO extends WeakBase
 
     public void disposing(EventObject arg0) {
     }
-
-
-
 }
