@@ -29,7 +29,7 @@
  * License along with SpeechOO. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.speechoo.coruja;
+package org.speechoo.inputText;
 
 /**
  * Post process the text
