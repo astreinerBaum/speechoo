@@ -1,18 +1,19 @@
-Passo 1
+=Instalação do SpeechOO no Linux=
 
-Baixe os arquivos para reconhecimento neste link: http://www.laps.ufpa.br/falabrasil/files/coruja1.5_for_speechoo-x86.tar.gz
+==Passo 1==
 
+Baixe os arquivos para reconhecimento neste link: [http://www.laps.ufpa.br/falabrasil/files/coruja1.5_for_speechoo-x86.tar.gz]
+
+<wiki:comment>
 Crie a pasta "opt" na raiz(mesmo diretório onde estão pastas como "usr", "cdrom", "home", etc) do sistema. Em seguida, dentro da pasta "opt", crie a pasta "coruja".
+</wiki:comment>
 
-Extraia o arquivo "coruja1.5_for_speechoo-x86.tar.gz" que você baixou, após extraído, copie o conteúdo dela("julius.jconf", "dic.temp", etc) e cole dentro da pasta coruja criada por você anteriormente.
+Extraia o arquivo *coruja1.5_for_speechoo-x86.tar.gz* que você baixou para a sua home(por exemplo, /home/fulano).
 
-*Obs*:muito cuidado para não criar uma nova pasta dentro da pasta "coruja", pois os arquivos não serão localizados corretamente.
+*Obs*:Uma pasta chamada *coruja_for_speechoo* será criada na sua home após a extração.
 
-Passo 2
+*Obs*:O arquivo *speech.properties* também será gerado na sua home automaticamente na primeira execução do SpeechOO
 
-Baixe o arquivo "speech.properties" na aba *Downloads* desta página.
-Copiei esse arquivo para sua "home", ou seja, diretório onde você encontra pasta padrões do sistema como, po exemplo, Downloads, Imagens, Documentos, etc.
+==Passo 2==
 
-Passo 3
-
-clique duas vezes sobre o arquivo SpeechOO-0.0.3.oxt, clique em ok. Feche a janela que abriu sozinha quando você clicou. feche e abra o libreoffice e está pronto para o uso clicando no microfone no topo da tela.
+Clique duas vezes sobre o arquivo SpeechOO-0.0.3.oxt, clique em ok. Feche a janela que abriu sozinha quando você clicou. feche e abra o libreoffice e está pronto para o uso clicando no microfone no topo da tela.
