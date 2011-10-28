@@ -1,5 +1,5 @@
 #summary How to set the environment to build Coruja.
-#labels Phase-Implementation
+#labels Phase-Implementation,Deprecated
 
 = Introduction =
 
