@@ -6,7 +6,7 @@ First of all, _speechOO_ give up the _corujaJNI_ directly, now it uses another l
 
 = Details =
 
-Download the code using subversion.
+Download the speechoo code using subversion.
 
 ==JLaPSAPI==
 
