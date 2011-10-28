@@ -18,22 +18,23 @@ http://www.laps.ufpa.br/falabrasil/jlapsapi
 Then install Netbeans 6.8(you must use this version!) Java SE.
 http://netbeans.org/downloads/6.8/index.html
 
-You download the plugin for _Netbeans_ on the site below and look that you need some applications. They are sun-java6-jdk, sun-java6-jre, libreoffice-dev and libreoffice.
+Follow instructions as shown on two links below to install OpenOffice plugin for _Netbeans_.
+
+*Obs*: Use libreoffice-dev and libreoffice instead of OpenOffice.
 
 http://ccsl.ime.usp.br/cogroo/maven/extensoes_broo/index.html#Intro
 
 http://ccsl.ime.usp.br/cogroo/maven/extensoes_broo/index.html#Exercise_0
 
-Obs: you will need to find the installation directory, probally on Ubuntu would be _/usr/share/libreoffice_ or _/usr/share/local/libreoffice_ or _/opt/libreoffice_ , those are some chances.
+*Obs*: you will need to find the installation directory, probally on Ubuntu would be _/usr/share/libreoffice_ or _/usr/share/local/libreoffice_ or _/opt/libreoffice_ , those are some chances.
 
-On the link below has some tutorials for Libreoffice extensions.
-
-http://ccsl.ime.usp.br/cogroo/maven/extensoes_broo/index.html#Exercise_1
-
-Import the project on a directory like this one _{relative directory}/trunk/SpeechOO/SpeechOO} (yeah! it's twice for now). Then you will see many erros, just go to the project properties>libraries.
-At next you remove the broken reference to brOffice3.2 and add the Libreoffice3.3. Finally add _JLaPSAPI_ and _JSAPI_ JARs which are inside the lib folder of the project.
+Import the project on a directory like this one _{relative directory}/trunk/SpeechOO. Then you will see many erros, just go to the project properties>libraries.
+At next you remove the broken reference to brOffice3.2 and add the Libreoffice3.x. Finally add _JLaPSAPI_ and _JSAPI_ JARs which are inside the lib folder of the project.
 
 "OK! I made everything you said and one error continues". Take easy! Just click with the right button of the mouse on the project and create OXT. Now everything is fine!
 
+On the link below has some tutorials for Libreoffice extensions. Try them to better know how this stuff works.
+
+http://ccsl.ime.usp.br/cogroo/maven/extensoes_broo/index.html#Exercise_1
 
 Suggestions or help: hugo.santos@itec.ufpa.br
