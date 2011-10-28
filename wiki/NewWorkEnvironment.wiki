@@ -18,9 +18,9 @@ http://www.laps.ufpa.br/falabrasil/jlapsapi
 Then install Netbeans 6.8(you must use this version!) Java SE.
 http://netbeans.org/downloads/6.8/index.html
 
-Follow instructions as shown on two links below to install OpenOffice plugin for _Netbeans_.
+Follow instructions as shown on two links below to install Openoffice plugin for _Netbeans_.
 
-*Obs*: Use libreoffice-dev and libreoffice instead of OpenOffice.
+*Obs*: Use libreoffice-dev and libreoffice instead of Openoffice.
 
 http://ccsl.ime.usp.br/cogroo/maven/extensoes_broo/index.html#Intro
 
