@@ -8,7 +8,7 @@ package org.speechoo.inputText;
  *
  * @author Hugo Santos
  */
-import com.sun.star.text.XParagraphCursor;
+ import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XSentenceCursor;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextCursor;
