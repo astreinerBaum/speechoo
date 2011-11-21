@@ -70,7 +70,7 @@ import javax.speech.recognition.Recognizer;
 import javax.speech.recognition.RuleGrammar;
 
 import org.speechoo.gui.Dialog;
-import org.speechoo.recognized.ComandsListener;
+import org.speechoo.recognized.CommandsListener;
 import org.speechoo.recognized.FreeDictationListener;
 import org.speechoo.util.SpeechPropertiesCreator;
 //import br.ufpa.laps.jlapsapi.recognizer.Recognizer;
@@ -163,7 +163,7 @@ public final class SpeechOO extends WeakBase
 
             System.out.println("listeners");
             dic.addResultListener(new FreeDictationListener());
-            gram.addResultListener(new ComandsListener());
+            gram.addResultListener(new CommandsListener());
 
             this.isInitialized = true;
 //            } catch (FileNotFoundException ex) {
