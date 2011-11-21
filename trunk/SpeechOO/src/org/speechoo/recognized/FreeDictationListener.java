@@ -17,7 +17,7 @@ import javax.speech.recognition.ResultEvent;
 import javax.speech.recognition.ResultToken;
 import org.speechoo.inputText.InputSentence;
 
-public class Recognized extends ResultAdapter{
+public class FreeDictationListener extends ResultAdapter{
 
     InputSentence inputSentence = new InputSentence();
 

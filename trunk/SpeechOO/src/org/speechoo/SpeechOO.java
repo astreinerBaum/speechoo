@@ -70,7 +70,8 @@ import javax.speech.recognition.Recognizer;
 import javax.speech.recognition.RuleGrammar;
 
 import org.speechoo.gui.Dialog;
-import org.speechoo.recognized.Recognized;
+import org.speechoo.recognized.ComandsListener;
+import org.speechoo.recognized.FreeDictationListener;
 import org.speechoo.util.SpeechPropertiesCreator;
 //import br.ufpa.laps.jlapsapi.recognizer.Recognizer;
 
@@ -92,7 +93,7 @@ public final class SpeechOO extends WeakBase
     private static final String[] m_serviceNames = {
         "com.sun.star.frame.ProtocolHandler"};
     boolean isResumed = false;
-    Recognized recognized = new Recognized();
+    FreeDictationListener recognized = new FreeDictationListener();
     private XPropertySet m_xDemoOptions = null;
     private boolean isActive = false;
     private boolean isInitialized = false;
@@ -152,16 +153,17 @@ public final class SpeechOO extends WeakBase
             rec.allocate();
             System.out.println("allocate");
 
-//          FileReader reader = new FileReader("/home/10080000701/Documents/drinks.grammar");
+            FileReader reader = new FileReader(System.getProperty("user.home")+"/coruja1.5_for_speechoo/commands.grammar");
 
-//          System.out.println("load gram");
-//          gram = rec.loadJSGF(reader);
+            System.out.println("load gram");
+            gram = rec.loadJSGF(reader);
 
             System.out.println("load dic");
             dic = rec.getDictationGrammar("dicSr");
 
-            System.out.println("listener");
-            rec.addResultListener(new Recognized());
+            System.out.println("listeners");
+            dic.addResultListener(new FreeDictationListener());
+            gram.addResultListener(new ComandsListener());
 
             this.isInitialized = true;
 //            } catch (FileNotFoundException ex) {
@@ -173,13 +175,12 @@ public final class SpeechOO extends WeakBase
             ex.printStackTrace();
         } catch (SecurityException ex) {
             ex.printStackTrace();
-//        } catch (GrammarException ex) {
-//            Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (IOException ex) {
-//            Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (GrammarException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         } catch (EngineStateError ex) {
             ex.printStackTrace();
-            //Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
