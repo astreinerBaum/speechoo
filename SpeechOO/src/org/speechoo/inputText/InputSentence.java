@@ -44,19 +44,9 @@ public class InputSentence {
         XParagraphCursor xPC= (XParagraphCursor) UnoRuntime.queryInterface(
                 XParagraphCursor.class, xCursor);
 
-        if (!xSC.gotoPreviousSentence(true)) {
-            System.out.println("Não voltou sentença");
-        }
-
         xText.insertString(xCursor, sentence, true);
-//
-//        if (!xPC.gotoEndOfParagraph(false)) {
-//            System.out.println("Não foi pro final parágrafo");
-//        }
+
         xCursor.gotoEnd(false);
         
-        //xText.insertControlCharacter(xCursor, ControlCharacter.PARAGRAPH_BREAK, false);
-
-
     }
 }

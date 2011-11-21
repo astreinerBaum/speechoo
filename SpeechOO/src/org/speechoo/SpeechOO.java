@@ -93,10 +93,10 @@ public final class SpeechOO extends WeakBase
     private static final String[] m_serviceNames = {
         "com.sun.star.frame.ProtocolHandler"};
     boolean isResumed = false;
-    FreeDictationListener recognized = new FreeDictationListener();
     private XPropertySet m_xDemoOptions = null;
     private boolean isActive = false;
     private boolean isInitialized = false;
+
     static Recognizer rec;
     static RuleGrammar gram;
     static DictationGrammar dic;
@@ -166,8 +166,6 @@ public final class SpeechOO extends WeakBase
             gram.addResultListener(new CommandsListener());
 
             this.isInitialized = true;
-//            } catch (FileNotFoundException ex) {
-//                Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
 
         } catch (IllegalArgumentException ex) {
             ex.printStackTrace();
