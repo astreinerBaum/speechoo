@@ -1,4 +1,4 @@
-/**
+ /**
  * Copyright (C) 2010 SpeechOO Team (speechoo-dev AT googlegroups DOT com)
  *
  * SpeechOO (speechoo-dev AT googlegroups DOT com)
@@ -30,11 +30,7 @@
  */
 package org.speechoo;
 
-import com.sun.star.awt.PushButtonType;
-import com.sun.star.beans.PropertyState;
-import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
-import com.sun.star.deployment.PackageInformationProvider;
 import com.sun.star.frame.FeatureStateEvent;
 import com.sun.star.frame.TerminationVetoException;
 import com.sun.star.frame.XDesktop;
@@ -42,7 +38,6 @@ import com.sun.star.frame.XDispatch;
 import com.sun.star.frame.XTerminateListener;
 import com.sun.star.lang.EventObject;
 import com.sun.star.lang.XMultiComponentFactory;
-import com.sun.star.lang.XMultiServiceFactory;
 import com.sun.star.uno.Exception;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
@@ -50,11 +45,7 @@ import com.sun.star.lib.uno.helper.Factory;
 import com.sun.star.lang.XSingleComponentFactory;
 import com.sun.star.registry.XRegistryKey;
 import com.sun.star.lib.uno.helper.WeakBase;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -68,9 +59,8 @@ import javax.speech.EngineException;
 import javax.speech.recognition.DictationGrammar;
 import javax.speech.recognition.Recognizer;
 import javax.speech.recognition.RuleGrammar;
-
-import org.speechoo.gui.Dialog;
 import org.speechoo.recognized.CommandsListener;
+
 import org.speechoo.recognized.FreeDictationListener;
 import org.speechoo.util.SpeechPropertiesCreator;
 //import br.ufpa.laps.jlapsapi.recognizer.Recognizer;
@@ -87,6 +77,9 @@ public final class SpeechOO extends WeakBase
         com.sun.star.lang.XServiceInfo,
         XTerminateListener {
 
+
+        
+    
     private final XComponentContext m_xContext;
     public static com.sun.star.frame.XFrame m_xFrame;
     private static final String m_implementationName = SpeechOO.class.getName();
@@ -96,11 +89,13 @@ public final class SpeechOO extends WeakBase
     private XPropertySet m_xDemoOptions = null;
     private boolean isActive = false;
     private boolean isInitialized = false;
-
-    static Recognizer rec;
-    static RuleGrammar gram;
-    static DictationGrammar dic;
-
+    public static int sinal;
+    public static Recognizer rec;
+    public static RuleGrammar gram;
+    public static DictationGrammar dic;
+    public static CommandsListener inicial = new CommandsListener();
+    
+    
     public SpeechOO(XComponentContext context) {
         m_xContext = context;
     }
@@ -144,12 +139,13 @@ public final class SpeechOO extends WeakBase
         SpeechPropertiesCreator.create();
         //speech.properties é criado automaticamente na home do usuário
 
+        
         RecognizerModeDesc rmd = (RecognizerModeDesc) Central.availableRecognizers(null).firstElement();
         System.out.println("RecognizerModeDesc");
         try {
             rec = (Recognizer) Central.createRecognizer(rmd);
             System.out.println("createRecognizer");
-
+            
             rec.allocate();
             System.out.println("allocate");
 
@@ -157,14 +153,18 @@ public final class SpeechOO extends WeakBase
 
             System.out.println("load gram");
             gram = rec.loadJSGF(reader);
-
+            
             System.out.println("load dic");
             dic = rec.getDictationGrammar("dicSr");
 
             System.out.println("listeners");
             dic.addResultListener(new FreeDictationListener());
-            gram.addResultListener(new CommandsListener());
-
+            gram.addResultListener(inicial);
+            try {
+                gram.wait(1);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
+            }
             this.isInitialized = true;
 
         } catch (IllegalArgumentException ex) {

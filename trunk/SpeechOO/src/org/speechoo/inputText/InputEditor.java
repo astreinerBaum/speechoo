@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  */
 public class InputEditor {
 
-    public static void setBold(XTextCursor xCursor) {
+   public static void setBold(XTextCursor xCursor) {
         XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(
                 XPropertySet.class, xCursor);
         try {
@@ -40,9 +40,46 @@ public class InputEditor {
         } catch (WrappedTargetException ex) {
             Logger.getLogger(InputSentence.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
+    }
+    public static void BackBold(XTextCursor xCursor) {
+        XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(
+                XPropertySet.class, xCursor);
+        try {
+
+            xCursorProps.setPropertyValue("CharWeight", new Float(FontWeight.NORMAL));
+
+        } catch (UnknownPropertyException ex) {
+            Logger.getLogger(InputEditor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (com.sun.star.beans.PropertyVetoException ex) {
+            Logger.getLogger(InputEditor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(InputEditor.class.getName()).log(Level.SEVERE, null, ex);
+
+        } catch (WrappedTargetException ex) {
+            Logger.getLogger(InputSentence.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
+    public static void BackItalic(XTextCursor xCursor){
+        XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(
+                XPropertySet.class, xCursor);
+        try {
+
+            xCursorProps.setPropertyValue("CharPosture", com.sun.star.awt.FontSlant.ITALIC);
+
+        } catch (UnknownPropertyException ex) {
+            Logger.getLogger(InputEditor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (com.sun.star.beans.PropertyVetoException ex) {
+            Logger.getLogger(InputEditor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(InputEditor.class.getName()).log(Level.SEVERE, null, ex);
+
+        } catch (WrappedTargetException ex) {
+            Logger.getLogger(InputSentence.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
     public static void setItalic(XTextCursor xCursor){
         XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(
                 XPropertySet.class, xCursor);
@@ -62,7 +99,25 @@ public class InputEditor {
         }
 
     }
+    public static void BackUnderline(XTextCursor xCursor){
+        XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(
+                XPropertySet.class, xCursor);
+        try {
 
+            xCursorProps.setPropertyValue("CharUnderline", FontUnderline.NONE);
+
+        } catch (UnknownPropertyException ex) {
+            Logger.getLogger(InputEditor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (com.sun.star.beans.PropertyVetoException ex) {
+            Logger.getLogger(InputEditor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(InputEditor.class.getName()).log(Level.SEVERE, null, ex);
+
+        } catch (WrappedTargetException ex) {
+            Logger.getLogger(InputSentence.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
     public static void setUnderline(XTextCursor xCursor){
         XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(
                 XPropertySet.class, xCursor);
