@@ -1,0 +1,114 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package org.speechoo.recognized;
+
+/**
+ *
+ * @author Welton Araújo
+ */
+public class Numbers {
+    public static float compare(String s){
+        float a;
+        if(s.equals("seis")==true){
+            return a=6;
+        }
+        if(s.equals("sete")==true){
+            return a=7;
+        }
+        if(s.equals("oito")==true){
+           return a=8;
+        }
+
+        if(s.equals("nove")==true){
+           return a=9;
+        }
+
+        if(s.equals("dés")==true){
+           return a=10;
+        }
+
+        if(s.equals("onze")==true){
+           return a=11;
+        }
+
+        if(s.equals("doze")==true){
+           return a=12;
+        }
+
+        if(s.equals("treze")==true){
+           return a=13;
+        }
+
+        if(s.equals("catorze")==true){
+           return a=14;
+        }
+
+        if(s.equals("quinze")==true){
+           return a=15;
+        }
+
+        if(s.equals("dezeseis")==true){
+           return a=16;
+        }
+
+        if(s.equals("dezoito")==true){
+           return a=18;
+        }
+        if(s.equals("vinte")==true){
+           return a=20;
+        }
+        if(s.equals("vintedois")==true){
+            return a = 22;
+        }
+        if(s.equals("vintequatro")==true){
+            return a = 24;
+        }
+        if(s.equals("vinteseis")==true){
+            return a = 26;
+        }
+        if(s.equals("vinteoito")==true){
+            return a = 28;
+        }
+        if(s.equals("trintaedois")==true){
+            return a = 32;
+        }
+        if(s.equals("trintaeseis")==true){
+            return a = 36;
+        }
+        if(s.equals("quarenta")==true){
+            return a = 40;
+        }
+        if(s.equals("quarentaequatro")==true){
+            return a = 44;
+        }
+        if(s.equals("quarentaeoito")==true){
+            return a = 48;
+        }
+        if(s.equals("cinquentaequatro")==true){
+            return a = 54;
+        }
+        if(s.equals("sessenta")==true){
+            return a = 60;
+        }
+        if(s.equals("sessentaeseis")==true){
+            return a = 66;
+        }
+        if(s.equals("setentaedois")==true){
+            return a = 72;
+        }
+        if(s.equals("oitenta")==true){
+            return a = 80;
+        }
+        if(s.equals("oitentaeoito")==true){
+            return a = 88;
+        }
+        if(s.equals("noventaeseis")==true){
+            return a = 96;
+        }
+    return 0;
+    }
+
+}
