@@ -1,4 +1,5 @@
 Comando de Pontuação:
+
 vírgula
 
 ponto
@@ -6,25 +7,41 @@ ponto
 maior
 
 menor
+
 dois pontos
+
 ponto e virgula
 
 Comando de Tamanho da fonte:
+
 As fontes implementadas são as Padrões do OpenOffice, para mudar a fonte você deve falar "fonte+tamanho da fonte", por exemplo "fonte seis", "fonte vinte", "fonte trinta e dois" etc.
 
 Comandos de formatacao: 
+
 negrito
+
 itálico
+
 sublinhar
+
 centralizar
+
 alinhar para direita
+
 alinhar para esquerda
+
 justificar
 
 Comandos de navegacao:
+
 volta paragrafo
+
 avança paragrafo
+
 marcar paragrafo
+
 marcar
+
 avançar
+
 voltar
