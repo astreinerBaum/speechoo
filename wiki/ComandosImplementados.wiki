@@ -1,8 +1,10 @@
 Comando de Pontuação:
-
 vírgula
+
 ponto
+
 maior
+
 menor
 dois pontos
 ponto e virgula
