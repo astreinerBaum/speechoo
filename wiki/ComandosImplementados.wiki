@@ -22,7 +22,7 @@ As fontes implementadas são as Padrões do OpenOffice, para mudar a fonte você
 *Comandos de navegacao:*
  * volta paragrafo
  * avança paragrafo
- * marcar paragrafo
- * marcar
- * avançar
- * voltar
+ * sublinhar paragrafo
+ * sublinhar palavra
+ * avançar palavra
+ * voltar palavra
