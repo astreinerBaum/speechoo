@@ -26,3 +26,12 @@ As fontes implementadas são as Padrões do OpenOffice, para mudar a fonte você
  * sublinhar palavra
  * avançar palavra
  * voltar palavra
+ * espaço
+ * backspace
+ * enter
+
+*Comandos de cor:*
+As cores implementadas foram: amarelo, vermelho, marrom, azul, verde e preto. Para mudar a cor basta falar "cor+nome da cor" por exemplo: "cor vermelho".
+
+*Comandos de Fonte*
+Ao falar "mudar fonte" o programa irá abrir uma telinha com alguns tipos de fontes e suas numerações, para mudar a fonte você precisa falar a numeração indicada.
