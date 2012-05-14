@@ -13,17 +13,53 @@ import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.style.ParagraphAdjust;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.uno.UnoRuntime;
-import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  *
- * @author 10080000701
+ * @author Hugo Santos e Welton Araújo
  */
 public class InputEditor {
+    private static boolean a = false;
 
-   public static void setBold(XTextCursor xCursor) {
+public static void change(XTextCursor xCursor) throws UnknownPropertyException, WrappedTargetException{
+    XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(
+                XPropertySet.class, xCursor);
+                System.out.println(xCursorProps.getPropertyValue("URL"));
+    }
+public static void changeFontColor(XTextCursor xCursor, Object color){
+    XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(
+                XPropertySet.class, xCursor);
+        try {
+            xCursorProps.setPropertyValue("CharColor", color);
+            xCursorProps.setPropertyValue("CharShadowed", false);
+        } catch (UnknownPropertyException ex) {
+            Logger.getLogger(InputEditor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (com.sun.star.beans.PropertyVetoException ex) {
+            Logger.getLogger(InputEditor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(InputEditor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (WrappedTargetException ex) {
+            Logger.getLogger(InputEditor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}
+    public static void changeFontName(XTextCursor xCursor, String name){
+    XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(
+                XPropertySet.class, xCursor);
+        try {
+            xCursorProps.setPropertyValue("CharFontName", new String(name));
+        } catch (UnknownPropertyException ex) {
+            Logger.getLogger(InputEditor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (com.sun.star.beans.PropertyVetoException ex) {
+            Logger.getLogger(InputEditor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(InputEditor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (WrappedTargetException ex) {
+            Logger.getLogger(InputEditor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}
+public static void setBold(XTextCursor xCursor) {
         XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(
                 XPropertySet.class, xCursor);
         try {
@@ -202,6 +238,7 @@ public class InputEditor {
         try {
 
             xCursorProps.setPropertyValue("ParaAdjust", ParagraphAdjust.LEFT);
+
 
         } catch (UnknownPropertyException ex) {
             Logger.getLogger(InputEditor.class.getName()).log(Level.SEVERE, null, ex);
