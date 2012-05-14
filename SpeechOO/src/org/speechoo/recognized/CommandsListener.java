@@ -19,19 +19,22 @@ import com.sun.star.text.XTextViewCursor;
 import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.text.XWordCursor;
 import com.sun.star.uno.UnoRuntime;
-import java.awt.Font;
+import java.awt.Component;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.speech.recognition.Result;
 import javax.speech.recognition.ResultAdapter;
 import javax.speech.recognition.ResultEvent;
 import javax.speech.recognition.ResultToken;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import org.speechoo.SpeechOO;
+import org.speechoo.gui.InputDevicesControl;
 import org.speechoo.inputText.InputEditor;
+import org.speechoo.util.CoGrOO;
+import org.speechoo.util.Dispatch;
 import org.speechoo.util.Numbers;
-
+import org.speechoo.util.PrintAndSave;
+import org.speechoo.util.TableGramatical;
+import org.speechoo.util.TableNames;
 
 /**
  *
@@ -41,7 +44,11 @@ public class CommandsListener extends ResultAdapter{
     
     @Override
     public void resultAccepted(ResultEvent e) {
+        TableNames a = new TableNames();
         Numbers comp = new Numbers();
+        int j=0;
+        int number = 0;
+        String Recognized, RecognizedAux = " ", numero;
         XTextDocument xDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class,
                 SpeechOO.m_xFrame.getController().getModel());
         XText xText = xDoc.getText();
@@ -54,12 +61,11 @@ public class CommandsListener extends ResultAdapter{
         XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(
                 XPropertySet.class, xCursor);
         StringBuffer returnTokens = new StringBuffer();
-        String Recognized, RecognizedAux = " ", numero;
         XParagraphCursor xPC= (XParagraphCursor) UnoRuntime.queryInterface(
                 XParagraphCursor.class, xModelCursor);
+
         XWordCursor xWC = (XWordCursor) UnoRuntime.queryInterface(
                 XWordCursor.class, xModelCursor);
-        float number=0;
         Result r = (Result) (e.getSource());
         ResultToken tokens[] = r.getBestTokens();
         for (int i = 0; i < tokens.length; i++) {
@@ -67,24 +73,67 @@ public class CommandsListener extends ResultAdapter{
                 returnTokens.append(' ');
             returnTokens.append(tokens[i].getSpokenText());
         Recognized = returnTokens.toString();
+        Recognized = Recognized.substring(0, 1).toUpperCase().concat(Recognized.substring(1));
         SpeechOO.label.setText(Recognized);
         SpeechOO.label.setVisible(true);
-       }
+        Recognized = Recognized.toLowerCase();
+        }
+
         Recognized = returnTokens.toString();
         System.out.println("Comando: "+Recognized);
-        if(Recognized.equals("voltaparagrafo")== true || Recognized.equals("marcarparagrafo") == true || Recognized.equals("avançaparagrafo") == true){
+        if(CoGrOO.gramaticalFlag == 1){
+    CoGrOO.cellNumber = comp.compare(Recognized);
+    System.out.println(TableGramatical.TableGramatical.getRowCount()-1);
+    if(CoGrOO.cellNumber != 0){
+            if(CoGrOO.cellNumber==-1 || CoGrOO.cellNumber > TableGramatical.TableGramatical.getRowCount()-1){
+                System.out.println("entrou");
+                return;
+            }
+            String Right = TableGramatical.TableGramatical.getValueAt(CoGrOO.cellNumber, 1).toString();
+            for(int i=0; i<CoGrOO.length-(CoGrOO.wrong.split(" ").length-1); i++){
+                 while(j < CoGrOO.wrong.split(" ").length){
+                 System.out.println("eu2");
+                 xWC.gotoPreviousWord(true);
+                 j++;
+                 }
+                 xCursor.gotoRange(xModelCursor.getStart(), true);
+                System.out.println(CoGrOO.wrong);
+                System.out.println(xCursor.getString());
+                 if(CoGrOO.wrong.equals(xCursor.getString())==true){
+                System.out.println("eu3");
+                System.out.println(CoGrOO.wrong);
+                System.out.println(xCursor.getString());
+                System.out.println(Right);
+                xText.insertString(xCursor, Right, true);
+            }
+            System.out.println("eu4");
+            xWC.gotoEndOfWord(true);
+            xCursor.gotoRange(xModelCursor.getStart(), false);
+            j=0;
+        }
+}
+    CoGrOO.gramaticalFlag=0;
+    TableGramatical.FrameGramatical.setEnabled(false);
+    System.out.println("eu5");
+    TableGramatical.FrameGramatical.dispose();
+    xCursor.gotoEnd(false);
+    SpeechOO.dic.setEnabled(true);
+    SpeechOO.gram.setEnabled(false);
+    SpeechOO.label.setText("Modo Ditado Ativado");
+}
+        if(Recognized.equals("voltar parágrafo")== true || Recognized.equals("selecionar parágrafo") == true || Recognized.equals("avançar parágrafo") == true){
         RecognizedAux = Recognized.substring((Recognized.length()-9), Recognized.length());
-        if(RecognizedAux.equals("paragrafo")==true){
-            RecognizedAux = Recognized.substring(0,(Recognized.length()-9));
-            if(RecognizedAux.equals("volta")==true){
+        if(RecognizedAux.equals("parágrafo")==true){
+            RecognizedAux = Recognized.substring(0,(Recognized.length()-10));
+            if(RecognizedAux.equals("voltar")==true){
             xPC.gotoPreviousParagraph(false);
             xCursor.gotoRange(xModelCursor.getStart(), false);
             }
-            if(RecognizedAux.equals("avança")==true){
+            if(RecognizedAux.equals("avançar")==true){
             xPC.gotoNextParagraph(false);
             xCursor.gotoRange(xModelCursor.getStart(), false);
             }
-            if(RecognizedAux.equals("marcar")==true){
+            if(RecognizedAux.equals("selecionar")==true){
                if(xPC.isStartOfParagraph()){
                xPC.gotoEndOfParagraph(false);
                xCursor.gotoRange(xModelCursor.getStart(), true);
@@ -98,22 +147,27 @@ public class CommandsListener extends ResultAdapter{
                }
         }
         }
-        RecognizedAux = Recognized.substring(0, 5);
-
+   if(Recognized.length()<6){
+   }
+       else {
+           RecognizedAux = Recognized.substring(0, 5);
+       }
         if(RecognizedAux.equals("fonte")==true){
-        numero = Recognized.substring(5);
+        numero = Recognized.substring(6);
         number = comp.compare(numero);
+        if(number!=0){
         InputEditor.setFontSize(xCursor, number);
         }
-        if(Recognized.equals("voltar")==true){
+        }
+        if(Recognized.equals("voltar palavra")==true){
             xWC.gotoPreviousWord(true);
             xCursor.gotoRange(xModelCursor.getStart(), false);
         }
-        if(Recognized.equals("avançar")==true){
+        if(Recognized.equals("avançar palavra")==true){
             xWC.gotoNextWord(false);
             xCursor.gotoRange(xModelCursor.getStart(), false);
         }
-        if(Recognized.equals("marcar")==true){
+        if(Recognized.equals("selecionar palavra")==true){
             if(xWC.isStartOfWord()){
             xWC.gotoEndOfWord(false);
             xCursor.gotoRange(xModelCursor.getStart(), true);
@@ -126,7 +180,7 @@ public class CommandsListener extends ResultAdapter{
             }
 
         }
-        if(Recognized.equals("doispontos")==true){
+        if(Recognized.equals("dois pontos")==true){
            xText.insertString(xCursor, ":", true);
            xCursor.gotoRange(xCursor.getEnd(), false);
         }
@@ -134,7 +188,22 @@ public class CommandsListener extends ResultAdapter{
            xText.insertString(xCursor, ".", true);
            xCursor.gotoRange(xCursor.getEnd(), false);
         }
-        if(Recognized.equals("virgula")==true){
+        if(Recognized.equals("espaço")==true){
+           xText.insertString(xCursor, " ", true);
+           xCursor.gotoRange(xCursor.getEnd(), false);
+        }
+        if(Recognized.equals("backspace")==true){
+           xCursor.goLeft((short) 1, true);
+           xText.insertString(xCursor, "", true);
+        }
+        if(Recognized.equals("ponto e vírgula")==true){
+           xText.insertString(xCursor, ";", true);
+           xCursor.gotoRange(xCursor.getEnd(), false);
+        }
+        if(Recognized.equals("mudar fonte")==true){
+            a.Names();
+        }
+        if(Recognized.equals("vírgula")==true){
            xText.insertString(xCursor, ",", true);
            xCursor.gotoRange(xCursor.getEnd(), false);
         }
@@ -163,10 +232,10 @@ public class CommandsListener extends ResultAdapter{
         if(Recognized.equals("centralizar")== true){
             InputEditor.setParaPosCenter(xCursor);
         }
-        if(Recognized.equals("alinharparadireita")== true){
+        if(Recognized.equals("alinhar para direita")== true){
             InputEditor.setParaPosRight(xCursor);
         }
-        if(Recognized.equals("alinharparaesquerda")== true){
+        if(Recognized.equals("alinhar para esquerda")== true){
             InputEditor.setParaPosLeft(xCursor);
         }
         if(Recognized.equals("justificar")== true){
@@ -200,6 +269,57 @@ public class CommandsListener extends ResultAdapter{
             }
         
         }
-     }
- }
+if(Recognized.equals("um")==true || Recognized.equals("dois")==true ||
+   Recognized.equals("três")==true || Recognized.equals("quatro")==true ||
+   Recognized.equals("cinco")==true){
+    if(TableNames.FrameNames.isVisible()==true){
+        number = comp.compare(Recognized);
+        Recognized = TableNames.TableNames.getValueAt(number-1, 1).toString();
+        InputEditor.changeFontName(xCursor, Recognized);
+        TableNames.FrameNames.setEnabled(false);
+        TableNames.FrameNames.dispose();
+    }
+    }
+    if(Recognized.equals("cor azul")){
+            InputEditor.changeFontColor(xCursor, 0x0000FF);
+    }
+    if(Recognized.equals("cor marrom")){
+            InputEditor.changeFontColor(xCursor, 0x4C1900);
+    }
+    if(Recognized.equals("cor preto")){
+            InputEditor.changeFontColor(xCursor, 0x000000);
+    }
+    if(Recognized.equals("cor vermelho")){
+            InputEditor.changeFontColor(xCursor, 0xFF0000);
+    }
+    if(Recognized.equals("cor verde")){
+            InputEditor.changeFontColor(xCursor, 0x00AE00);
+    }
+    if(Recognized.equals("cor amarelo")){
+            InputEditor.changeFontColor(xCursor, 0xFFFF00);
+    }
+    
+if(Recognized.equals("salvar")){
+SpeechOO.frame.setLocationRelativeTo((Component) SpeechOO.frame2);
+SpeechOO.label.setText("Diga o nome do arquivo desejado");
+SpeechOO.frame.setSize((5*"Diga o nome do arquivo desejado".length()+200), 50);
+SpeechOO.frame.setVisible(true);
+SpeechOO.dic.setEnabled(true);
+SpeechOO.gram.setEnabled(false);
+PrintAndSave.flag = 1;
+}
+if(Recognized.equals("enter")){
+            try {
+                InputDevicesControl.keyEnter();
+
+            } catch (Exception ex) {
+                Logger.getLogger(CommandsListener.class.getName()).log(Level.SEVERE, null, ex);
+            }
+}
+
+    }
+}
+
+
+
 
