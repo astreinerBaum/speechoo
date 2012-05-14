@@ -10,8 +10,23 @@ package org.speechoo.util;
  * @author Welton Araújo
  */
 public class Numbers {
-    public static float compare(String s){
-        float a;
+    public static int compare(String s){
+        int a;
+        if(s.equals("um")==true){
+            return a=1;
+        }
+        if(s.equals("dois")==true){
+            return a=2;
+        }
+        if(s.equals("três")==true){
+            return a=3;
+        }
+        if(s.equals("quatro")==true){
+            return a=4;
+        }
+        if(s.equals("cinco")==true){
+            return a=5;
+        }
         if(s.equals("seis")==true){
             return a=6;
         }
@@ -26,7 +41,7 @@ public class Numbers {
            return a=9;
         }
 
-        if(s.equals("dés")==true){
+        if(s.equals("dez")==true){
            return a=10;
         }
 
@@ -60,55 +75,55 @@ public class Numbers {
         if(s.equals("vinte")==true){
            return a=20;
         }
-        if(s.equals("vintedois")==true){
+        if(s.equals("vinte e dois")==true){
             return a = 22;
         }
-        if(s.equals("vintequatro")==true){
+        if(s.equals("vinte e quatro")==true){
             return a = 24;
         }
-        if(s.equals("vinteseis")==true){
+        if(s.equals("vinte e seis")==true){
             return a = 26;
         }
-        if(s.equals("vinteoito")==true){
+        if(s.equals("vinte e oito")==true){
             return a = 28;
         }
-        if(s.equals("trintaedois")==true){
+        if(s.equals("trinta e dois")==true){
             return a = 32;
         }
-        if(s.equals("trintaeseis")==true){
+        if(s.equals("trinta e seis")==true){
             return a = 36;
         }
         if(s.equals("quarenta")==true){
             return a = 40;
         }
-        if(s.equals("quarentaequatro")==true){
+        if(s.equals("quarenta e quatro")==true){
             return a = 44;
         }
-        if(s.equals("quarentaeoito")==true){
+        if(s.equals("quarenta e oito")==true){
             return a = 48;
         }
-        if(s.equals("cinquentaequatro")==true){
+        if(s.equals("cinquenta e quatro")==true){
             return a = 54;
         }
         if(s.equals("sessenta")==true){
             return a = 60;
         }
-        if(s.equals("sessentaeseis")==true){
+        if(s.equals("sessenta e seis")==true){
             return a = 66;
         }
-        if(s.equals("setentaedois")==true){
+        if(s.equals("setenta e dois")==true){
             return a = 72;
         }
         if(s.equals("oitenta")==true){
             return a = 80;
         }
-        if(s.equals("oitentaeoito")==true){
+        if(s.equals("oitenta e oito")==true){
             return a = 88;
         }
-        if(s.equals("noventaeseis")==true){
+        if(s.equals("noventa e seis")==true){
             return a = 96;
         }
-    return 0;
+    return -1;
     }
 
 }

@@ -17,7 +17,7 @@ import com.sun.star.uno.UnoRuntime;
 import org.speechoo.SpeechOO;
 
 public class KeyEvent {
-
+public static com.sun.star.awt.KeyEvent arg1;
     public static void begin() {
         XWindow xWindow = SpeechOO.m_xFrame.getComponentWindow();
         XWindowPeer MyWindowPeer = (XWindowPeer) UnoRuntime.queryInterface(XWindowPeer.class, xWindow);

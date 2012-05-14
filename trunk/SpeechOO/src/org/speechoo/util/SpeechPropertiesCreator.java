@@ -11,7 +11,7 @@ import java.io.IOException;
 
 /**
  *
- * @author 10080000701
+ * @author Hugo Santos
  */
 public class SpeechPropertiesCreator {
     //insere o speech.properties na home do usuário caso ele não exista
