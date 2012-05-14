@@ -31,6 +31,7 @@
 package org.speechoo;
 
 import com.sun.star.beans.XPropertySet;
+import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.frame.FeatureStateEvent;
 import com.sun.star.frame.TerminationVetoException;
 import com.sun.star.frame.XDispatch;
@@ -63,6 +64,7 @@ import javax.swing.JLabel;
 
 import org.speechoo.recognized.CommandsListener;
 import org.speechoo.recognized.FreeDictationListener;
+import org.speechoo.util.CoGrOO;
 import org.speechoo.util.KeyEvent;
 import org.speechoo.util.SpeechPropertiesCreator;
 //import br.ufpa.laps.jlapsapi.recognizer.Recognizer;
@@ -79,8 +81,9 @@ public final class SpeechOO extends WeakBase
         com.sun.star.lang.XServiceInfo,
         XTerminateListener {
 
-    private final XComponentContext m_xContext;
+    public static XComponentContext m_xContext;
     public static com.sun.star.frame.XFrame m_xFrame;
+    public static com.sun.star.frame.XFrame frame2;
     private static final String m_implementationName = SpeechOO.class.getName();
     private static final String[] m_serviceNames = {
         "com.sun.star.frame.ProtocolHandler"};
@@ -95,21 +98,25 @@ public final class SpeechOO extends WeakBase
     public static DictationGrammar dic;
     private KeyEvent button;
     private SwingConstants Format;
-
+   
     public SpeechOO(XComponentContext context) {
         System.out.println("SpeechOO SpeechOO");
-        m_xContext = context;
-        frame.setFocusableWindowState(false);
-        frame.setVisible(false);
+        m_xContext = context;  
+       
+        frame.setFocusableWindowState(false); 
+        frame.setVisible(false); 
         frame.setSize(200, 50);
-	frame.setUndecorated(true);
-	frame.setLocation(850, 1000);
-        label.setFont(new Font("Serif",12, 12));
-	label.setHorizontalAlignment(Format.CENTER);
-        label.setSize(20, 10);
-	frame.add(label);
+	frame.setUndecorated(true); 
+	frame.setLocation(850, 1000); 
+        label.setFont(new Font("Serif",12, 12)); 
+	label.setHorizontalAlignment(Format.CENTER); 
+        label.setSize(20, 10); 
+	//label.setOpaque(true);
+        frame.add(label); 
+        
+        //m_xFrame.getCreator().setActiveFrame((XFrame) frame);
         }
-
+        
     //
     public static XSingleComponentFactory __getComponentFactory(String sImplementationName) {
         System.out.println("SpeechOO __getComponenteFactory");
@@ -135,21 +142,23 @@ public final class SpeechOO extends WeakBase
         if (object.length > 0) {
             m_xFrame = (com.sun.star.frame.XFrame) UnoRuntime.queryInterface(
                     com.sun.star.frame.XFrame.class, object[0]);
+            
         }
     }
 
     @SuppressWarnings("static-access")
-    private void initialize() throws Exception {
+    private void initialize() throws Exception, BootstrapException {
         System.out.println("SpeechOO initialize");
         
 
         //facilita a configuração do plugin
         SpeechPropertiesCreator.create();
         //speech.properties é criado automaticamente na home do usuário
-
+        
         RecognizerModeDesc rmd = (RecognizerModeDesc) Central.availableRecognizers(null).firstElement();
         System.out.println("RecognizerModeDesc");
         try {
+            
             rec = (Recognizer) Central.createRecognizer(rmd);
             System.out.println("createRecognizer");
             label.setText("Criando Reconhecedor");
@@ -170,8 +179,7 @@ public final class SpeechOO extends WeakBase
             gram.addResultListener(new CommandsListener());
             gram.setEnabled(false);
             button.begin();
-
-            this.isInitialized = true;
+            //CoGrOO.main("As Luta são ruim", 4);
 
         } catch (IllegalArgumentException ex) {
             ex.printStackTrace();
@@ -197,7 +205,11 @@ public final class SpeechOO extends WeakBase
                 synchronized (this) {
                     if (!this.isInitialized) {
                         try {
-                            initialize();
+                            try {
+                                initialize();
+                            } catch (BootstrapException ex) {
+                                Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                             System.out.println("initialize");
                         } catch (Exception ex) {
                             Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
@@ -217,6 +229,7 @@ public final class SpeechOO extends WeakBase
                         if (!isResumed) {
                             try {
                                 rec.resume();
+                                //sti.resumed();
                                 System.out.println("Resumed");
                                 label.setText("Ativado");
                                 frame.setVisible(true);
@@ -228,7 +241,11 @@ public final class SpeechOO extends WeakBase
                             isResumed = true;
                             //this.isActive = true;
                         } else {
+                            System.out.println("1");
                             rec.pause();
+
+                            System.out.println("2");
+                            //sti.paused();
                             System.out.println("Paused");
                             label.setText("Pausado");
                             frame.setVisible(true);
