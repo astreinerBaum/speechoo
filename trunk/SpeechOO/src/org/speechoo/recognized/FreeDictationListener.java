@@ -20,7 +20,7 @@ import org.speechoo.inputText.InputSentence;
 public class FreeDictationListener extends ResultAdapter{
 
     InputSentence inputSentence = new InputSentence();
-
+    
     @Override
     public void resultAccepted(ResultEvent e) {
         System.out.println("resultAccepted");
@@ -42,7 +42,7 @@ public class FreeDictationListener extends ResultAdapter{
             returnTokensA.append(tokensA[i].getSpokenText());
         }
          */
-        inputSentence.insertNewSentence(returnTokens.toString());
+        inputSentence.insertNewSentence(returnTokens.toString(), tokens.length);
         //teste...
         //inputSentence.insertNewSentence(returnTokensA.toString());
     }
