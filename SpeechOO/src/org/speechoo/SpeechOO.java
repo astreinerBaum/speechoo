@@ -30,6 +30,9 @@
  */
 package org.speechoo;
 
+import br.ufpa.laps.jlapsapi.util.conversor.Teste;
+import com.sun.awt.AWTUtilities;
+import com.sun.star.awt.XWindow;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.frame.FeatureStateEvent;
@@ -44,7 +47,9 @@ import com.sun.star.lib.uno.helper.Factory;
 import com.sun.star.lang.XSingleComponentFactory;
 import com.sun.star.registry.XRegistryKey;
 import com.sun.star.lib.uno.helper.WeakBase;
+import java.awt.AWTException;
 import java.awt.Font;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -61,6 +66,12 @@ import javax.speech.recognition.Recognizer;
 import javax.speech.recognition.RuleGrammar;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import org.speechoo.gui.Dialog;
+import org.speechoo.gui.InputDevicesControl;
+import org.speechoo.gui.ReadFromXMLFile;
+import org.speechoo.gui.SpeechooTrayIcon;
+import org.speechoo.gui.TrainingDialog;
+import org.speechoo.inputText.InputEditor;
 
 import org.speechoo.recognized.CommandsListener;
 import org.speechoo.recognized.FreeDictationListener;
@@ -82,6 +93,7 @@ public final class SpeechOO extends WeakBase
         XTerminateListener {
 
     public static XComponentContext m_xContext;
+    public static String extensionIdentifier = "org.speechoo.SpeechOO";
     public static com.sun.star.frame.XFrame m_xFrame;
     public static com.sun.star.frame.XFrame frame2;
     private static final String m_implementationName = SpeechOO.class.getName();
@@ -96,13 +108,14 @@ public final class SpeechOO extends WeakBase
     public static Recognizer rec;
     public static RuleGrammar gram;
     public static DictationGrammar dic;
+    //public static SpeechooTrayIcon sti;
     private KeyEvent button;
     private SwingConstants Format;
    
-    public SpeechOO(XComponentContext context) {
+    public SpeechOO(XComponentContext context/*, String extensionIdentifier*/) {
         System.out.println("SpeechOO SpeechOO");
         m_xContext = context;  
-       
+
         frame.setFocusableWindowState(false); 
         frame.setVisible(false); 
         frame.setSize(200, 50);
@@ -129,7 +142,7 @@ public final class SpeechOO extends WeakBase
     }
 
     public static boolean __writeRegistryServiceInfo(XRegistryKey xRegistryKey) {
-        System.out.println ("SpeechOO __writeRegistryServiceInfo");
+        System.out.println("SpeechOO __writeRegistryServiceInfo");
         return Factory.writeRegistryServiceInfo(m_implementationName,
                 m_serviceNames,
                 xRegistryKey);
@@ -149,8 +162,8 @@ public final class SpeechOO extends WeakBase
     @SuppressWarnings("static-access")
     private void initialize() throws Exception, BootstrapException {
         System.out.println("SpeechOO initialize");
-        
 
+  
         //facilita a configuração do plugin
         SpeechPropertiesCreator.create();
         //speech.properties é criado automaticamente na home do usuário
@@ -166,7 +179,7 @@ public final class SpeechOO extends WeakBase
             rec.allocate();
             System.out.println("allocate");
             label.setText("Alocando");
-            FileReader reader = new FileReader(System.getProperty("user.home")+"/coruja1.5_for_speechoo/commands.grammar");
+            FileReader reader = new FileReader(System.getProperty("user.home") + "/coruja_jlapsapi/commands.grammar");
 
             System.out.println("load gram");
             gram = rec.loadJSGF(reader);
@@ -180,6 +193,7 @@ public final class SpeechOO extends WeakBase
             gram.setEnabled(false);
             button.begin();
             //CoGrOO.main("As Luta são ruim", 4);
+
 
         } catch (IllegalArgumentException ex) {
             ex.printStackTrace();
