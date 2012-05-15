@@ -16,6 +16,11 @@ import com.sun.star.awt.XTextComponent;
 import com.sun.star.awt.XToolkit;
 import com.sun.star.awt.XWindow;
 import com.sun.star.awt.XWindowPeer;
+import com.sun.star.beans.Property;
+import com.sun.star.beans.PropertyValue;
+import com.sun.star.beans.UnknownPropertyException;
+import com.sun.star.beans.XProperty;
+import com.sun.star.beans.XPropertyAccess;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.XNameAccess;
 import com.sun.star.container.XNameContainer;
@@ -25,6 +30,8 @@ import com.sun.star.lang.XMultiServiceFactory;
 import com.sun.star.uno.Exception;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
 * The source code of this class bases heavily on the OOo Developer's Guide:
@@ -41,6 +48,30 @@ public class Dialog {
     private XNameContainer xDialogModelNameContainer;
     private XControl xDialogControl;
     private XControlContainer xDialogContainer;
+
+    public XComponentContext getxComponentContext() {
+        return xComponentContext;
+    }
+
+    public XControlContainer getxDialogContainer() {
+        return xDialogContainer;
+    }
+
+    public XControl getxDialogControl() {
+        return xDialogControl;
+    }
+
+    public XNameContainer getxDialogModelNameContainer() {
+        return xDialogModelNameContainer;
+    }
+
+    public XMultiComponentFactory getxMultiComponentFactory() {
+        return xMultiComponentFactory;
+    }
+
+    public XMultiServiceFactory getxMultiComponentFactoryDialogModel() {
+        return xMultiComponentFactoryDialogModel;
+    }
 
     public Dialog(XComponentContext xComponentContext, int posX, int posY, int height, int width, String title, String name) throws Exception {
 
@@ -122,7 +153,7 @@ public class Dialog {
         XPropertySet xFixedTextPropertySet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, oFixedTextModel);
         xFixedTextPropertySet.setPropertyValue("PositionX",new Integer(posX));
         xFixedTextPropertySet.setPropertyValue("PositionY",new Integer(posY+2));
-        xFixedTextPropertySet.setPropertyValue("Height",new Integer(8));
+        xFixedTextPropertySet.setPropertyValue("Height",new Integer(50));
         xFixedTextPropertySet.setPropertyValue("Width",new Integer(width));
         xFixedTextPropertySet.setPropertyValue("Label",(label != null)? label: "");
         xFixedTextPropertySet.setPropertyValue("Name",uniqueName);
@@ -136,10 +167,10 @@ public class Dialog {
         return (XFixedText) UnoRuntime.queryInterface(XFixedText.class, xFixedTextControl);
     }
 
-    public XButton insertButton(int posX, int posY, int width, String label, int pushButtonType) throws Exception {
+    public Object insertButton(int posX, int posY, int width, String label, int pushButtonType, boolean enabled, String uniqueName) throws Exception {
 
         // Create a unique name
-        String uniqueName = createUniqueName(xDialogModelNameContainer, "Button");
+        //String uniqueName = createUniqueName(xDialogModelNameContainer, "Button");
 
         // Create a button control model
         Object oButtonModel = xMultiComponentFactoryDialogModel.createInstance("com.sun.star.awt.UnoControlButtonModel");
@@ -153,27 +184,30 @@ public class Dialog {
         xButtonPropertySet.setPropertyValue("Label",(label != null)? label: "");
         xButtonPropertySet.setPropertyValue("PushButtonType",new Short((short) pushButtonType));
         xButtonPropertySet.setPropertyValue("Name",uniqueName);
+        xButtonPropertySet.setPropertyValue("Enabled",enabled);
 
         // Add the model to the dialog model name container
         xDialogModelNameContainer.insertByName(uniqueName, oButtonModel);
 
+        return oButtonModel;
+
         // Reference the control by the unique name
-        XControl xButtonControl = xDialogContainer.getControl(uniqueName);
+        //XControl xButtonControl = xDialogContainer.getControl(uniqueName);
 
-        return (XButton) UnoRuntime.queryInterface(XButton.class, xButtonControl);
+        //return (XButton) UnoRuntime.queryInterface(XButton.class, xButtonControl);
     }
 
-    public XTextComponent insertTextField(int posX, int posY, int width, String text) throws Exception {
+    public XTextComponent insertTextField(int posX, int posY, int width, int height,  String text) throws Exception {
 
-        return insertEditableTextField(posX, posY, width, text, ' ');
+        return insertEditableTextField(posX, posY, width, height, text, ' ');
     }
 
-    public XTextComponent insertPasswordField(int posX, int posY, int width, String text, char echoChar) throws Exception {
+    public XTextComponent insertPasswordField(int posX, int posY, int width, int height, String text, char echoChar) throws Exception {
 
-        return insertEditableTextField(posX, posY, width, text, echoChar);
+        return insertEditableTextField(posX, posY, width, height, text, echoChar);
     }
 
-    private XTextComponent insertEditableTextField(int posX, int posY, int width, String text, char echoChar) throws Exception {
+    private XTextComponent insertEditableTextField(int posX, int posY, int width, int height, String text, char echoChar) throws Exception {
 
         // Create a unique name
         String uniqueName = createUniqueName(xDialogModelNameContainer, "EditableTextField");
@@ -185,10 +219,12 @@ public class Dialog {
         XPropertySet xEditableTextFieldPropertySet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, oEditableTextFieldModel);
         xEditableTextFieldPropertySet.setPropertyValue("PositionX",new Integer(posX));
         xEditableTextFieldPropertySet.setPropertyValue("PositionY",new Integer(posY));
-        xEditableTextFieldPropertySet.setPropertyValue("Height",new Integer(12));
+        xEditableTextFieldPropertySet.setPropertyValue("Height",new Integer(height));
         xEditableTextFieldPropertySet.setPropertyValue("Width",new Integer(width));
         xEditableTextFieldPropertySet.setPropertyValue("Text",(text != null)? text: "");
         xEditableTextFieldPropertySet.setPropertyValue("Name",uniqueName);
+        xEditableTextFieldPropertySet.setPropertyValue("MultiLine",true);
+        xEditableTextFieldPropertySet.setPropertyValue("ReadOnly",true);
 
         if (echoChar != 0 && echoChar != ' ') {
             // Useful for password fields
@@ -210,7 +246,39 @@ public class Dialog {
      * @param elementContainer   The container the new element is going to be inserted to
      * @param elementName        The name of the element
      */
-    private static String createUniqueName(XNameAccess elementContainer, String elementName) {
+
+    public XTextComponent insertTextFrame(int posX, int posY, int width, String text/*, char echoChar*/) throws Exception {
+
+        // Create a unique name
+        String uniqueName = createUniqueName(xDialogModelNameContainer, "TextFrame");System.out.println("textFrame 217");
+
+        // Create an editable text field control model
+        Object oTextFrameModel = xMultiComponentFactoryDialogModel.createInstance("com.sun.star.text.TextFrame");System.out.println("textFrame 220");
+
+        // Set the properties at the model
+        XPropertySet xTextFramePropertySet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, oTextFrameModel);System.out.println("textFrame 223");
+        xTextFramePropertySet.setPropertyValue("PositionX",new Integer(posX));
+        xTextFramePropertySet.setPropertyValue("PositionY",new Integer(posY));
+        xTextFramePropertySet.setPropertyValue("Height",new Integer(12));
+        xTextFramePropertySet.setPropertyValue("Width",new Integer(width));
+        xTextFramePropertySet.setPropertyValue("Text",(text != null)? text: "");
+        xTextFramePropertySet.setPropertyValue("Name",uniqueName);
+/*
+        if (echoChar != 0 && echoChar != ' ') {
+            // Useful for password fields
+            xTextFramePropertySet.setPropertyValue("EchoChar",new Short((short) echoChar));
+        }*/
+
+        // Add the model to the dialog model name container
+        xDialogModelNameContainer.insertByName(uniqueName, xTextFramePropertySet);System.out.println("textFrame 237");
+
+        // Reference the control by the unique name
+        XControl xEditableTextFieldControl = xDialogContainer.getControl(uniqueName);System.out.println("textFrame 240");
+
+        return (XTextComponent) UnoRuntime.queryInterface(XTextComponent.class, xEditableTextFieldControl);
+    }
+
+    protected static String createUniqueName(XNameAccess elementContainer, String elementName) {
 
         String uniqueElementName = elementName;
 
