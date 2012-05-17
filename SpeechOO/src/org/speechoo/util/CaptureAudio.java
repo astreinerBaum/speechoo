@@ -1,84 +1,32 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package org.speechoo.util;
 
 /**
  *
- * @author 10080000701
+ * @author Hugo Santos
  */
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import javax.sound.sampled.*;
 
-public class CaptureAudio extends JFrame{
+public class CaptureAudio{
 
-  protected boolean running;
-  ByteArrayOutputStream out;
+  private boolean running;
+  private ByteArrayOutputStream out;
+  public static File file;
 
-  public CaptureAudio() {
-    super("Capture Sound Demo");
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
-    Container content = getContentPane();
-
-    final JButton capture = new JButton("Capture");
-    final JButton stop = new JButton("Stop");
-    final JButton play = new JButton("Play");
-
-    capture.setEnabled(true);
-    stop.setEnabled(false);
-    play.setEnabled(false);
-
-    ActionListener captureListener =
-        new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        capture.setEnabled(false);
-        stop.setEnabled(true);
-        play.setEnabled(false);
-        captureAudio();
-      }
-    };
-    capture.addActionListener(captureListener);
-    content.add(capture, BorderLayout.NORTH);
-
-    ActionListener stopListener =
-        new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        capture.setEnabled(true);
-        stop.setEnabled(false);
-        play.setEnabled(true);
-        running = false;
-      }
-    };
-    stop.addActionListener(stopListener);
-    content.add(stop, BorderLayout.CENTER);
-
-    ActionListener playListener =
-        new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        playAudio();
-      }
-    };
-    play.addActionListener(playListener);
-    content.add(play, BorderLayout.SOUTH);
+  public void stopRecording(){
+      running = false;
   }
 
-  private void captureAudio() {
+  public void startRecording(File file) {
+      CaptureAudio.file= file;
     try {
       final AudioFormat format = getFormat();
-      DataLine.Info info = new DataLine.Info(
-        TargetDataLine.class, format);
-      final TargetDataLine line = (TargetDataLine)
-        AudioSystem.getLine(info);
+      DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
+      final TargetDataLine line = (TargetDataLine)AudioSystem.getLine(info);
       line.open(format);
       line.start();
       Runnable runner = new Runnable() {
-        int bufferSize = (int)format.getSampleRate()
-          * format.getFrameSize();
+        int bufferSize = (int)format.getSampleRate()*format.getFrameSize();
         byte buffer[] = new byte[bufferSize];
 
         public void run() {
@@ -93,6 +41,11 @@ public class CaptureAudio extends JFrame{
               }
             }
             out.close();
+            byte audio[] = out.toByteArray();
+            InputStream input = new ByteArrayInputStream(audio);
+            final AudioFormat format = getFormat();
+            final AudioInputStream ais = new AudioInputStream(input, format, audio.length / format.getFrameSize());
+            AudioSystem.write(ais, AudioFileFormat.Type.WAVE, CaptureAudio.file);
           } catch (IOException e) {
             System.err.println("I/O problems: " + e);
             System.exit(-1);
@@ -154,8 +107,8 @@ public class CaptureAudio extends JFrame{
   }
 
   private AudioFormat getFormat() {
-    float sampleRate = 8000;
-    int sampleSizeInBits = 8;
+    float sampleRate = 16000;
+    int sampleSizeInBits = 16;
     int channels = 1;
     boolean signed = true;
     boolean bigEndian = true;
@@ -163,9 +116,4 @@ public class CaptureAudio extends JFrame{
       sampleSizeInBits, channels, signed, bigEndian);
   }
 
-  public static void main(String args[]) {
-    JFrame frame = new CaptureAudio();
-    frame.pack();
-    frame.show();
-  }
 }
