@@ -9,7 +9,6 @@ import com.sun.star.awt.PushButtonType;
 import com.sun.star.awt.XActionListener;
 import com.sun.star.awt.XButton;
 import com.sun.star.awt.XControl;
-import com.sun.star.awt.XControlContainer;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.deployment.PackageInformationProvider;
 import com.sun.star.deployment.XPackageInformationProvider;
@@ -19,48 +18,83 @@ import com.sun.star.uno.UnoRuntime;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.speechoo.SpeechOO;
+import org.speechoo.util.CaptureAudio;
 
 /**
  *
- * @author 10080000701
+ * @author Hugo Santos
  */
 public class TrainingDialog {
 
     private String texts[];
-    public static int train = 0;
-    private Object buttonPropertiesRecord, buttonPropertiesStop, buttonPropertiesNext, buttonPropertiesBack;
-    XButton xbBack = null, xbRecord, xbStop, xbNext;
-    private XControl xButtonControlBack, xButtonControlRecord, xButtonControlStop, xButtonControlNext;
+    private static int train = 0;
+    private XPropertySet xBackButtonPropertySet, xRecordButtonPropertySet,
+            xStopButtonPropertySet, xNextButtonPropertySet;
+    private XButton xbBack = null, xbRecord, xbStop, xbNext;
+    private CaptureAudio ca = new CaptureAudio();
+    private String recordsPath = System.getProperty("user.home") 
+            + File.separator + "coruja_jlapsapi" + File.separator + "records" + File.separator;
+    private File wav;
 
     public TrainingDialog() {
-        XPackageInformationProvider xPackageInformationProvider = PackageInformationProvider.get(SpeechOO.m_xContext);
-        String oxtLocation = xPackageInformationProvider.getPackageLocation(SpeechOO.extensionIdentifier).substring(7);//retira file:/
-        //System.out.println("oxtLocation: "+oxtLocation.substring(7));//retira file:/
+        XPackageInformationProvider xPackageInformationProvider =
+                PackageInformationProvider.get(SpeechOO.m_xContext);
+        String oxtLocation = xPackageInformationProvider.
+                getPackageLocation(SpeechOO.extensionIdentifier).substring(7);//retira file:/
 
         File trainingTexts = new File(oxtLocation + "/dialogs/trainingtexts.xml");
         ReadFromXMLFile rfxf = new ReadFromXMLFile(trainingTexts);
         texts = rfxf.getTextsByLanguage("pt");
-        //this.texts = texts;
-
     }
 
     public void train() {
         try {
-            final Dialog dialog1 = new Dialog(SpeechOO.m_xContext, 500, 500, 100, 250, "SpeechOO Records", "marralo");
+            final Dialog dialog1 = new Dialog(SpeechOO.m_xContext, 500, 500,
+                    100, 250, "SpeechOO Records", "marralo");
             dialog1.insertTextField(10, 10, 230, 60, texts[0]);
-            //System.out.println("textwidth:"+texts[0].length());
-            //System.out.println("textFrame");
-            //dialog.insertTextFrame(10, 10, 300, texts[0]);
-            //dialog.insertTextField(
 
-            //Object buttonPropertiesRecord, buttonPropertiesStop, buttonPropertiesNext, buttonPropertiesBack;
+//##############################################################################
+            Object buttonPropertiesBack = dialog1.insertButton(50, 80, 30, "Voltar",
+                    PushButtonType.STANDARD_value, false, "backButton");
 
-            //Keep button properties object to change when needed
-            buttonPropertiesBack = dialog1.insertButton(50, 80, 30, "Voltar", PushButtonType.STANDARD_value, false, "backButton");
+            XControl xButtonControlBack = dialog1.getxDialogContainer().getControl("backButton");
 
-            xButtonControlBack = dialog1.getxDialogContainer().getControl("backButton");
+//##############################################################################
+            wav = new File(recordsPath + "train" + train + ".wav");
+            Object buttonPropertiesRecord;
+            if (wav.exists()) {
+                buttonPropertiesRecord = dialog1.insertButton(90, 80, 30, "Gravar",
+                        PushButtonType.STANDARD_value, false, "recordButton");
+            } else {
+                buttonPropertiesRecord = dialog1.insertButton(90, 80, 30, "Gravar",
+                        PushButtonType.STANDARD_value, true, "recordButton");
+            }
+            XControl xButtonControlRecord = dialog1.getxDialogContainer().getControl("recordButton");
+
+//##############################################################################
+            Object buttonPropertiesStop = dialog1.insertButton(130, 80, 30, "Parar",
+                    PushButtonType.STANDARD_value, false, "stopButton");
+
+            XControl xButtonControlStop = dialog1.getxDialogContainer().getControl("stopButton");
+
+//##############################################################################
+            Object buttonPropertiesNext = dialog1.insertButton(170, 80, 30, "Próximo",
+                    PushButtonType.STANDARD_value, true, "nextButton");
+
+            XControl xButtonControlNext = dialog1.getxDialogContainer().getControl("nextButton");
+
+//##############################################################################
+            //Keep buttons properties to set durinf runtime
+            xBackButtonPropertySet = (XPropertySet) UnoRuntime.
+                    queryInterface(XPropertySet.class, buttonPropertiesBack);
+            xRecordButtonPropertySet = (XPropertySet) UnoRuntime.
+                    queryInterface(XPropertySet.class, buttonPropertiesRecord);
+            xStopButtonPropertySet = (XPropertySet) UnoRuntime.
+                    queryInterface(XPropertySet.class, buttonPropertiesStop);
+            xNextButtonPropertySet = (XPropertySet) UnoRuntime.
+                    queryInterface(XPropertySet.class, buttonPropertiesNext);
+
             //Put the button into the interface
             xbBack = (XButton) UnoRuntime.queryInterface(XButton.class, xButtonControlBack);
 
@@ -68,16 +102,19 @@ public class TrainingDialog {
 
                 public void actionPerformed(ActionEvent arg0) {
                     try {
+                        wav = new File(recordsPath + "train" + (train - 1) + ".wav");
+                        if (wav.exists()) {
+                            xRecordButtonPropertySet.setPropertyValue("Label", "Regravar");
+                        } else {
+                            xRecordButtonPropertySet.setPropertyValue("Label", "Gravar");
+                        }
                         if (train == 0) {
-                            System.out.println("VOLTAR train=0");
+                            System.out.println("VOLTAR train= " + train);
                         } else if (train == 1) {
-                            XPropertySet xButtonPropertySet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, buttonPropertiesBack);
-                            xButtonPropertySet.setPropertyValue("Enabled", false);
+                            xBackButtonPropertySet.setPropertyValue("Enabled", false);
                             dialog1.insertTextField(10, 10, 230, 60, texts[--train]);
-                            System.out.println("VOLTAR train=1 train-- ; deve desativar botão voltar");
                         } else {
                             dialog1.insertTextField(10, 10, 230, 60, texts[--train]);
-                            System.out.println("VOLTAR train--");
                         }
                     } catch (Exception ex) {
                         Logger.getLogger(TrainingDialog.class.getName()).log(Level.SEVERE, null, ex);
@@ -89,51 +126,65 @@ public class TrainingDialog {
                     throw new UnsupportedOperationException("Not supported yet.");
                 }
             });
-            
-            //Keep button properties object to change when needed
-            buttonPropertiesRecord = dialog1.insertButton(90, 80, 30, "Gravar", PushButtonType.STANDARD_value, true, "recordButton");
-
-            xButtonControlRecord = dialog1.getxDialogContainer().getControl("recordButton");
 
             //Put the button into the interface
             xbRecord = (XButton) UnoRuntime.queryInterface(XButton.class, xButtonControlRecord);
-            //xbgravar = dialog1.insertButton(90, 80, 30, "Gravar", PushButtonType.STANDARD_value, true);
+
             xbRecord.addActionListener(new XActionListener() {
 
-            public void actionPerformed(ActionEvent arg0) {
-            System.out.println("gravar");
-            throw new UnsupportedOperationException("Not supported yet.");
-            }
+                public void actionPerformed(ActionEvent arg0) {
 
-            public void disposing(EventObject arg0) {
-            throw new UnsupportedOperationException("Not supported yet.");
-            }
+                    try {
+                        xBackButtonPropertySet.setPropertyValue("Enabled", false);
+                        xRecordButtonPropertySet.setPropertyValue("Enabled", false);
+                        xStopButtonPropertySet.setPropertyValue("Enabled", true);
+                        xNextButtonPropertySet.setPropertyValue("Enabled", false);
+
+                        wav = new File(recordsPath + "train" + (train + 1) + ".wav");
+                        ca.startRecording(wav);
+
+                    } catch (Exception ex) {
+                        Logger.getLogger(TrainingDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
+
+                public void disposing(EventObject arg0) {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
             });
-
-            //Keep button properties object to change when needed
-            buttonPropertiesStop = dialog1.insertButton(130, 80, 30, "Parar", PushButtonType.STANDARD_value, true, "stopButton");
-
-            xButtonControlStop = dialog1.getxDialogContainer().getControl("stopButton");
 
             //Put the button into the interface
             xbStop = (XButton) UnoRuntime.queryInterface(XButton.class, xButtonControlStop);
-            //xbparar = dialog1.insertButton(130, 80, 30, "Parar", PushButtonType.STANDARD_value, true);
+
             xbStop.addActionListener(new XActionListener() {
 
-            public void actionPerformed(ActionEvent arg0) {
-            System.out.println("parar");
-            throw new UnsupportedOperationException("Not supported yet.");
-            }
+                public void actionPerformed(ActionEvent arg0) {
 
-            public void disposing(EventObject arg0) {
-            throw new UnsupportedOperationException("Not supported yet.");
-            }
+                    try {
+                        xRecordButtonPropertySet.setPropertyValue("Enabled", true);
+
+                        if (train != 0) {
+                            xBackButtonPropertySet.setPropertyValue("Enabled", true);
+                        }
+                        xRecordButtonPropertySet.setPropertyValue("Label", "Regravar");
+                        xStopButtonPropertySet.setPropertyValue("Enabled", false);
+                        xNextButtonPropertySet.setPropertyValue("Enabled", true);
+
+                        ca.stopRecording();
+
+                    } catch (Exception ex) {
+                        Logger.getLogger(TrainingDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
+
+                public void disposing(EventObject arg0) {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
             });
 
-            //Keep button properties object to change when needed
-            buttonPropertiesNext = dialog1.insertButton(170, 80, 30, "Próximo", PushButtonType.STANDARD_value, true, "nextButton");
-
-            xButtonControlNext = dialog1.getxDialogContainer().getControl("nextButton");
             //Create Button
             xbNext = (XButton) UnoRuntime.queryInterface(XButton.class, xButtonControlNext);
 
@@ -141,18 +192,21 @@ public class TrainingDialog {
 
                 public void actionPerformed(ActionEvent arg0) {
                     try {
-                        
-                        if (train == 0){
-                            XPropertySet xButtonPropertySet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, buttonPropertiesBack);
-                            xButtonPropertySet.setPropertyValue("Enabled", true);
+                        wav = new File(recordsPath + "train" + (train + 1) + ".wav");
+                        if (wav.exists()) {
+                            xRecordButtonPropertySet.setPropertyValue("Label", "Regravar");
+                        } else {
+                            xRecordButtonPropertySet.setPropertyValue("Label", "Gravar");
+                        }
+                        if (train == 0) {
+                            xBackButtonPropertySet.setPropertyValue("Enabled", true);
                             dialog1.insertTextField(10, 10, 230, 60, texts[++train]);
-                            System.out.println("PROXIMO train=0");
-                        } else if (train == 4) {
-                            System.out.println("PROXIMO train=4");
+                        } else if (train == texts.length) {
+                            System.out.println("PROXIMO train: " + train + " último treino");
                         } else {
                             dialog1.insertTextField(10, 10, 230, 60, texts[++train]);
-                            System.out.println("PROXIMO train++");
                         }
+
                     } catch (Exception ex) {
                         Logger.getLogger(TrainingDialog.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -163,10 +217,10 @@ public class TrainingDialog {
                     throw new UnsupportedOperationException("Not supported yet.");
                 }
             });
-            //System.out.println("181");
-            //dialog1.editButton();
-            short returnValue = dialog1.execute();
+
+            dialog1.execute();
             dialog1.dispose();
+
         } catch (com.sun.star.uno.Exception ex) {
             ex.printStackTrace();
         }
