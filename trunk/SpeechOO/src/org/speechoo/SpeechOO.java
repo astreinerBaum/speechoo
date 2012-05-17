@@ -30,9 +30,6 @@
  */
 package org.speechoo;
 
-import br.ufpa.laps.jlapsapi.util.conversor.Teste;
-import com.sun.awt.AWTUtilities;
-import com.sun.star.awt.XWindow;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.frame.FeatureStateEvent;
@@ -47,9 +44,7 @@ import com.sun.star.lib.uno.helper.Factory;
 import com.sun.star.lang.XSingleComponentFactory;
 import com.sun.star.registry.XRegistryKey;
 import com.sun.star.lib.uno.helper.WeakBase;
-import java.awt.AWTException;
 import java.awt.Font;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -66,16 +61,9 @@ import javax.speech.recognition.Recognizer;
 import javax.speech.recognition.RuleGrammar;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import org.speechoo.gui.Dialog;
-import org.speechoo.gui.InputDevicesControl;
-import org.speechoo.gui.ReadFromXMLFile;
-import org.speechoo.gui.SpeechooTrayIcon;
-import org.speechoo.gui.TrainingDialog;
-import org.speechoo.inputText.InputEditor;
 
 import org.speechoo.recognized.CommandsListener;
 import org.speechoo.recognized.FreeDictationListener;
-import org.speechoo.util.CoGrOO;
 import org.speechoo.util.KeyEvent;
 import org.speechoo.util.SpeechPropertiesCreator;
 //import br.ufpa.laps.jlapsapi.recognizer.Recognizer;
@@ -108,11 +96,10 @@ public final class SpeechOO extends WeakBase
     public static Recognizer rec;
     public static RuleGrammar gram;
     public static DictationGrammar dic;
-    //public static SpeechooTrayIcon sti;
     private KeyEvent button;
     private SwingConstants Format;
    
-    public SpeechOO(XComponentContext context/*, String extensionIdentifier*/) {
+    public SpeechOO(XComponentContext context) {
         System.out.println("SpeechOO SpeechOO");
         m_xContext = context;  
 
@@ -124,10 +111,8 @@ public final class SpeechOO extends WeakBase
         label.setFont(new Font("Serif",12, 12)); 
 	label.setHorizontalAlignment(Format.CENTER); 
         label.setSize(20, 10); 
-	//label.setOpaque(true);
         frame.add(label); 
-        
-        //m_xFrame.getCreator().setActiveFrame((XFrame) frame);
+
         }
         
     //
