@@ -37,6 +37,23 @@
                                         <value>com.sun.star.text.TextDocument</value>
                                     </prop>
                                 </node>
+
+                                <node oor:name="M3" oor:op="replace">
+                                    <prop oor:name="URL" oor:type="xs:string">
+                                        <value>org.speechoo.speechoo:speakerAdaptation</value>
+                                    </prop>
+                                    <prop oor:name="Title" oor:type="xs:string">
+                                        <value />
+                                        <value xml:lang="en">Speaker adaptation</value>
+                                        <value xml:lang="pt-BR">Adaptação de locutor</value>
+                                    </prop>
+                                    <prop oor:name="Target" oor:type="xs:string">
+                                        <value>_self</value>
+                                    </prop>
+                                    <prop oor:name="Context" oor:type="xs:string">
+                                        <value>com.sun.star.text.TextDocument</value>
+                                    </prop>
+                                </node>
                             </node>
                         </node>
                     </node>
@@ -46,50 +63,81 @@
         <node oor:name="OfficeToolbarMerging">
             <node oor:name="org.openoffice.test.testcomponent" oor:op="replace">
                 <node oor:name="T1" oor:op="replace">
-                 <prop oor:name="MergeToolBar">
-                  <value>standardbar</value>
-                 </prop>
-                 <prop oor:name="MergePoint">
-                  <value>.uno:SpellOnline</value>
-                 </prop>
-                 <prop oor:name="MergeCommand">
-                  <value>AddAfter</value>
-                 </prop>
-                 <prop oor:name="MergeFallback">
-                  <value>AddLast</value>
-                 </prop>
-                 <prop oor:name="MergeContext">
-                  <value/>
-                 </prop>
-                 <node oor:name="ToolBarItems">
-                     <node oor:name="m1" oor:op="replace">
-                        <prop oor:name="URL" oor:type="xs:string">
-                          <value>private:separator</value>
-                        </prop>
-                      </node>
-                     <node oor:name="m2" oor:op="replace">
-                        <prop oor:name="URL" oor:type="xs:string">
-                            <value>org.speechoo.speechoo:startDictation</value>
-                        </prop>
-                        <prop oor:name="ImageIdentifier" oor:type="xs:string">
+                    <prop oor:name="MergeToolBar">
+                        <value>standardbar</value>
+                    </prop>
+                    <prop oor:name="MergePoint">
+                        <value>.uno:SpellOnline</value>
+                    </prop>
+                    <prop oor:name="MergeCommand">
+                        <value>AddAfter</value>
+                    </prop>
+                    <prop oor:name="MergeFallback">
+                        <value>AddLast</value>
+                    </prop>
+                    <prop oor:name="MergeContext">
+                        <value/>
+                    </prop>
+                    <node oor:name="ToolBarItems">
+                        <node oor:name="m1" oor:op="replace">
+                            <prop oor:name="URL" oor:type="xs:string">
+                                <value>private:separator</value>
+                            </prop>
+                        </node>
+                        <node oor:name="m2" oor:op="replace">
+                            <prop oor:name="URL" oor:type="xs:string">
+                                <value>org.speechoo.speechoo:startDictation</value>
+                            </prop>
+                            <prop oor:name="ImageIdentifier" oor:type="xs:string">
+                                <value/>
+                            </prop>
+                            <prop oor:name="Target" oor:type="xs:string">
+                                <value>_self</value>
+                            </prop>
+                            <prop oor:name="Context" oor:type="xs:string">
+                                <value>com.sun.star.text.TextDocument</value>
+                            </prop>
+                            <prop oor:name="ControlType" oor:type="xs:string">
+                                <value>Checkbutton</value>
+                            </prop>
+                            <prop oor:name="Title" oor:type="xs:string">
+                                <value/>
+                                <value xml:lang="en">Start Dictation</value>
+                                <value xml:lang="pt-BR">Iniciar Ditado</value>
+                            </prop>
+                        </node>
+
+                        <node oor:name="m3" oor:op="replace">
+                            <prop oor:name="URL" oor:type="xs:string">
+                                <value>private:separator</value>
+                            </prop>
+                        </node>
+                        <node oor:name="m4" oor:op="replace">
+                            <prop oor:name="URL" oor:type="xs:string">
+                                <value>org.speechoo.speechoo:speechooStatus</value>
+                            </prop>
+                            <!--                       <prop oor:name="ImageIdentifier" oor:type="xs:string">
                             <value/>
                         </prop>
                         <prop oor:name="Target" oor:type="xs:string">
                             <value>_self</value>
                         </prop>
-                        <prop oor:name="Context" oor:type="xs:string">
-                            <value>com.sun.star.text.TextDocument</value>
-                        </prop>
-                        <prop oor:name="ControlType" oor:type="xs:string">
-                            <value>ToggleButton</value>
-                        </prop>
-                        <prop oor:name="Title" oor:type="xs:string">
-                            <value/>
-                            <value xml:lang="en">Start Dictation</value>
-                            <value xml:lang="pt-BR">Iniciar Ditado</value>
-                        </prop>
+                            -->                       <prop oor:name="Context" oor:type="xs:string">
+                                <value>com.sun.star.text.TextDocument</value>
+                            </prop>
+                            <prop oor:name="ControlType" oor:type="xs:string">
+                                <value>Checkbutton</value>
+                            </prop>
+                            <prop oor:name="Text" oor:type="xs:string">
+                                <value>Comandos</value>
+                            </prop>
+                            <prop oor:name="Title" oor:type="xs:string">
+                                <value/>
+                                <value xml:lang="en"></value>
+                                <value xml:lang="pt-BR">Estado do SpeechOO</value>
+                            </prop>
+                        </node>
                     </node>
-                 </node>
                 </node>
             </node>
         </node>
