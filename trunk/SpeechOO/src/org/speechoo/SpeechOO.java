@@ -32,6 +32,8 @@ package org.speechoo;
 
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.comp.helper.BootstrapException;
+import com.sun.star.deployment.PackageInformationProvider;
+import com.sun.star.deployment.XPackageInformationProvider;
 import com.sun.star.frame.FeatureStateEvent;
 import com.sun.star.frame.TerminationVetoException;
 import com.sun.star.frame.XDispatch;
@@ -45,6 +47,7 @@ import com.sun.star.lang.XSingleComponentFactory;
 import com.sun.star.registry.XRegistryKey;
 import com.sun.star.lib.uno.helper.WeakBase;
 import java.awt.Font;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -61,11 +64,13 @@ import javax.speech.recognition.Recognizer;
 import javax.speech.recognition.RuleGrammar;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import org.speechoo.gui.TrainingDialog;
 
 import org.speechoo.recognized.CommandsListener;
 import org.speechoo.recognized.FreeDictationListener;
 import org.speechoo.util.KeyEvent;
 import org.speechoo.util.SpeechPropertiesCreator;
+import ufpa.asr.frontend.Adaptador;
 //import br.ufpa.laps.jlapsapi.recognizer.Recognizer;
 
 /**
@@ -228,7 +233,6 @@ public final class SpeechOO extends WeakBase
                         if (!isResumed) {
                             try {
                                 rec.resume();
-                                //sti.resumed();
                                 System.out.println("Resumed");
                                 label.setText("Ativado");
                                 frame.setVisible(true);
@@ -238,13 +242,9 @@ public final class SpeechOO extends WeakBase
                                 Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             isResumed = true;
-                            //this.isActive = true;
+                            this.isActive = true;
                         } else {
-                            System.out.println("1");
                             rec.pause();
-
-                            System.out.println("2");
-                            //sti.paused();
                             System.out.println("Paused");
                             label.setText("Pausado");
                             frame.setVisible(true);
@@ -252,6 +252,11 @@ public final class SpeechOO extends WeakBase
                         }
                     }
                 }
+            } else if(aURL.Path.compareTo("speakerAdaptation") == 0) {
+                TrainingDialog td = new TrainingDialog();
+
+                td.train();
+
             }
         }
     }
@@ -260,6 +265,13 @@ public final class SpeechOO extends WeakBase
             com.sun.star.util.URL aURL) {
         System.out.println("SpeechOO addStatusListener");
         if (aURL.Path.compareTo("startDictation") == 0) {
+            FeatureStateEvent aEvent = new FeatureStateEvent();
+            aEvent.FeatureURL = aURL;
+            aEvent.Source = (XDispatch) this;
+            aEvent.IsEnabled = !this.isActive;
+            aEvent.Requery = false;
+            xControl.statusChanged(aEvent);
+        } else if (aURL.Path.compareTo("speakerAdaptation") == 0) {
             FeatureStateEvent aEvent = new FeatureStateEvent();
             aEvent.FeatureURL = aURL;
             aEvent.Source = (XDispatch) this;
@@ -282,6 +294,8 @@ public final class SpeechOO extends WeakBase
         System.out.println("SpeechOO queryDispatch");
         if (aURL.Protocol.compareTo("org.speechoo.speechoo:") == 0) {
             if (aURL.Path.compareTo("startDictation") == 0) {
+                return this;
+            } else if(aURL.Path.compareTo("speakerAdaptation") == 0){
                 return this;
             }
         }
