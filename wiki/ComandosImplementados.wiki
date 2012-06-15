@@ -40,5 +40,6 @@ Ao falar "mudar fonte" o programa irá abrir uma tabela com alguns tipos de font
 
 *Outros Comandos*
 
-*Ao falar "salvar" irá abrir um janela perguntando o nome do arquivo, e após o usuário dizer este nome, o arquivo é salvo na pasta documentos do linux
-*Ao falar "corrigir" irá abrir uma tabela com frases alternativas que o reconhecedor gerou e que podem mudar o resultado da última sentença falada.
+Ao falar "salvar" irá abrir um janela perguntando o nome do arquivo, e após o usuário dizer este nome, o arquivo é salvo na pasta documentos do linux
+
+Ao falar "corrigir" irá abrir uma tabela com frases alternativas que o reconhecedor gerou e que podem mudar o resultado da última sentença falada.
