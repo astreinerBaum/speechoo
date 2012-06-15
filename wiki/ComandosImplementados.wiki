@@ -8,7 +8,7 @@
 
 *Comando de Tamanho da fonte:*
 
-As fontes implementadas são as Padrões do OpenOffice, para mudar a fonte você deve falar "fonte+tamanho da fonte", por exemplo "fonte seis", "fonte vinte", "fonte trinta e dois" etc.
+As fontes implementadas são as Padrões do Writer, para mudar a fonte você deve falar "fonte+tamanho da fonte", por exemplo "fonte seis", "fonte vinte", "fonte trinta e dois" etc.
 
 *Comandos de formatacao:* 
  * negrito
@@ -36,4 +36,9 @@ As cores implementadas foram: amarelo, vermelho, marrom, azul, verde e preto. Pa
 
 *Comandos de Fonte*
 
-Ao falar "mudar fonte" o programa irá abrir uma telinha com alguns tipos de fontes e suas numerações, para mudar a fonte você precisa falar a numeração indicada.
+Ao falar "mudar fonte" o programa irá abrir uma tabela com alguns tipos de fontes e suas numerações, para mudar a fonte o usuário precisa falar a numeração indicada.
+
+*Outros Comandos*
+
+Ao falar "salvar" irá abrir um janela perguntando o nome do arquivo, e após o usuário dizer este nome, o arquivo é salvo na pasta documentos do linux
+Ao falar "corrigir" irá abrir uma tabela com frases alternativas que o reconhecedor gerou e que podem mudar o resultado da última sentença falada.
