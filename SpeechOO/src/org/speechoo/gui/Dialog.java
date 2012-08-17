@@ -6,7 +6,6 @@
 package org.speechoo.gui;
 
 
-import com.sun.star.awt.XButton;
 import com.sun.star.awt.XControl;
 import com.sun.star.awt.XControlContainer;
 import com.sun.star.awt.XControlModel;
@@ -16,11 +15,6 @@ import com.sun.star.awt.XTextComponent;
 import com.sun.star.awt.XToolkit;
 import com.sun.star.awt.XWindow;
 import com.sun.star.awt.XWindowPeer;
-import com.sun.star.beans.Property;
-import com.sun.star.beans.PropertyValue;
-import com.sun.star.beans.UnknownPropertyException;
-import com.sun.star.beans.XProperty;
-import com.sun.star.beans.XPropertyAccess;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.XNameAccess;
 import com.sun.star.container.XNameContainer;
@@ -30,8 +24,6 @@ import com.sun.star.lang.XMultiServiceFactory;
 import com.sun.star.uno.Exception;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
 * The source code of this class bases heavily on the OOo Developer's Guide:
