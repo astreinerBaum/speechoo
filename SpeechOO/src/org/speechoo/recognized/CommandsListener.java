@@ -29,8 +29,8 @@ import javax.speech.recognition.ResultToken;
 import org.speechoo.SpeechOO;
 import org.speechoo.gui.InputDevicesControl;
 import org.speechoo.inputText.InputEditor;
+import org.speechoo.inputText.InputSentence;
 import org.speechoo.util.CoGrOO;
-import org.speechoo.util.Dispatch;
 import org.speechoo.util.Numbers;
 import org.speechoo.util.PrintAndSave;
 import org.speechoo.util.TableGramatical;
@@ -45,6 +45,8 @@ public class CommandsListener extends ResultAdapter{
     @Override
     public void resultAccepted(ResultEvent e) {
         TableNames a = new TableNames();
+        TableGramatical d = new TableGramatical();
+        String AuxResults;
         Numbers comp = new Numbers();
         int j=0;
         int number = 0;
@@ -86,13 +88,13 @@ public class CommandsListener extends ResultAdapter{
     System.out.println(TableGramatical.TableGramatical.getRowCount()-1);
     if(CoGrOO.cellNumber != 0){
             if(CoGrOO.cellNumber==-1 || CoGrOO.cellNumber > TableGramatical.TableGramatical.getRowCount()-1){
-                System.out.println("entrou");
+                //System.out.println("entrou");
+                SpeechOO.label.setText("Fale Novamente");
                 return;
             }
             String Right = TableGramatical.TableGramatical.getValueAt(CoGrOO.cellNumber, 1).toString();
             for(int i=0; i<CoGrOO.length-(CoGrOO.wrong.split(" ").length-1); i++){
                  while(j < CoGrOO.wrong.split(" ").length){
-                 System.out.println("eu2");
                  xWC.gotoPreviousWord(true);
                  j++;
                  }
@@ -100,13 +102,11 @@ public class CommandsListener extends ResultAdapter{
                 System.out.println(CoGrOO.wrong);
                 System.out.println(xCursor.getString());
                  if(CoGrOO.wrong.equals(xCursor.getString())==true){
-                System.out.println("eu3");
                 System.out.println(CoGrOO.wrong);
                 System.out.println(xCursor.getString());
                 System.out.println(Right);
                 xText.insertString(xCursor, Right, true);
             }
-            System.out.println("eu4");
             xWC.gotoEndOfWord(true);
             xCursor.gotoRange(xModelCursor.getStart(), false);
             j=0;
@@ -114,12 +114,42 @@ public class CommandsListener extends ResultAdapter{
 }
     CoGrOO.gramaticalFlag=0;
     TableGramatical.FrameGramatical.setEnabled(false);
-    System.out.println("eu5");
     TableGramatical.FrameGramatical.dispose();
     xCursor.gotoEnd(false);
     SpeechOO.dic.setEnabled(true);
     SpeechOO.gram.setEnabled(false);
     SpeechOO.label.setText("Modo Ditado Ativado");
+}
+if(TableNames.FrameNames.isVisible()==true){
+        number = comp.compare(Recognized);
+          if(number!= 1 && number!= 2 && number!=3 && number!=4 && number!=5){
+            SpeechOO.label.setText("Fale Novamente");
+            return;
+          }
+        Recognized = TableNames.TableNames.getValueAt(number-1, 1).toString();
+        InputEditor.changeFontName(xCursor, Recognized);
+        TableNames.FrameNames.setEnabled(false);
+        TableNames.FrameNames.dispose();
+        SpeechOO.dic.setEnabled(true);
+        SpeechOO.gram.setEnabled(false);
+        SpeechOO.label.setText("Modo Ditado Ativado");
+}
+if(TableGramatical.FrameGramatical.isVisible()==true){
+        number = comp.compare(Recognized);
+          if(number!= 1 && number!= 2 && number!=3 && number!=4 && number!=5){
+            SpeechOO.label.setText("Fale Novamente");
+            return;
+          }
+        Recognized = "";
+        Recognized = TableGramatical.TableGramatical.getValueAt(number-1, 1).toString();
+        xCursor.gotoRange(InputSentence.xRange, true);
+        xText.insertString(xCursor, Recognized, true);
+        xCursor.gotoEnd(false);
+        TableGramatical.FrameGramatical.setEnabled(false);
+        TableGramatical.FrameGramatical.dispose();
+        SpeechOO.dic.setEnabled(true);
+        SpeechOO.gram.setEnabled(false);
+        SpeechOO.label.setText("Modo Ditado Ativado");
 }
         if(Recognized.equals("voltar parágrafo")== true || Recognized.equals("selecionar parágrafo") == true || Recognized.equals("avançar parágrafo") == true){
         RecognizedAux = Recognized.substring((Recognized.length()-9), Recognized.length());
@@ -201,7 +231,25 @@ public class CommandsListener extends ResultAdapter{
            xCursor.gotoRange(xCursor.getEnd(), false);
         }
         if(Recognized.equals("mudar fonte")==true){
-            a.Names();
+           a.Names();
+        }
+        if(Recognized.equals("corrigir")==true){
+       TableGramatical.modelGramatical.setRowCount(5);
+       TableGramatical.modelGramatical.setColumnCount(2);
+       TableGramatical.TableGramatical.setValueAt(1, 0, 0);
+       TableGramatical.TableGramatical.setValueAt(FreeDictationListener.tokensA[0][0], 0, 1);
+        for(int aux = 1; aux<5; aux++){
+           TableGramatical.TableGramatical.setValueAt(aux+1, aux, 0);
+        }
+        for(int aux = 0; aux<5; aux++){
+           AuxResults = "";
+           for(int aux2=0; aux2<FreeDictationListener.tokensA[aux].length; aux2++){
+           System.out.println("foi");
+           AuxResults = AuxResults.concat(FreeDictationListener.tokensA[aux][aux2].getSpokenText()+ " ");
+           }
+           TableGramatical.TableGramatical.setValueAt(AuxResults, aux, 1);
+        }
+        d.Gramatical();
         }
         if(Recognized.equals("vírgula")==true){
            xText.insertString(xCursor, ",", true);
@@ -269,17 +317,6 @@ public class CommandsListener extends ResultAdapter{
             }
         
         }
-if(Recognized.equals("um")==true || Recognized.equals("dois")==true ||
-   Recognized.equals("três")==true || Recognized.equals("quatro")==true ||
-   Recognized.equals("cinco")==true){
-    if(TableNames.FrameNames.isVisible()==true){
-        number = comp.compare(Recognized);
-        Recognized = TableNames.TableNames.getValueAt(number-1, 1).toString();
-        InputEditor.changeFontName(xCursor, Recognized);
-        TableNames.FrameNames.setEnabled(false);
-        TableNames.FrameNames.dispose();
-    }
-    }
     if(Recognized.equals("cor azul")){
             InputEditor.changeFontColor(xCursor, 0x0000FF);
     }
