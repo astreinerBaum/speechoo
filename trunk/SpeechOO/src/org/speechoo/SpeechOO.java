@@ -65,6 +65,7 @@ import org.speechoo.gui.TrainingDialog;
 
 import org.speechoo.recognized.CommandsListener;
 import org.speechoo.recognized.FreeDictationListener;
+import org.speechoo.util.CoGrOO;
 import org.speechoo.util.KeyEvent;
 import org.speechoo.util.SpeechPropertiesCreator;
 //import br.ufpa.laps.jlapsapi.recognizer.Recognizer;
@@ -178,7 +179,7 @@ public final class SpeechOO extends WeakBase
             gram.addResultListener(new CommandsListener());
             gram.setEnabled(false);
             button.begin();
-            //CoGrOO.main("As Luta são ruim", 4);
+         //    CoGrOO.main("o acidente não eleito às cinco da f um", 9);
 
 
         } catch (IllegalArgumentException ex) {
@@ -238,14 +239,13 @@ public final class SpeechOO extends WeakBase
                                 Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
                             }
                             isResumed = true;
-                            this.isActive = true;
+                            this.isInitialized=true;
                         } else {
                             rec.pause();
                             System.out.println("Paused");
                             label.setText("Pausado");
                             frame.setVisible(true);
                             isResumed = false;
-                            this.isActive = false;
                         }
                     }
                 }

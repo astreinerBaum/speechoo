@@ -18,7 +18,7 @@ public class CoGrOO {
     public static String wrong;
 public static void main(String entrada, int tokensLength) {
 
-String pathToResources = System.getProperty("user.home")+"/target/cogroo";
+String pathToResources = System.getProperty("user.home")+"/coruja_jlapsapi/target/cogroo";
 RuntimeConfigurationI config = new LegacyRuntimeConfiguration(pathToResources);
 // cria instância do corretor gramatical
 TableGramatical c = new TableGramatical();
@@ -35,7 +35,7 @@ Cogroo theCogroo = new Cogroo(config);
        TableGramatical.cellSeparator = erro.getSuggestions().length;
        System.out.println("eu");
        TableGramatical.modelGramatical.setRowCount(TableGramatical.cellSeparator+1);
-       TableGramatical.modelGramatical.setColumnCount(TableGramatical.cellSeparator);
+       TableGramatical.modelGramatical.setColumnCount(2);
        //System.out.println("Erro " + contador++ + " -");
       // System.out.println("   Regra          '" + erro.getRuleIdentifier() + "'");
        //System.out.println("   Mensagem curta '" + erro.getShortMessage() + "'");
@@ -44,6 +44,7 @@ Cogroo theCogroo = new Cogroo(config);
       // System.out.print(  "   Sugestões " );
       // System.out.println("vai2");
      System.out.println(erro.getSuggestions().length);
+    // System.out.println("eu2");
      TableGramatical.TableGramatical.setValueAt(0, 0, 0);
      TableGramatical.TableGramatical.setValueAt(entrada.substring(erro.getStart(), erro.getEnd()), 0, 1);
      c.Gramatical();
@@ -53,6 +54,7 @@ Cogroo theCogroo = new Cogroo(config);
      for(aux=0; aux<erro.getSuggestions().length; aux++){
      TableGramatical.TableGramatical.setValueAt(erro.getSuggestions()[aux], aux+1, 1);
      }
+     System.out.println(erro.getSuggestions().length);
      wrong = entrada.substring(erro.getStart(), erro.getEnd());
      length = tokensLength;
      SpeechOO.dic.setEnabled(false);
