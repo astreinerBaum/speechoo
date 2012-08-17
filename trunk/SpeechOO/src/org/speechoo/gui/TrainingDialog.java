@@ -21,7 +21,10 @@ import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.uno.Exception;
 import com.sun.star.uno.UnoRuntime;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.speechoo.SpeechOO;
@@ -45,16 +48,18 @@ public class TrainingDialog extends Thread {
     private Capture capture = new Capture();
     private String recordsPath = System.getProperty("user.home")
             + File.separator + "coruja_jlapsapi" + File.separator + "records" + File.separator;
+    private String adaptacaoPath = System.getProperty("user.home")
+            + File.separator + "coruja_jlapsapi" + File.separator + "adaptacao" + File.separator;
     private File wav;
     private Dialog speakerAdaptationWindow;
     private static AdaptationProgress adaptationProgress;
     protected boolean closeWindow = false;
+    //private BufferedWriter wavMfcAdaptList, labAdaptList;
 
     public TrainingDialog() {
         XPackageInformationProvider xPackageInformationProvider =
                 PackageInformationProvider.get(SpeechOO.m_xContext);
-        String oxtLocation = xPackageInformationProvider.
-                getPackageLocation(SpeechOO.extensionIdentifier).substring(7);//retira file:/
+        String oxtLocation = xPackageInformationProvider.getPackageLocation(SpeechOO.extensionIdentifier).substring(7);//retira file:/
 
         File trainingTexts = new File(oxtLocation + "/dialogs/trainingtexts.xml");
         ReadFromXMLFile rfxf = new ReadFromXMLFile(trainingTexts);
@@ -67,9 +72,13 @@ public class TrainingDialog extends Thread {
                     + " muito baixas.\n"
                     + "2 - Evite capturar ruídos durante a gravação.\n"
                     + "3 - Ao concluir a gravação, o processo demorará até 10 minutos.");
+            //wavMfcAdaptList = new BufferedWriter(new FileWriter(adaptacaoPath + "wav_mfc_adapt.list"));
+            //labAdaptList = new BufferedWriter(new FileWriter(adaptacaoPath + "lab_adapt.list"));
         } catch (Exception ex) {
             Logger.getLogger(TrainingDialog.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }/* catch (IOException ex) {
+        Logger.getLogger(TrainingDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
 
     }
 
@@ -209,12 +218,17 @@ public class TrainingDialog extends Thread {
                         xNextButtonPropertySet.setPropertyValue("Enabled", false);
                         System.out.println("gravando: " + recordsPath + "train" + (train + 1) + ".wav");
                         wav = new File(recordsPath + "train" + (train + 1) + ".wav");
-                        //ca.startRecording(wav);
-                        capture.start(wav);
-
+                        wav.delete();
+                        capture.start(wav);/*
+                        labAdaptList.write(recordsPath + "train" + (train + 1) + ".lab");
+                        labAdaptList.close();
+                        wavMfcAdaptList.write(recordsPath + "train" + (train + 1) + ".wav");
+                        wavMfcAdaptList.close();*/
                     } catch (Exception ex) {
                         Logger.getLogger(TrainingDialog.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    } /*catch (IOException ex) {
+                    Logger.getLogger(TrainingDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    }*/
 
                     throw new UnsupportedOperationException("Not supported yet.");
                 }
@@ -278,6 +292,32 @@ public class TrainingDialog extends Thread {
                             xFixedText.setText("Treino " + (++train + 1) + "/" + texts.length);
                             xTextComponent.setText(texts[train]);
                         } else if (train == (texts.length - 1)) {
+                            try {
+                                File eraser = new File(adaptacaoPath + "wav_mfc_adapt.list");
+                                eraser.delete();
+                                eraser = new File(adaptacaoPath + "lab_adapt.list");
+                                eraser.delete();
+                                BufferedWriter wavMfcAdaptList, labAdaptList;
+                                wavMfcAdaptList = new BufferedWriter(new FileWriter(adaptacaoPath + "wav_mfc_adapt.list"));
+                                labAdaptList = new BufferedWriter(new FileWriter(adaptacaoPath + "lab_adapt.list"));
+                                for (int i = 1; i <= texts.length; i++) {
+                                    wav = new File(recordsPath + "train" + i + ".wav");
+                                    if (wav.exists()) {
+                                        System.out.println("gravando: " + recordsPath + "train" + i + ".wav");
+                                        labAdaptList.write(recordsPath + "train" + i + ".lab");                                      
+                                        wavMfcAdaptList.write(recordsPath + "train" + i + ".wav");
+                                        //Cant record an new empty line
+                                        if(i!=(texts.length)) {
+                                            labAdaptList.newLine();
+                                            wavMfcAdaptList.newLine();
+                                        }
+                                    }
+                                }
+                                labAdaptList.close();
+                                wavMfcAdaptList.close();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
                             xRecordButtonPropertySet.setPropertyValue("Enabled", false);
                             xNextButtonPropertySet.setPropertyValue("Label", "Adaptar");
                             xNextButtonPropertySet.setPropertyValue("PushButtonType", (short) PushButtonType.OK_value);
@@ -290,7 +330,7 @@ public class TrainingDialog extends Thread {
                                 thread.start();
                                 xRecordButtonPropertySet.setPropertyValue("Enabled", false);
                                 xNextButtonPropertySet.setPropertyValue("Enabled", false);
-                                xNextButtonPropertySet.setPropertyValue("Label", "Concluir");                              
+                                xNextButtonPropertySet.setPropertyValue("Label", "Concluir");
                             } else {
                                 System.out.println("Deve fechar");
                             }

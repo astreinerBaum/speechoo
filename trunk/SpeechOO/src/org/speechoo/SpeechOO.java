@@ -32,8 +32,6 @@ package org.speechoo;
 
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.comp.helper.BootstrapException;
-import com.sun.star.deployment.PackageInformationProvider;
-import com.sun.star.deployment.XPackageInformationProvider;
 import com.sun.star.frame.FeatureStateEvent;
 import com.sun.star.frame.TerminationVetoException;
 import com.sun.star.frame.XDispatch;
@@ -47,7 +45,6 @@ import com.sun.star.lang.XSingleComponentFactory;
 import com.sun.star.registry.XRegistryKey;
 import com.sun.star.lib.uno.helper.WeakBase;
 import java.awt.Font;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -70,7 +67,6 @@ import org.speechoo.recognized.CommandsListener;
 import org.speechoo.recognized.FreeDictationListener;
 import org.speechoo.util.KeyEvent;
 import org.speechoo.util.SpeechPropertiesCreator;
-import ufpa.asr.frontend.Adaptador;
 //import br.ufpa.laps.jlapsapi.recognizer.Recognizer;
 
 /**
@@ -249,6 +245,7 @@ public final class SpeechOO extends WeakBase
                             label.setText("Pausado");
                             frame.setVisible(true);
                             isResumed = false;
+                            this.isActive = false;
                         }
                     }
                 }

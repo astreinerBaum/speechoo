@@ -18,7 +18,7 @@ import javax.sound.sampled.TargetDataLine;
 
 /**
  *
- * @author 10080000701
+ * @author Hugo Santos
  */
 public class Capture implements Runnable {
 
@@ -137,7 +137,7 @@ public class Capture implements Runnable {
 
         try {
             audioInputStream.reset();
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
             return;
         }
@@ -147,14 +147,13 @@ public class Capture implements Runnable {
         if (file != null && file.isFile()) {
             try {
                 this.file = file;
+                System.out.println("Capture File: " + this.file.getAbsolutePath());
                 audioInputStream = AudioSystem.getAudioInputStream(file);
                 long milliseconds = (long) ((audioInputStream.getFrameLength() * 1000) / audioInputStream.getFormat().getFrameRate());
                 duration = milliseconds / 1000.0;
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-        } else {
-            System.out.println("Audio file required.");
         }
     }
 
