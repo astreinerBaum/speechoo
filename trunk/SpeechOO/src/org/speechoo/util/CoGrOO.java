@@ -33,7 +33,6 @@ Cogroo theCogroo = new Cogroo(config);
    // imprime detalhes de cada erro
    for (Mistake erro : erros) {
        TableGramatical.cellSeparator = erro.getSuggestions().length;
-       System.out.println("eu");
        TableGramatical.modelGramatical.setRowCount(TableGramatical.cellSeparator+1);
        TableGramatical.modelGramatical.setColumnCount(2);
        //System.out.println("Erro " + contador++ + " -");
@@ -43,7 +42,7 @@ Cogroo theCogroo = new Cogroo(config);
       // System.out.println("   Texto com erro '" + entrada.substring(erro.getStart(), erro.getEnd()) + "'");
       // System.out.print(  "   Sugestões " );
       // System.out.println("vai2");
-     System.out.println(erro.getSuggestions().length);
+     System.out.println("Sugestões para o erro:"+erro.getSuggestions().length);
     // System.out.println("eu2");
      TableGramatical.TableGramatical.setValueAt(0, 0, 0);
      TableGramatical.TableGramatical.setValueAt(entrada.substring(erro.getStart(), erro.getEnd()), 0, 1);

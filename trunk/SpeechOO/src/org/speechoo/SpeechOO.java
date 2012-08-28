@@ -66,6 +66,7 @@ import org.speechoo.gui.TrainingDialog;
 import org.speechoo.recognized.CommandsListener;
 import org.speechoo.recognized.FreeDictationListener;
 import org.speechoo.util.CoGrOO;
+import org.speechoo.util.Dispatch;
 import org.speechoo.util.KeyEvent;
 import org.speechoo.util.SpeechPropertiesCreator;
 //import br.ufpa.laps.jlapsapi.recognizer.Recognizer;
@@ -96,7 +97,7 @@ public final class SpeechOO extends WeakBase
     public static JFrame frame = new JFrame();
     public static JLabel label = new JLabel();
     public static Recognizer rec;
-    public static RuleGrammar gram;
+    public static RuleGrammar gram, gram2;
     public static DictationGrammar dic;
     private KeyEvent button;
     private SwingConstants Format;
@@ -147,7 +148,7 @@ public final class SpeechOO extends WeakBase
     }
 
     @SuppressWarnings("static-access")
-    private void initialize() throws Exception, BootstrapException {
+    private void initialize() throws Exception, BootstrapException{
         System.out.println("SpeechOO initialize");
 
   
@@ -167,9 +168,11 @@ public final class SpeechOO extends WeakBase
             System.out.println("allocate");
             label.setText("Alocando");
             FileReader reader = new FileReader(System.getProperty("user.home") + "/coruja_jlapsapi/commands.grammar");
+            //FileReader reader2 = new FileReader(System.getProperty("user.home") + "/coruja_jlapsapi/numbers.grammar");
 
             System.out.println("load gram");
             gram = rec.loadJSGF(reader);
+            //gram2 = rec.loadJSGF(reader2);
 
             System.out.println("load dic");
             dic = rec.getDictationGrammar("dicSr");
@@ -177,9 +180,17 @@ public final class SpeechOO extends WeakBase
             System.out.println("listeners");
             dic.addResultListener(new FreeDictationListener());
             gram.addResultListener(new CommandsListener());
+            //gram2.addResultListener(new CommandsListener());
             gram.setEnabled(false);
+            //gram2.setEnabled(false);
+            
             button.begin();
-         //    CoGrOO.main("o acidente não eleito às cinco da f um", 9);
+            try {
+                Dispatch.dispatchCommand(".uno:Save");
+                //    CoGrOO.main("o acidente não eleito às cinco da f um", 9);
+            } catch (java.lang.Exception ex) {
+                Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
 
         } catch (IllegalArgumentException ex) {
