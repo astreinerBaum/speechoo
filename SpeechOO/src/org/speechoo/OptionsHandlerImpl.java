@@ -1,6 +1,5 @@
 package org.speechoo;
 
-import com.sun.star.awt.XCheckBox;
 import com.sun.star.awt.XControl;
 import com.sun.star.awt.XControlContainer;
 import com.sun.star.beans.PropertyState;
