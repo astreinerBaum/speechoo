@@ -263,7 +263,7 @@ public final class SpeechOO extends WeakBase
             } else if(aURL.Path.compareTo("speakerAdaptation") == 0) {
                 TrainingDialog td = new TrainingDialog();
 
-                td.train();
+                //td.train();
 
             }
         }
