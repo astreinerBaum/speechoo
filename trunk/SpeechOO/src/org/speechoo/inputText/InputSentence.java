@@ -12,7 +12,6 @@ import com.sun.star.frame.XController;
 import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XSentenceCursor;
 import com.sun.star.text.XText;
-import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextViewCursor;

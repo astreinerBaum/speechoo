@@ -183,14 +183,8 @@ public final class SpeechOO extends WeakBase
             //gram2.addResultListener(new CommandsListener());
             gram.setEnabled(false);
             //gram2.setEnabled(false);
-            
             button.begin();
-            try {
-                Dispatch.dispatchCommand(".uno:Save");
-                //    CoGrOO.main("o acidente não eleito às cinco da f um", 9);
-            } catch (java.lang.Exception ex) {
-                Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        
 
 
         } catch (IllegalArgumentException ex) {
