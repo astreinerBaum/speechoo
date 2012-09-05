@@ -151,19 +151,15 @@ if(TableGramatical.FrameGramatical.isVisible()==true){
         SpeechOO.gram.setEnabled(false);
         SpeechOO.label.setText("Modo Ditado Ativado");
 }
-        if(Recognized.equals("voltar parágrafo")== true || Recognized.equals("selecionar parágrafo") == true || Recognized.equals("avançar parágrafo") == true){
-        RecognizedAux = Recognized.substring((Recognized.length()-9), Recognized.length());
-        if(RecognizedAux.equals("parágrafo")==true){
-            RecognizedAux = Recognized.substring(0,(Recognized.length()-10));
-            if(RecognizedAux.equals("voltar")==true){
-            xPC.gotoPreviousParagraph(false);
-            xCursor.gotoRange(xModelCursor.getStart(), false);
-            }
-            if(RecognizedAux.equals("avançar")==true){
-            xPC.gotoNextParagraph(false);
-            xCursor.gotoRange(xModelCursor.getStart(), false);
-            }
-            if(RecognizedAux.equals("selecionar")==true){
+        if(RecognizedAux.equals("voltar parágrafo")==true){
+        xPC.gotoPreviousParagraph(false);
+        xCursor.gotoRange(xModelCursor.getStart(), false);
+        }
+        if(RecognizedAux.equals("avançar parágrafo")==true){
+        xPC.gotoNextParagraph(false);
+        xCursor.gotoRange(xModelCursor.getStart(), false);
+        }
+        if(RecognizedAux.equals("selecionar parágrafo")==true){
                if(xPC.isStartOfParagraph()){
                xPC.gotoEndOfParagraph(false);
                xCursor.gotoRange(xModelCursor.getStart(), true);
@@ -174,11 +170,11 @@ if(TableGramatical.FrameGramatical.isVisible()==true){
                    xPC.gotoEndOfParagraph(false);
                    xCursor.gotoRange(xModelCursor.getStart(), true);
                }
-               }
         }
-        }
-   if(Recognized.length()<6){
-   }
+        
+
+if(Recognized.length()<6){
+}
        else {
            RecognizedAux = Recognized.substring(0, 5);
        }
@@ -244,7 +240,6 @@ if(TableGramatical.FrameGramatical.isVisible()==true){
         for(int aux = 0; aux<5; aux++){
            AuxResults = "";
            for(int aux2=0; aux2<FreeDictationListener.tokensA[aux].length; aux2++){
-           System.out.println("foi");
            AuxResults = AuxResults.concat(FreeDictationListener.tokensA[aux][aux2].getSpokenText()+ " ");
            }
            TableGramatical.TableGramatical.setValueAt(AuxResults, aux, 1);

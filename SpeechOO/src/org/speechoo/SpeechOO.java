@@ -33,8 +33,11 @@ package org.speechoo;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.frame.FeatureStateEvent;
+import com.sun.star.frame.FrameActionEvent;
 import com.sun.star.frame.TerminationVetoException;
 import com.sun.star.frame.XDispatch;
+import com.sun.star.frame.XFrame;
+import com.sun.star.frame.XFrameActionListener;
 import com.sun.star.frame.XTerminateListener;
 import com.sun.star.lang.EventObject;
 import com.sun.star.uno.Exception;
@@ -66,7 +69,6 @@ import org.speechoo.gui.TrainingDialog;
 import org.speechoo.recognized.CommandsListener;
 import org.speechoo.recognized.FreeDictationListener;
 import org.speechoo.util.CoGrOO;
-import org.speechoo.util.Dispatch;
 import org.speechoo.util.KeyEvent;
 import org.speechoo.util.SpeechPropertiesCreator;
 //import br.ufpa.laps.jlapsapi.recognizer.Recognizer;
@@ -115,7 +117,6 @@ public final class SpeechOO extends WeakBase
 	label.setHorizontalAlignment(Format.CENTER); 
         label.setSize(20, 10); 
         frame.add(label); 
-
         }
         
     //
@@ -159,7 +160,6 @@ public final class SpeechOO extends WeakBase
         RecognizerModeDesc rmd = (RecognizerModeDesc) Central.availableRecognizers(null).firstElement();
         System.out.println("RecognizerModeDesc");
         try {
-            
             rec = (Recognizer) Central.createRecognizer(rmd);
             System.out.println("createRecognizer");
             label.setText("Criando Reconhecedor");
@@ -184,8 +184,11 @@ public final class SpeechOO extends WeakBase
             gram.setEnabled(false);
             //gram2.setEnabled(false);
             button.begin();
-        
-
+           // try {
+         //       Dispatch.dispatchCommand(".uno:Save");
+        //    } catch (java.lang.Exception ex) {
+        //        Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
+        //    }
 
         } catch (IllegalArgumentException ex) {
             ex.printStackTrace();

@@ -12,6 +12,9 @@ package org.speechoo.util;
 public class Numbers {
     public static int compare(String s){
         int a;
+        if(s.equals("zero")==true){
+            return a=0;
+        }
         if(s.equals("um")==true){
             return a=1;
         }
