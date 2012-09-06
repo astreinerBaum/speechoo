@@ -2,7 +2,7 @@
 
 ==Passo 1==
 
-Baixe os arquivos para reconhecimento neste link: [http://www.laps.ufpa.br/falabrasil/files/coruja1.5_for_speechoo-x86.tar.gz]
+Baixe os arquivos para reconhecimento neste link: [http://www.laps.ufpa.br/falabrasil/files/coruja1.5_for_speechoo.tar.gz]
 
 <wiki:comment>
 Crie a pasta "opt" na raiz(mesmo diretório onde estão pastas como "usr", "cdrom", "home", etc) do sistema. Em seguida, dentro da pasta "opt", crie a pasta "coruja".
