@@ -16,6 +16,6 @@ Clique duas vezes sobre o arquivo SpeechOO-0.2.1.oxt, instale de acordo com as i
 
 ==Executando o SpeechOO pela linha de comando==
 
-Para executar o SpeechOO pela linha de comando, é necessário digitar no terminal o seguinte comando "libreoffice3.6 (podendo variar em 3.5, 3.4, dependendo da versão instalada no seu sistema) --writer" e quando aparecer a tela do writer apenas clique no microfone no topo da tela como foi descrito no passo 2.
+Para executar o SpeechOO pela linha de comando, é necessário digitar no terminal o seguinte comando "libreoffice3.6 --writer" (podendo variar em 3.5, 3.4, dependendo da versão instalada no seu sistema) e quando aparecer a tela do writer apenas clique no microfone no topo da tela como foi descrito no passo 2.
 
 OBS: Caso não funcione em seu sistema mande-nos um email para o grupo coruja-users@googlegroups.com, se possível execute o SpeechOO pela linha de comando e nos mande um print com a linha de comando em conjunto com o JuliusLog que pode ser encontrado no diretório /tmp.
