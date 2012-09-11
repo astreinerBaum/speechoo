@@ -16,4 +16,4 @@ Extraia o arquivo *coruja1.5_for_speechoo-x86.tar.gz* que você baixou para a su
 
 ==Passo 2==
 
-Clique duas vezes sobre o arquivo SpeechOO-0.0.4.oxt, instale de acordo com as instruções que aparecerem na tela. Em seguida, reinicie o libreoffice e ele estará pronto para o uso clicando no microfone no topo da tela.
+Após baixar o arquivo SpeechOO-0.0.4.oxt nesta mesma página na aba Downloads, clique duas vezes sobre o arquivo para instalá-lo, espere o plugin ser adicionado para então fechar a janela. Em seguida, reinicie o libreoffice e ele estará pronto para o uso clicando no microfone no topo da tela.
