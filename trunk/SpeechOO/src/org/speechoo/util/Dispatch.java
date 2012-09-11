@@ -1,7 +1,7 @@
 package org.speechoo.util;
 
 // used interfaces
-import com.sun.star.frame.FrameActionEvent;
+import com.sun.star.frame.DispatchResultEvent;
 import com.sun.star.frame.XDesktop;
 import com.sun.star.lang.EventObject;
 import com.sun.star.lang.XMultiComponentFactory;
@@ -9,6 +9,7 @@ import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 import org.speechoo.SpeechOO;
 import com.sun.star.frame.XDispatchProvider;
+import com.sun.star.frame.XDispatchResultListener;
 import com.sun.star.frame.XFrameActionListener;
 import com.sun.star.util.XURLTransformer;
 
@@ -41,10 +42,23 @@ public class Dispatch {
         aURL[0].Complete = command;
         xTransformer.parseSmart(aURL, ".uno");
         xDispatch = xDispatchProvider.queryDispatch(aURL[0], "", 0);
+        com.sun.star.frame.XNotifyingDispatch xNotifyingDispatcher =  
+    (com.sun.star.frame.XNotifyingDispatch)UnoRuntime.queryInterface ( 
+      com.sun.star.frame.XNotifyingDispatch.class , xDispatch);
         if (xDispatch != null) {
-            xDispatch.dispatch(aURL[0], lParams);
+            xNotifyingDispatcher.dispatchWithNotification(aURL[0], lParams, new XDispatchResultListener() {
+
+                public void dispatchFinished(DispatchResultEvent arg0) {
+                    System.out.println(arg0);
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
+
+                public void disposing(EventObject eo) {
+                    throw new UnsupportedOperationException("Not supported yet.");
+                }
+            });
         }
-     SpeechOO.m_xFrame.setComponent(null, null);
+    // SpeechOO.m_xFrame.setComponent(null, null);
     }
 }
     
