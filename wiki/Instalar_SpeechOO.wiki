@@ -2,6 +2,7 @@
 
 ==Passo 1==
 Instale as dependências necessárias para rodar o projeto. Podem ser instaladas pelo terminal nos Ubuntus com o comando abaixo:
+
 sudo apt-get install libpulse-dev flex sox
 
 ==Passo 2==
