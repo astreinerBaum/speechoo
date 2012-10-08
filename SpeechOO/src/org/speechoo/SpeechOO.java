@@ -65,7 +65,6 @@ import org.speechoo.gui.TrainingDialog;
 
 import org.speechoo.recognized.CommandsListener;
 import org.speechoo.recognized.FreeDictationListener;
-import org.speechoo.util.Dispatch;
 import org.speechoo.util.KeyEvent;
 import org.speechoo.util.SpeechPropertiesCreator;
 //import br.ufpa.laps.jlapsapi.recognizer.Recognizer;
@@ -257,7 +256,7 @@ public final class SpeechOO extends WeakBase
             } else if(aURL.Path.compareTo("speakerAdaptation") == 0) {
                 TrainingDialog td = new TrainingDialog();
 
-                //td.train();
+                td.train();
 
             }
         }

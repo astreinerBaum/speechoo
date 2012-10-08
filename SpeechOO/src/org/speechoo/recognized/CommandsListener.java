@@ -219,8 +219,11 @@ if(Recognized.length()<6){
            xCursor.gotoRange(xCursor.getEnd(), false);
         }
         if(Recognized.equals("backspace")==true){
-           xCursor.goLeft((short) 1, true);
-           xText.insertString(xCursor, "", true);
+            try {
+                InputDevicesControl.backSpace();
+            } catch (Exception ex) {
+                Logger.getLogger(CommandsListener.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         if(Recognized.equals("ponto e vírgula")==true){
            xText.insertString(xCursor, ";", true);
@@ -230,14 +233,14 @@ if(Recognized.length()<6){
            a.Names();
         }
         if(Recognized.equals("corrigir")==true){
-       TableGramatical.modelGramatical.setRowCount(5);
+       TableGramatical.modelGramatical.setRowCount(FreeDictationListener.tokensA.length);
        TableGramatical.modelGramatical.setColumnCount(2);
        TableGramatical.TableGramatical.setValueAt(1, 0, 0);
        TableGramatical.TableGramatical.setValueAt(FreeDictationListener.tokensA[0][0], 0, 1);
-        for(int aux = 1; aux<5; aux++){
+        for(int aux = 1; aux< FreeDictationListener.tokensA.length; aux++){
            TableGramatical.TableGramatical.setValueAt(aux+1, aux, 0);
         }
-        for(int aux = 0; aux<5; aux++){
+        for(int aux = 0; aux < FreeDictationListener.tokensA.length; aux++){
            AuxResults = "";
            for(int aux2=0; aux2<FreeDictationListener.tokensA[aux].length; aux2++){
            AuxResults = AuxResults.concat(FreeDictationListener.tokensA[aux][aux2].getSpokenText()+ " ");

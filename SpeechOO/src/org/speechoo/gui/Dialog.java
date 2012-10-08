@@ -125,6 +125,22 @@ public class Dialog {
         XDialog xDialog = (XDialog) UnoRuntime.queryInterface(XDialog.class, xDialogControl);
         return xDialog.execute();
     }
+    public void close() throws Exception {
+
+        XWindow xWindow = (XWindow) UnoRuntime.queryInterface(XWindow.class, xDialogContainer);
+
+        // set the dialog invisible until it is executed
+        xWindow.setVisible(false);
+
+        Object oToolkit = xMultiComponentFactory.createInstanceWithContext("com.sun.star.awt.Toolkit", xComponentContext);
+        XWindowPeer xWindowParentPeer = ((XToolkit) UnoRuntime.queryInterface(XToolkit.class, oToolkit)).getDesktopWindow();
+        XToolkit xToolkit = (XToolkit) UnoRuntime.queryInterface(XToolkit.class, oToolkit);
+        xDialogControl.createPeer(xToolkit, xWindowParentPeer);
+
+        // the return value contains information about how the dialog has been closed
+        XDialog xDialog = (XDialog) UnoRuntime.queryInterface(XDialog.class, xDialogControl);
+        xDialog.endExecute();
+    }
 
     public void dispose() {
 

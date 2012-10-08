@@ -277,7 +277,7 @@ public class TrainingDialog extends Thread {
 
                 public void actionPerformed(ActionEvent arg0) {
                     try {
-                        xRecordButtonPropertySet.setPropertyValue("Enabled", true);
+                        xRecordButtonPropertySet.setPropertyValue("EnableVisible", false);
                         wav = new File(recordsPath + "train" + (train + 2) + ".wav");
                         if (wav.exists()) {
                             xRecordButtonPropertySet.setPropertyValue("Label", "Regravar");
@@ -285,7 +285,8 @@ public class TrainingDialog extends Thread {
                             xRecordButtonPropertySet.setPropertyValue("Label", "Gravar");
                         }
                         if (train == -1) {
-                            xBackButtonPropertySet.setPropertyValue("Enabled", true);
+                            //speakerAdaptationWindow.close();
+                            xBackButtonPropertySet.setPropertyValue("EnableVisible", false);
                             xFixedText.setText("Treino " + (++train + 1) + "/" + texts.length);
                             xTextComponent.setText(texts[train]);
                         } else if (train == (texts.length - 2)) {

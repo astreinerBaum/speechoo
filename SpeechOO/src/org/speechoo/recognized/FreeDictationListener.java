@@ -36,6 +36,12 @@ public class FreeDictationListener extends ResultAdapter{
                 returnTokens.append(' ');
             returnTokens.append(tokens[i].getSpokenText());
         }
+       /* for (int i = 0; i < tokensA.length; i++){
+				for (int j = 0; j < tokensA[i].length; j++){
+        System.out.print(tokensA[i][j].getSpokenText()+" ");
+				System.out.println();
+                                }
+        }*/
         inputSentence.insertNewSentence(returnTokens.toString(), tokens.length);
 
          
