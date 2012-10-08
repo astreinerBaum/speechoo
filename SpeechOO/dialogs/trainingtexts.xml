@@ -12,98 +12,350 @@
     <train>
         <text>
             <pt>
-        Um dos riscos de escrever máximas é que nos colocamos na condição de sermos citados.
+                Um dos riscos de escrever máximas é que nos colocamos na condição de sermos citados.
             </pt>
         </text>
     </train>
     <train>
         <text>
             <pt>
-        Toda escrita, querendo ou nãom é política. A escrita é a continuação da política por outros meios.
+                Toda escrita, querendo ou não é política. A escrita é a continuação da política por outros meios.
             </pt>
         </text>
     </train>
     <train>
         <text>
             <pt>
-        Feliz aquele que transfere o que sabe e aprende o que ensina.
+                Feliz aquele que transfere o que sabe e aprende o que ensina.
             </pt>
         </text>
     </train>
     <train>
         <text>
             <pt>
-        Nossa vida é como uma comédia: ninguém repara se foi longa, e sim se foi bem representada.
+                Nossa vida é como uma comédia: ninguém repara se foi longa, e sim se foi bem representada.
             </pt>
         </text>
     </train>
     <train>
         <text>
             <pt>
-        A vida é feita de três quartos de comédia e um de tragédia. Por isso, um cômico está em maior contato com a realidade.
+                A vida é feita de três quartos de comédia e um de tragédia. Por isso, um cômico está em maior contato com a realidade.
             </pt>
         </text>
     </train>
     <train>
         <text>
             <pt>
-        Viver por nada ou morrer por alguma coisa.
+                Viver por nada ou morrer por alguma coisa.
             </pt>
         </text>
     </train>
     <train>
         <text>
             <pt>
-        Se o corpo chamasse a alma perante a justiça, ela a convenceria facilmente de má administração.
+                Se o corpo chamasse a alma perante a justiça, ela a convenceria facilmente de má administração.
             </pt>
         </text>
     </train>
     <train>
         <text>
             <pt>
-        O heroísmo pode salvar um povo em circunstâncias difíceis; mas é apenas a acumulação diária de pequenas virtudes que determina a sua grandeza.
+                O heroísmo pode salvar um povo em circunstâncias difíceis; mas é apenas a acumulação diária de pequenas virtudes que determina a sua grandeza.
             </pt>
         </text>
     </train>
     <train>
         <text>
             <pt>
-        Quem pensa segundo a opinião dos outros, está muito longe de ser um homem livre.
+                Quem pensa segundo a opinião dos outros, está muito longe de ser um homem livre.
             </pt>
         </text>
     </train>
     <train>
         <text>
             <pt>
-        Um bom general deve não apenas conhecer o modo de vencer, mas também saber quando a vitória é impossível.
+                Um bom general deve não apenas conhecer o modo de vencer, mas também saber quando a vitória é impossível.
             </pt>
         </text>
     </train>
     <train>
         <text>
             <pt>
-        Num filme o que importa não é a realidade, mas o que dela possa extrair a imaginação.
+                Num filme o que importa não é a realidade, mas o que dela possa extrair a imaginação.
             </pt>
         </text>
     </train>
     <train>
         <text>
             <pt>
-        Uma mentira pode dar a volta ao mundo, enquanto a verdade ainda calça seus sapatos.
+                Uma mentira pode dar a volta ao mundo, enquanto a verdade ainda calça seus sapatos.
             </pt>
         </text>
     </train>
     <train>
         <text>
             <pt>
-        Os verdadeiros analfabetos são aqueles que aprendem a ler e não lêem.
+                Os verdadeiros analfabetos são aqueles que aprendem a ler e não lêem.
             </pt>
         </text>
     </train>
     <train>
         <text>
             <pt>
-        Sempre faço o que não consigo fazer para aprender o que não sei.
+                Sempre faço o que não consigo fazer para aprender o que não sei.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                Sucesso parece ser em grande parte uma questão de continuar depois que outros desistiram.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                A maioria das pessoas teria sucesso em coisas pequenas, se eles não estivessem preocupados com grandes ambições.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                Os homens alcançam sucesso quando eles percebem que seus fracassos são uma preparação para suas vitórias.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                Motivo de arrependimento é não aprender com os próprios erros.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                É melhor arrepender-se por ter feito alguma coisa do que por não ter feito nada.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                Passamos muitas vezes do amor à ambição, mas nunca regressamos da ambição ao amor.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                A pobreza carece de muitas coisas - a ambição carece de todas.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                Apenas adie até amanhã aquilo que você quiser morrer e deixar sem fazer.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                Os grandes navegadores devem sua reputação aos temporais e tempestades.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                O mal de quase todos nós é que preferimos ser arruinados pelo elogio a ser salvos pela crítica.
+            </pt>
+        </text>
+    </train>
+        <train>
+        <text>
+            <pt>
+                Não possuir algumas das coisas que desejamos é parte indispensável da felicidade.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                No meio de qualquer dificuldade encontra-se a oportunidade.
+            </pt>
+        </text>
+    </train>
+        <train>
+        <text>
+            <pt>
+                Quanto maior a dificuldade, tanto maior o mérito em superá-la.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                Acreditar que tudo corria calmamente no passado é uma atitude arrogante de todas as épocas.
+            </pt>
+        </text>
+    </train>
+        <train>
+        <text>
+            <pt>
+                Todo grande progresso da ciência resultou de uma nova audácia da imaginação.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                Os conceitos e princípios fundamentais da ciência são invenções livres do espírito humano.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                Aquele que fundamenta seu argumento no escândalo e na briga mostra que sua razão é fraca.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                O silêncio é um dos argumentos mais difíceis de se rebater.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                Todos os profetas armados venceram, e os desarmados foram destruídos.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                Nunca seja arrogante com os humildes. Nunca seja humilde com os arrogantes.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                A arte de um povo é um reflexo autêntico de sua mentalidade.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                Toda criança é artista. O problema é como permanecer artista depois de crescer.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                Prudência é uma atitude que mantém a vida segura, mas com freqüência não a faz feliz.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                A moral é apenas a atitude que tomamos para com aqueles de quem não gostamos.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                Bom crítico é aquele que narra as aventuras de sua alma entre obras-primas.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                O falso é tão vizinho do verdadeiro, que o sábio não deve aventurar-se num desfiladeiro tão perigoso.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                Todos os programadores são dramaturgos e todos os computadores são péssimos atores.	
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                As melhores estratégias são escritas no pretérito.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                O tempo é o único capital de quem só possui a fortuna de sua inteligência.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                Toda vez que você se encontrar do lado da maioria, é hora de parar e refletir.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                Qualquer tecnologia suficientemente avançada parece ser mágica.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                Atividade frenética não é substituta para a assimilação.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                É bastante difícil lembrar minhas opiniões, sem lembrar também minhas razões por elas!
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                Se você não aprende a rir das dificuldades, você não terá nada para rir quando estiver velho.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                O tirano morre e o seu reinado termina, o martir morre e o seu reinado começa.
+            </pt>
+        </text>
+    </train>
+    <train>
+        <text>
+            <pt>
+                Que ninguém se engane, só se consegue a simplicidade através de muito trabalho.
             </pt>
         </text>
     </train>
