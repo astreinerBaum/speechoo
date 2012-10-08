@@ -17,11 +17,11 @@ public class InputDevicesControl {
 protected static KeyEvent a;
 
 
-public static void rightClick() throws Exception {
+public static void backSpace() throws Exception {
         Robot robot = new Robot();
-       
-
-        }
+        robot.keyPress(KeyEvent.VK_BACK_SPACE);
+        robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+}
  public static void keyDown() throws Exception{
      Robot robot = new Robot();
      robot.keyPress(KeyEvent.VK_DOWN);
