@@ -36,6 +36,7 @@ import ufpa.asr.frontend.AdaptationProgress;
  *
  * @author Hugo Santos
  */
+
 public class TrainingDialog extends Thread {
 
     private String texts[];
@@ -46,16 +47,14 @@ public class TrainingDialog extends Thread {
     private XFixedText xFixedText;
     private XTextComponent xTextComponent;
     private Capture capture = new Capture();
-    private String recordsPath = System.getProperty("user.home")
-            + File.separator + "coruja_jlapsapi" + File.separator 
-            + "adaptacao" + File.separator + "records" + File.separator;
-    private String adaptacaoPath = System.getProperty("user.home")
-            + File.separator + "coruja_jlapsapi" + File.separator + "adaptacao" + File.separator;
+    private String userRecord = "";
+    private String recordsPath = "";
+    private String adaptacaoUserPath = "";
+    private String adaptacaoPath = "";
     private File wav;
     private Dialog speakerAdaptationWindow;
     private static AdaptationProgress adaptationProgress;
     protected boolean closeWindow = false;
-    //private BufferedWriter wavMfcAdaptList, labAdaptList;
 
     public TrainingDialog() {
         XPackageInformationProvider xPackageInformationProvider =
@@ -73,17 +72,21 @@ public class TrainingDialog extends Thread {
                     + " muito baixas.\n"
                     + "2 - Evite capturar ruídos durante a gravação.\n"
                     + "3 - Ao concluir a gravação, o processo demorará até 10 minutos.");
-            //wavMfcAdaptList = new BufferedWriter(new FileWriter(adaptacaoPath + "wav_mfc_adapt.list"));
-            //labAdaptList = new BufferedWriter(new FileWriter(adaptacaoPath + "lab_adapt.list"));
         } catch (Exception ex) {
             Logger.getLogger(TrainingDialog.class.getName()).log(Level.SEVERE, null, ex);
-        }/* catch (IOException ex) {
-        Logger.getLogger(TrainingDialog.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-
+        }
     }
 
-    public void train() {
+    public void train(final String userRecord) {
+        this.userRecord = userRecord;
+        String aux = System.getProperty("user.home") + File.separator
+                + "coruja_jlapsapi" + File.separator + "adaptacao"
+                + File.separator;
+
+        recordsPath = aux + this.userRecord + File.separator + "records" + File.separator;
+        adaptacaoUserPath = aux + this.userRecord + File.separator;
+        adaptacaoPath = aux;
+
         try {
             train = -1;
 //######### Keep buttons properties to set during runtime ######################
@@ -95,6 +98,7 @@ public class TrainingDialog extends Thread {
 //########## Keep buttons properties to set during runtime #####################
             Object buttonPropertiesRecord = buttonPropertiesRecord = speakerAdaptationWindow.insertButton(90, 160, 30, "Gravar",
                     PushButtonType.STANDARD_value, false, "recordButton");
+            
             XControl xButtonControlRecord = speakerAdaptationWindow.getxDialogContainer().getControl("recordButton");
 
 //########## Keep buttons properties to set during runtime #####################
@@ -108,17 +112,16 @@ public class TrainingDialog extends Thread {
                     PushButtonType.STANDARD_value, true, "nextButton");
 
             XControl xButtonControlNext = speakerAdaptationWindow.getxDialogContainer().getControl("nextButton");
-            
+
 //########## Keep buttons properties to set during runtime #####################
             xBackButtonPropertySet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, buttonPropertiesBack);
             xRecordButtonPropertySet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, buttonPropertiesRecord);
             xStopButtonPropertySet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, buttonPropertiesStop);
             xNextButtonPropertySet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, buttonPropertiesNext);
-            
+
 //########## Information of the adapting status ################################
 
             adaptationProgress = new AdaptationProgress() {
-
                 int numberOfFiles;
                 int currentFile = 0;
 
@@ -129,12 +132,12 @@ public class TrainingDialog extends Thread {
 
                 public void currentExtractFile() {
                     System.out.println("Analisando arquivo: " + (++currentFile) + "/" + this.numberOfFiles);
-                        xTextComponent.setText("Analisando arquivo:" + currentFile + "/" + numberOfFiles);
+                    xTextComponent.setText("Analisando arquivo:" + currentFile + "/" + numberOfFiles);
                 }
 
                 public void adapting() {
                     System.out.println("Adaptando - aguarde");
-                        xTextComponent.setText("Adaptando - aguarde");
+                    xTextComponent.setText("Adaptando - aguarde");
                 }
 
                 public void finished() {
@@ -165,7 +168,6 @@ public class TrainingDialog extends Thread {
             xbBack = (XButton) UnoRuntime.queryInterface(XButton.class, xButtonControlBack);
 
             xbBack.addActionListener(new XActionListener() {
-
                 public void actionPerformed(ActionEvent arg0) {
                     try {
                         wav = new File(recordsPath + "train" + train + ".wav");
@@ -209,7 +211,6 @@ public class TrainingDialog extends Thread {
             xbRecord = (XButton) UnoRuntime.queryInterface(XButton.class, xButtonControlRecord);
 
             xbRecord.addActionListener(new XActionListener() {
-
                 public void actionPerformed(ActionEvent arg0) {
 
                     try {
@@ -236,7 +237,6 @@ public class TrainingDialog extends Thread {
             xbStop = (XButton) UnoRuntime.queryInterface(XButton.class, xButtonControlStop);
 
             xbStop.addActionListener(new XActionListener() {
-
                 public void actionPerformed(ActionEvent arg0) {
 
                     try {
@@ -246,11 +246,10 @@ public class TrainingDialog extends Thread {
                             xBackButtonPropertySet.setPropertyValue("Enabled", true);
                         }
                         xRecordButtonPropertySet.setPropertyValue("Label", "Regravar");
-                       xStopButtonPropertySet.setPropertyValue("Enabled", false);
+                        xStopButtonPropertySet.setPropertyValue("Enabled", false);
                         xNextButtonPropertySet.setPropertyValue("Enabled", true);
                         xBackButtonPropertySet.setPropertyValue("Enabled", true);
-                        
-                        //ca.stopRecording();
+
                         capture.stop();
 
                     } catch (Exception ex) {
@@ -268,10 +267,9 @@ public class TrainingDialog extends Thread {
             xbNext = (XButton) UnoRuntime.queryInterface(XButton.class, xButtonControlNext);
 
             xbNext.addActionListener(new XActionListener() {
-
                 public void actionPerformed(ActionEvent arg0) {
                     try {
-                        xRecordButtonPropertySet.setPropertyValue("EnableVisible", false);
+                        xRecordButtonPropertySet.setPropertyValue("Enabled", true);
                         wav = new File(recordsPath + "train" + (train + 2) + ".wav");
                         if (wav.exists()) {
                             xRecordButtonPropertySet.setPropertyValue("Label", "Regravar");
@@ -279,8 +277,7 @@ public class TrainingDialog extends Thread {
                             xRecordButtonPropertySet.setPropertyValue("Label", "Gravar");
                         }
                         if (train == -1) {
-                            //speakerAdaptationWindow.close();
-                            xBackButtonPropertySet.setPropertyValue("EnableVisible", false);
+                            xBackButtonPropertySet.setPropertyValue("Enabled", true);
                             xFixedText.setText("Treino " + (++train + 1) + "/" + texts.length);
                             xTextComponent.setText(texts[train]);
                         } else if (train == (texts.length - 2)) {
@@ -288,21 +285,20 @@ public class TrainingDialog extends Thread {
                             xTextComponent.setText(texts[train]);
                         } else if (train == (texts.length - 1)) {
                             try {
-                                File eraser = new File(adaptacaoPath + "wav_mfc_adapt.list");
+                                File eraser = new File(adaptacaoUserPath + "wav_mfc_adapt.list");
                                 eraser.delete();
-                                eraser = new File(adaptacaoPath + "lab_adapt.list");
+                                eraser = new File(adaptacaoUserPath + "lab_adapt.list");
                                 eraser.delete();
                                 BufferedWriter wavMfcAdaptList, labAdaptList;
-                                wavMfcAdaptList = new BufferedWriter(new FileWriter(adaptacaoPath + "wav_mfc_adapt.list"));
-                                labAdaptList = new BufferedWriter(new FileWriter(adaptacaoPath + "lab_adapt.list"));
+                                wavMfcAdaptList = new BufferedWriter(new FileWriter(adaptacaoUserPath + "wav_mfc_adapt.list"));
+                                labAdaptList = new BufferedWriter(new FileWriter(adaptacaoUserPath + "lab_adapt.list"));
                                 for (int i = 1; i <= texts.length; i++) {
                                     wav = new File(recordsPath + "train" + i + ".wav");
                                     if (wav.exists()) {
                                         System.out.println("gravando: " + recordsPath + "train" + i + ".wav");
-                                        labAdaptList.write(recordsPath + "train" + i + ".lab");                                      
+                                        labAdaptList.write(adaptacaoPath + "labs" + File.separator + "train" + i + ".lab");
                                         wavMfcAdaptList.write(recordsPath + "train" + i + ".wav");
-                                        //Cant record an new empty line
-                                        if(i!=(texts.length)) {
+                                        if (i != (texts.length)) {
                                             labAdaptList.newLine();
                                             wavMfcAdaptList.newLine();
                                         }
@@ -322,6 +318,8 @@ public class TrainingDialog extends Thread {
                         } else if (train == texts.length) {
                             if (!closeWindow) {
                                 Thread thread = new TrainingDialog();
+                                //nome da thread setado porque o valor do userRecord não chega no run() da thread
+                                thread.setName(userRecord);
                                 thread.start();
                                 xRecordButtonPropertySet.setPropertyValue("Enabled", false);
                                 xNextButtonPropertySet.setPropertyValue("Enabled", false);
@@ -361,7 +359,8 @@ public class TrainingDialog extends Thread {
     public void run() {
         Adaptador adapter = new Adaptador(adaptationProgress);
         adapter.startAdaptation(System.getProperty("user.home")
-                + File.separator + "coruja_jlapsapi" + File.separator 
-                + "adaptacao"+ File.separator + "file.list");
+                + File.separator + "coruja_jlapsapi" + File.separator
+                + "adaptacao" + File.separator + this.getName()
+                + File.separator + "file.list", this.getName());
     }
 }
