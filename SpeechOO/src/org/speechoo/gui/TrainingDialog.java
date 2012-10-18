@@ -36,14 +36,13 @@ import ufpa.asr.frontend.AdaptationProgress;
  *
  * @author Hugo Santos
  */
-
 public class TrainingDialog extends Thread {
 
     private String texts[];
     private static int train = -1;
     private XPropertySet xBackButtonPropertySet, xRecordButtonPropertySet,
             xStopButtonPropertySet, xNextButtonPropertySet;
-    private XButton xbBack = null, xbRecord, xbStop, xbNext;
+    private XButton xbBack, xbRecord, xbStop, xbNext;
     private XFixedText xFixedText;
     private XTextComponent xTextComponent;
     private Capture capture = new Capture();
@@ -52,6 +51,7 @@ public class TrainingDialog extends Thread {
     private String adaptacaoUserPath = "";
     private String adaptacaoPath = "";
     private File wav;
+    private int wavCounter = 0;
     private Dialog speakerAdaptationWindow;
     private static AdaptationProgress adaptationProgress;
     protected boolean closeWindow = false;
@@ -66,8 +66,8 @@ public class TrainingDialog extends Thread {
         texts = rfxf.getTextsByLanguage("pt");
         try {
             speakerAdaptationWindow = new Dialog(SpeechOO.m_xContext, 500, 500,
-                    180, 250, "SpeechOO Records", "marralo");
-            speakerAdaptationWindow.insertFixedText(10, 10, 280,
+                    180, 250, "SpeechOO Records", "");
+            speakerAdaptationWindow.insertFixedText(10, 10, 48, 280,
                     "1 - Cheque o volume do microfone para que as gravações não fiquem"
                     + " muito baixas.\n"
                     + "2 - Evite capturar ruídos durante a gravação.\n"
@@ -98,7 +98,7 @@ public class TrainingDialog extends Thread {
 //########## Keep buttons properties to set during runtime #####################
             Object buttonPropertiesRecord = buttonPropertiesRecord = speakerAdaptationWindow.insertButton(90, 160, 30, "Gravar",
                     PushButtonType.STANDARD_value, false, "recordButton");
-            
+
             XControl xButtonControlRecord = speakerAdaptationWindow.getxDialogContainer().getControl("recordButton");
 
 //########## Keep buttons properties to set during runtime #####################
@@ -159,8 +159,8 @@ public class TrainingDialog extends Thread {
                 }
             };
 
-            xFixedText = speakerAdaptationWindow.insertFixedText(10, 45, 230, "");
-            xTextComponent = speakerAdaptationWindow.insertTextField(10, 60, 230, 90, "");
+            xFixedText = speakerAdaptationWindow.insertFixedText(10, 45, 12, 230, "");
+            xTextComponent = speakerAdaptationWindow.insertTextField(10, 60, 230, 90, "", true, true);
 
 //########## Control of the buttons ############################################
 
@@ -185,7 +185,7 @@ public class TrainingDialog extends Thread {
                         } else if (train == 1) {
                             xFixedText.setText("Treino " + (--train + 1) + "/" + texts.length);
                             xTextComponent.setText(texts[train]);
-                        } else if (train == (texts.length - 1)) {
+                        } else if (train == (texts.length)) {
                             xRecordButtonPropertySet.setPropertyValue("Enabled", true);
                             xNextButtonPropertySet.setPropertyValue("PushButtonType", (short) PushButtonType.STANDARD_value);
                             xNextButtonPropertySet.setPropertyValue("Label", "Próximo");
@@ -283,6 +283,12 @@ public class TrainingDialog extends Thread {
                         } else if (train == (texts.length - 2)) {
                             xFixedText.setText("Treino " + (++train + 1) + "/" + texts.length);
                             xTextComponent.setText(texts[train]);
+                        } else if (wavCounter != 50 && train == (texts.length - 1)) {
+                            xRecordButtonPropertySet.setPropertyValue("Enabled", false);
+                            xNextButtonPropertySet.setPropertyValue("Label", "Adaptar");
+                            xNextButtonPropertySet.setPropertyValue("Enabled", false);
+                            xTextComponent.setText("É necessário gravar todos os textos para fazer a adaptação");
+                            train++;
                         } else if (train == (texts.length - 1)) {
                             try {
                                 File eraser = new File(adaptacaoUserPath + "wav_mfc_adapt.list");
@@ -295,6 +301,7 @@ public class TrainingDialog extends Thread {
                                 for (int i = 1; i <= texts.length; i++) {
                                     wav = new File(recordsPath + "train" + i + ".wav");
                                     if (wav.exists()) {
+                                        wavCounter++;
                                         System.out.println("gravando: " + recordsPath + "train" + i + ".wav");
                                         labAdaptList.write(adaptacaoPath + "labs" + File.separator + "train" + i + ".lab");
                                         wavMfcAdaptList.write(recordsPath + "train" + i + ".wav");
@@ -317,8 +324,11 @@ public class TrainingDialog extends Thread {
                             train++;
                         } else if (train == texts.length) {
                             if (!closeWindow) {
+                                File file = new File(recordsPath);
+                                String files[] = file.list();
                                 Thread thread = new TrainingDialog();
                                 //nome da thread setado porque o valor do userRecord não chega no run() da thread
+                                //uso o nome da thread para saber que é o userRecord, é gambiarra
                                 thread.setName(userRecord);
                                 thread.start();
                                 xRecordButtonPropertySet.setPropertyValue("Enabled", false);
@@ -350,7 +360,7 @@ public class TrainingDialog extends Thread {
             speakerAdaptationWindow.execute();
             speakerAdaptationWindow.dispose();
 
-        } catch (com.sun.star.uno.Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }

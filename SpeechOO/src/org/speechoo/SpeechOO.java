@@ -61,6 +61,7 @@ import javax.speech.recognition.Recognizer;
 import javax.speech.recognition.RuleGrammar;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import org.speechoo.gui.SpeakerAdaptationDialog;
 import org.speechoo.gui.TrainingDialog;
 
 import org.speechoo.recognized.CommandsListener;
@@ -254,10 +255,8 @@ public final class SpeechOO extends WeakBase
                     }
                 }
             } else if(aURL.Path.compareTo("speakerAdaptation") == 0) {
-                TrainingDialog td = new TrainingDialog();
-
-                td.train("Hugo");
-
+                SpeakerAdaptationDialog sad = new SpeakerAdaptationDialog();
+                sad.show();
             }
         }
     }
