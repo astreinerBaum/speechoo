@@ -56,7 +56,6 @@ public class TrainingDialog extends Thread {
     private String adaptacaoUserPath = "";
     private String adaptacaoPath = "";
     private File wav;
-    private int wavCounter = 0;
     private Dialog speakerAdaptationWindow;
     private static AdaptationProgress adaptationProgress;
     protected boolean closeWindow = false;
@@ -132,23 +131,22 @@ public class TrainingDialog extends Thread {
 
                 public void setNumberOfFiles(int numberOfFiles) {
                     this.numberOfFiles = numberOfFiles;
-                SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
-                SpeechOO.logger.info("Número de arquivos: " + this.numberOfFiles);
-                    
+                    SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                    SpeechOO.logger.info("Número de arquivos: " + this.numberOfFiles);
+
                 }
 
                 public void currentExtractFile() {
-                SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
-                SpeechOO.logger.info("Analisando arquivo: " + (++currentFile) + "/" + this.numberOfFiles);
-                    //System.out.println("Analisando arquivo: " + (++currentFile) + "/" + this.numberOfFiles);
-                 xTextComponent.setText("Analisando arquivo:" + currentFile + "/" + numberOfFiles);
+                    SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                    SpeechOO.logger.info("Analisando arquivo: " + (++currentFile) + "/" + this.numberOfFiles);
+                    xTextComponent.setText("Analisando arquivo:" + currentFile + "/" + numberOfFiles);
                 }
 
                 public void adapting() {
-                SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
-                SpeechOO.logger.info("Adaptando - aguarde");
-                xTextComponent.setText("Adaptando - aguarde");
-                
+                    SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                    SpeechOO.logger.info("Adaptando - aguarde");
+                    xTextComponent.setText("Adaptando - aguarde");
+
                 }
 
                 public void finished() {
@@ -324,8 +322,8 @@ public class TrainingDialog extends Thread {
                                 labAdaptList.close();
                                 wavMfcAdaptList.close();
                             } catch (IOException ex) {
-                              SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
-                              SpeechOO.logger.error(ex);
+                                SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                                SpeechOO.logger.error(ex);
                             }
                             xRecordButtonPropertySet.setPropertyValue("Enabled", false);
                             xNextButtonPropertySet.setPropertyValue("Label", "Adaptar");
@@ -420,16 +418,19 @@ public class TrainingDialog extends Thread {
 
             br.close();
             int nRecords = countLines(wavsList);
-            
-            if (nRecords < texts.length-1) {
+
+            if (nRecords < texts.length - 1) {
                 speakerAdaptationWindow.showInfoBoxMessage(
                         "Erro de adaptação",
-                        "É necessário a gravação de todas as frases\nGravados:"+nRecords+1+"/"+texts.length, 
+                        "É necessário a gravação de todas as frases\nGravados:" + (nRecords + 1) + "/" + texts.length,
                         "errorbox");
+                SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                SpeechOO.logger.info("É necessário a gravação de todas as frases. Gravados:" + (nRecords + 1) + "/" + texts.length);
                 return;
             }
         } catch (IOException ex) {
-            Logger.getLogger(TrainingDialog.class.getName()).log(Level.SEVERE, null, ex);
+            SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+            SpeechOO.logger.error(ex);
         }
 
         adapter.startAdaptation(fileList, this.getName());
