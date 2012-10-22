@@ -26,20 +26,19 @@ import com.sun.star.lang.XMultiServiceFactory;
 import com.sun.star.uno.Exception;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
+import org.speechoo.SpeechOO;
 
 /**
  * The source code of this class bases heavily on the OOo Developer's Guide:
  * http://api.openoffice.org/docs/DevelopersGuide/GUI/GUI.xhtml#1_Graphical_User_Interfaces
- * 
+ *
  * This class provides methods to create, execute and dispose an OOo Dialog with
  * labels (fixed text), buttons, text fields, and password fields.
  */
-
 /**
  *
  * @author Hugo Santos
  */
-
 public class Dialog {
 
     private XComponentContext xComponentContext;
@@ -382,7 +381,8 @@ public class Dialog {
             xComboBox = (XComboBox) UnoRuntime.queryInterface(XComboBox.class, xControl);
 
         } catch (com.sun.star.uno.Exception ex) {
-            ex.printStackTrace(System.out);
+            SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+            SpeechOO.logger.error(ex);
         }
         return xComboBox;
     }
@@ -402,7 +402,8 @@ public class Dialog {
                 short nResult = xMessageBox.execute();
             }
         } catch (Exception ex) {
-            ex.printStackTrace(System.out);
+            SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+            SpeechOO.logger.error(ex);
         } finally {
             //make sure always to dispose the component and free the memory!
             if (xComponent != null) {

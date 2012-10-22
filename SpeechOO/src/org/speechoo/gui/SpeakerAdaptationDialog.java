@@ -20,8 +20,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.speechoo.SpeechOO;
 import org.speechoo.util.AcousticModelSelector;
 
@@ -98,28 +96,28 @@ public class SpeakerAdaptationDialog extends Thread {
                         File file;
                         file = new File(adaptationPath + File.separator + modelName);
                         if (!file.mkdir()) {
-                            System.out.println("Não criou:"+adaptationPath + File.separator + modelName);
+                            System.out.println("Não criou:" + adaptationPath + File.separator + modelName);
                         }
                         file = new File(adaptationPath + File.separator + modelName + File.separator + "records");
                         if (!file.mkdir()) {
-                            System.out.println("Não criou: "+adaptationPath + File.separator + modelName + File.separator + "records");
+                            System.out.println("Não criou: " + adaptationPath + File.separator + modelName + File.separator + "records");
                         }
                         BufferedWriter fileList;
-                        fileList = new BufferedWriter(new FileWriter(adaptationPath+File.separator+modelName+File.separator+"file.list"));
+                        fileList = new BufferedWriter(new FileWriter(adaptationPath + File.separator + modelName + File.separator + "file.list"));
                         fileList.write("wav_mfc_adapt.list\n");
                         fileList.write("pattern.list\n");
                         fileList.write("lab_adapt.list\n");
                         fileList.write("../LaPSAM-1.5/tiedlist\n");
                         fileList.write("../LaPSAM-1.5/MMF\n");
-                        fileList.write(modelName+".am");
+                        fileList.write(modelName + ".am");
                         fileList.close();
                         modelSelectorWindow.close();
-                        //TrainingDialog td = new TrainingDialog();
-                        //td.train(modelName);
                     } catch (IOException ex) {
-                        ex.printStackTrace();
+                        SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                        SpeechOO.logger.error(ex);
                     } catch (Exception ex) {
-                        Logger.getLogger(SpeakerAdaptationDialog.class.getName()).log(Level.SEVERE, null, ex);
+                        SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                        SpeechOO.logger.error(ex);
                     }
 
                     throw new UnsupportedOperationException("Not supported yet.");
@@ -150,13 +148,17 @@ public class SpeakerAdaptationDialog extends Thread {
                             xSelectButtonPropertySet.setPropertyValue("Enabled", false);
                         }
                     } catch (UnknownPropertyException ex) {
-                        Logger.getLogger(SpeakerAdaptationDialog.class.getName()).log(Level.SEVERE, null, ex);
+                        SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                        SpeechOO.logger.error(ex);
                     } catch (PropertyVetoException ex) {
-                        Logger.getLogger(SpeakerAdaptationDialog.class.getName()).log(Level.SEVERE, null, ex);
+                        SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                        SpeechOO.logger.error(ex);
                     } catch (IllegalArgumentException ex) {
-                        Logger.getLogger(SpeakerAdaptationDialog.class.getName()).log(Level.SEVERE, null, ex);
+                        SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                        SpeechOO.logger.error(ex);
                     } catch (WrappedTargetException ex) {
-                        Logger.getLogger(SpeakerAdaptationDialog.class.getName()).log(Level.SEVERE, null, ex);
+                        SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                        SpeechOO.logger.error(ex);
                     }
                     throw new UnsupportedOperationException("Not supported yet.");
                 }
@@ -181,7 +183,8 @@ public class SpeakerAdaptationDialog extends Thread {
                             td.train(modelName);
                         }
                     } catch (Exception ex) {
-                        Logger.getLogger(SpeakerAdaptationDialog.class.getName()).log(Level.SEVERE, null, ex);
+                        SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                        SpeechOO.logger.error(ex);
                     }
                     throw new UnsupportedOperationException("Not supported yet.");
                 }
@@ -203,11 +206,14 @@ public class SpeakerAdaptationDialog extends Thread {
                             modelSelectorWindow.insertFixedText(10, 110, 12, 100, "Selecione um modelo primeiro");
                         } else {
                             AcousticModelSelector.changeText("-h adaptacao/" + modelName + "/" + modelName + ".am");
+                            SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                            SpeechOO.logger.info("-h adaptacao/" + modelName + "/" + modelName + ".am");
                             modelSelectorWindow.showInfoBoxMessage("Seleção de Modelo", "Modelo " + modelName + " selecionado com sucesso!", "infobox");
                             modelSelectorWindow.close();
                         }
                     } catch (Exception ex) {
-                        Logger.getLogger(SpeakerAdaptationDialog.class.getName()).log(Level.SEVERE, null, ex);
+                        SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                        SpeechOO.logger.error(ex);
                     }
                     throw new UnsupportedOperationException("Not supported yet.");
                 }
@@ -221,7 +227,8 @@ public class SpeakerAdaptationDialog extends Thread {
             modelSelectorWindow.dispose();
 
         } catch (Exception ex) {
-            Logger.getLogger(SpeakerAdaptationDialog.class.getName()).log(Level.SEVERE, null, ex);
+            SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+            SpeechOO.logger.error(ex);
         }
     }
 }
