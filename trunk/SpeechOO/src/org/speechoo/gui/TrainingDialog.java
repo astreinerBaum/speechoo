@@ -21,10 +21,15 @@ import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.uno.Exception;
 import com.sun.star.uno.UnoRuntime;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.speechoo.SpeechOO;
@@ -283,12 +288,6 @@ public class TrainingDialog extends Thread {
                         } else if (train == (texts.length - 2)) {
                             xFixedText.setText("Treino " + (++train + 1) + "/" + texts.length);
                             xTextComponent.setText(texts[train]);
-                        } else if (wavCounter != 50 && train == (texts.length - 1)) {
-                            xRecordButtonPropertySet.setPropertyValue("Enabled", false);
-                            xNextButtonPropertySet.setPropertyValue("Label", "Adaptar");
-                            xNextButtonPropertySet.setPropertyValue("Enabled", false);
-                            xTextComponent.setText("É necessário gravar todos os textos para fazer a adaptação");
-                            train++;
                         } else if (train == (texts.length - 1)) {
                             try {
                                 File eraser = new File(adaptacaoUserPath + "wav_mfc_adapt.list");
@@ -301,7 +300,6 @@ public class TrainingDialog extends Thread {
                                 for (int i = 1; i <= texts.length; i++) {
                                     wav = new File(recordsPath + "train" + i + ".wav");
                                     if (wav.exists()) {
-                                        wavCounter++;
                                         System.out.println("gravando: " + recordsPath + "train" + i + ".wav");
                                         labAdaptList.write(adaptacaoPath + "labs" + File.separator + "train" + i + ".lab");
                                         wavMfcAdaptList.write(recordsPath + "train" + i + ".wav");
@@ -324,19 +322,19 @@ public class TrainingDialog extends Thread {
                             train++;
                         } else if (train == texts.length) {
                             if (!closeWindow) {
-                                File file = new File(recordsPath);
-                                String files[] = file.list();
                                 Thread thread = new TrainingDialog();
                                 //nome da thread setado porque o valor do userRecord não chega no run() da thread
                                 //uso o nome da thread para saber que é o userRecord, é gambiarra
                                 thread.setName(userRecord);
+                                thread.setPriority(10);
                                 thread.start();
                                 xRecordButtonPropertySet.setPropertyValue("Enabled", false);
                                 xNextButtonPropertySet.setPropertyValue("Enabled", false);
                                 xNextButtonPropertySet.setPropertyValue("Label", "Concluir");
                             } else {
                                 speakerAdaptationWindow.close();
-                                System.out.println("Deve fechar");
+                                SpeakerAdaptationDialog sad = new SpeakerAdaptationDialog();
+                                sad.show();
                             }
                         } else if (train == -1) {
                             xFixedText.setText("Treino " + (++train + 1) + "/" + texts.length);
@@ -365,12 +363,62 @@ public class TrainingDialog extends Thread {
         }
     }
 
+    public int countLines(String filename) throws IOException {
+        InputStream is = new BufferedInputStream(new FileInputStream(filename));
+        try {
+            byte[] c = new byte[1024];
+            int count = 0;
+            int readChars = 0;
+            while ((readChars = is.read(c)) != -1) {
+                for (int i = 0; i < readChars; ++i) {
+                    if (c[i] == '\n') {
+                        ++count;
+                    }
+                }
+            }
+            return count;
+        } finally {
+            is.close();
+        }
+    }
+
     @Override
     public void run() {
         Adaptador adapter = new Adaptador(adaptationProgress);
-        adapter.startAdaptation(System.getProperty("user.home")
+
+        String fileList = System.getProperty("user.home")
                 + File.separator + "coruja_jlapsapi" + File.separator
                 + "adaptacao" + File.separator + this.getName()
-                + File.separator + "file.list", this.getName());
+                + File.separator + "file.list";
+
+        String wavsList = "";
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(fileList));
+            String str;
+            int i = 0;
+            while (br.ready() && i < 1) {
+                str = br.readLine();
+                wavsList = System.getProperty("user.home") + File.separator
+                        + "coruja_jlapsapi" + File.separator + "adaptacao"
+                        + File.separator + this.getName() + File.separator + str;
+                i++;
+            }
+
+            br.close();
+            int nRecords = countLines(wavsList);
+            
+            if (nRecords < texts.length-1) {
+                speakerAdaptationWindow.showInfoBoxMessage(
+                        "Erro de adaptação",
+                        "É necessário a gravação de todas as frases\nGravados:"+nRecords+1+"/"+texts.length, 
+                        "errorbox");
+                return;
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(TrainingDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        adapter.startAdaptation(fileList, this.getName());
     }
 }

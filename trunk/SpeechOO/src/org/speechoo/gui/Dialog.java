@@ -387,7 +387,7 @@ public class Dialog {
         return xComboBox;
     }
 
-    public void showInfoBoxMessage(String Title, String Message) {
+    public void showInfoBoxMessage(String Title, String Message, String type) {//type can be: infobox, 
         XComponent xComponent = null;
         try {
             Object oToolkit = xMultiComponentFactory.createInstanceWithContext("com.sun.star.awt.Toolkit", xComponentContext);
@@ -396,7 +396,7 @@ public class Dialog {
             // rectangle may be empty if position is in the center of the parent peer    
             Rectangle aRectangle = new Rectangle();
             XMessageBox xMessageBox = xMessageBoxFactory.createMessageBox(xParentWindowPeer,
-                    aRectangle, "infobox", com.sun.star.awt.MessageBoxButtons.BUTTONS_OK, Title, Message);
+                    aRectangle, type, com.sun.star.awt.MessageBoxButtons.BUTTONS_OK, Title, Message);
             xComponent = (XComponent) UnoRuntime.queryInterface(XComponent.class, xMessageBox);
             if (xMessageBox != null) {
                 short nResult = xMessageBox.execute();

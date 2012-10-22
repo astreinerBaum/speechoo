@@ -114,8 +114,8 @@ public class SpeakerAdaptationDialog extends Thread {
                         fileList.write(modelName+".am");
                         fileList.close();
                         modelSelectorWindow.close();
-                        TrainingDialog td = new TrainingDialog();
-                        td.train(modelName);
+                        //TrainingDialog td = new TrainingDialog();
+                        //td.train(modelName);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     } catch (Exception ex) {
@@ -203,7 +203,7 @@ public class SpeakerAdaptationDialog extends Thread {
                             modelSelectorWindow.insertFixedText(10, 110, 12, 100, "Selecione um modelo primeiro");
                         } else {
                             AcousticModelSelector.changeText("-h adaptacao/" + modelName + "/" + modelName + ".am");
-                            modelSelectorWindow.showInfoBoxMessage("Seleção de Modelo", "Modelo " + modelName + " selecionado com sucesso!");
+                            modelSelectorWindow.showInfoBoxMessage("Seleção de Modelo", "Modelo " + modelName + " selecionado com sucesso!", "infobox");
                             modelSelectorWindow.close();
                         }
                     } catch (Exception ex) {
