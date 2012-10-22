@@ -27,6 +27,8 @@ public static void saveDocument(String name) {
 // Save the document
 String storeUrl = "File:"+System.getProperty("user.home")+"/Documents/"+name+".odt";
 String stringLength = "Nome do Arquivo: "+name+ "  "+"Salvo em: "+storeUrl;
+SpeechOO.logger = org.apache.log4j.Logger.getLogger(PrintAndSave.class.getName());
+SpeechOO.logger.info("Nome do Arquivo: "+name+ "  "+"Salvo em: "+storeUrl);
 SpeechOO.label.setText("Nome do Arquivo: "+name+ "  "+"Salvo em: "+storeUrl);
 SpeechOO.frame.setSize((5*stringLength.length()+200), 50);
 SpeechOO.frame.setVisible(true);

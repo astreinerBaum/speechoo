@@ -37,32 +37,31 @@ import com.sun.star.frame.TerminationVetoException;
 import com.sun.star.frame.XDispatch;
 import com.sun.star.frame.XTerminateListener;
 import com.sun.star.lang.EventObject;
+import com.sun.star.lang.XSingleComponentFactory;
+import com.sun.star.lib.uno.helper.Factory;
+import com.sun.star.lib.uno.helper.WeakBase;
+import com.sun.star.registry.XRegistryKey;
 import com.sun.star.uno.Exception;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
-import com.sun.star.lib.uno.helper.Factory;
-import com.sun.star.lang.XSingleComponentFactory;
-import com.sun.star.registry.XRegistryKey;
-import com.sun.star.lib.uno.helper.WeakBase;
 import java.awt.Font;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.speech.AudioException;
-import javax.swing.SwingConstants;
 import javax.speech.Central;
-import javax.speech.EngineStateError;
-import javax.speech.recognition.GrammarException;
-import javax.speech.recognition.RecognizerModeDesc;
 import javax.speech.EngineException;
+import javax.speech.EngineStateError;
 import javax.speech.recognition.DictationGrammar;
+import javax.speech.recognition.GrammarException;
 import javax.speech.recognition.Recognizer;
+import javax.speech.recognition.RecognizerModeDesc;
 import javax.speech.recognition.RuleGrammar;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import org.speechoo.gui.SpeakerAdaptationDialog;
-
+import javax.swing.SwingConstants;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import org.speechoo.gui.TrainingDialog;
 import org.speechoo.recognized.CommandsListener;
 import org.speechoo.recognized.FreeDictationListener;
 import org.speechoo.util.KeyEvent;
@@ -99,9 +98,11 @@ public final class SpeechOO extends WeakBase
     public static DictationGrammar dic;
     private KeyEvent button;
     private SwingConstants Format;
-   
+    public static Logger logger = Logger.getLogger(SpeechOO.class.getName());
     public SpeechOO(XComponentContext context) {
-        System.out.println("SpeechOO SpeechOO");
+        org.apache.log4j.xml.DOMConfigurator.configure(System.getProperty("user.home")+"/speechoo/SpeechOO/log4j.xml");
+        PropertyConfigurator.configure(System.getProperty("user.home")+ "/speechoo/SpeechOO/src/org/speechoo/log4j.properties");
+        logger.info("Criando interface do SpeechOO");
         m_xContext = context;  
 
         frame.setFocusableWindowState(false); 
@@ -117,7 +118,8 @@ public final class SpeechOO extends WeakBase
         
     //
     public static XSingleComponentFactory __getComponentFactory(String sImplementationName) {
-        System.out.println("SpeechOO __getComponenteFactory");
+        logger = Logger.getLogger(SpeechOO.class.getName());
+        //logger.info("SpeechOO __getComponenteFactory");
         XSingleComponentFactory xFactory = null;
 
         if (sImplementationName.equals(m_implementationName)) {
@@ -127,7 +129,8 @@ public final class SpeechOO extends WeakBase
     }
 
     public static boolean __writeRegistryServiceInfo(XRegistryKey xRegistryKey) {
-        System.out.println("SpeechOO __writeRegistryServiceInfo");
+        logger = Logger.getLogger(SpeechOO.class.getName());
+        //logger.info("SpeechOO __writeRegistryServiceInfo");
         return Factory.writeRegistryServiceInfo(m_implementationName,
                 m_serviceNames,
                 xRegistryKey);
@@ -136,7 +139,7 @@ public final class SpeechOO extends WeakBase
     // com.sun.star.lang.XInitialization:
     public void initialize(Object[] object)
             throws com.sun.star.uno.Exception {
-        System.out.println("SpeechOO initialize []");
+        logger = Logger.getLogger(SpeechOO.class.getName());
         if (object.length > 0) {
             m_xFrame = (com.sun.star.frame.XFrame) UnoRuntime.queryInterface(
                     com.sun.star.frame.XFrame.class, object[0]);
@@ -146,7 +149,8 @@ public final class SpeechOO extends WeakBase
 
     @SuppressWarnings("static-access")
     private void initialize() throws Exception, BootstrapException{
-        System.out.println("SpeechOO initialize");
+        logger = Logger.getLogger(SpeechOO.class.getName());
+        //logger.info("SpeechOO initialize");
 
   
         //facilita a configuração do plugin
@@ -154,26 +158,28 @@ public final class SpeechOO extends WeakBase
         //speech.properties é criado automaticamente na home do usuário
         
         RecognizerModeDesc rmd = (RecognizerModeDesc) Central.availableRecognizers(null).firstElement();
-        System.out.println("RecognizerModeDesc");
-        try {
+  
+        //logger.info("RecognizerModeDesc");
+        try { 
+            System.out.println(logger.getAllAppenders().toString());
             rec = (Recognizer) Central.createRecognizer(rmd);
-            System.out.println("createRecognizer");
+            
             label.setText("Criando Reconhecedor");
             frame.setVisible(true);
             rec.allocate();
-            System.out.println("allocate");
+            logger.info("Alocando recursos");
             label.setText("Alocando");
             FileReader reader = new FileReader(System.getProperty("user.home") + "/coruja_jlapsapi/commands.grammar");
             //FileReader reader2 = new FileReader(System.getProperty("user.home") + "/coruja_jlapsapi/numbers.grammar");
-
-            System.out.println("load gram");
+            
+            logger.info("Carregando gramática");
             gram = rec.loadJSGF(reader);
             //gram2 = rec.loadJSGF(reader2);
 
-            System.out.println("load dic");
+            logger.info("Carregando ditado");
             dic = rec.getDictationGrammar("dicSr");
 
-            System.out.println("listeners");
+            logger.info("Adicionando os listeners");
             dic.addResultListener(new FreeDictationListener());
             gram.addResultListener(new CommandsListener());
             //gram2.addResultListener(new CommandsListener());
@@ -187,24 +193,25 @@ public final class SpeechOO extends WeakBase
         //    }
 
         } catch (IllegalArgumentException ex) {
-            ex.printStackTrace();
+            logger.error(ex);
         } catch (EngineException ex) {
-            ex.printStackTrace();
+            logger.error(ex);
         } catch (SecurityException ex) {
-            ex.printStackTrace();
+            logger.error(ex);
         } catch (GrammarException ex) {
-            ex.printStackTrace();
+            logger.error(ex);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            logger.error(ex);
         } catch (EngineStateError ex) {
-            ex.printStackTrace();
+            logger.error(ex);
         }
     }
 
     // com.sun.star.frame.XDispatch:
     public void dispatch(com.sun.star.util.URL aURL,
-            com.sun.star.beans.PropertyValue[] aArguments) {
-        System.out.println("SpeechOO dispatch");
+        com.sun.star.beans.PropertyValue[] aArguments) {
+        logger = Logger.getLogger(SpeechOO.class.getName());
+        //logger.info("SpeechOO dispatch");
         if (aURL.Protocol.compareTo("org.speechoo.speechoo:") == 0) {
             if (aURL.Path.compareTo("startDictation") == 0) {
                 synchronized (this) {
@@ -213,40 +220,43 @@ public final class SpeechOO extends WeakBase
                             try {
                                 initialize();
                             } catch (BootstrapException ex) {
-                                Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
+                                logger.error(ex);
                             }
-                            System.out.println("initialize");
+                            logger.info("Inicializando");
                         } catch (Exception ex) {
-                            Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
+                                logger.error(ex);
                         }
                     }
                     if (this.isActive) {
                         try {
+                            logger = Logger.getLogger(SpeechOO.class.getName());
                             rec.deallocate();
-                            System.out.println("deallocate");
+                            logger.info("Desalocando recursos");
                         } catch (EngineException ex) {
-                            Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
+                            logger.error(ex);
                         } catch (EngineStateError ex) {
-                            Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
+                            logger.error(ex);
                         }
                         this.isActive = false;
                     } else {
                         if (!isResumed) {
                             try {
+                                logger = Logger.getLogger(SpeechOO.class.getName());
                                 rec.resume();
-                                System.out.println("Resumed");
+                                logger.info("Ativado");
                                 label.setText("Ativado");
                                 frame.setVisible(true);
                             } catch (AudioException ex) {
-                                Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
+                               logger.error(ex);
                             } catch (EngineStateError ex) {
-                                Logger.getLogger(SpeechOO.class.getName()).log(Level.SEVERE, null, ex);
+                               logger.error(ex);
                             }
                             isResumed = true;
                             this.isInitialized=true;
                         } else {
+                            logger = Logger.getLogger(SpeechOO.class.getName());
                             rec.pause();
-                            System.out.println("Paused");
+                            logger.info("Pausado");
                             label.setText("Pausado");
                             frame.setVisible(true);
                             isResumed = false;
@@ -254,15 +264,18 @@ public final class SpeechOO extends WeakBase
                     }
                 }
             } else if(aURL.Path.compareTo("speakerAdaptation") == 0) {
-                SpeakerAdaptationDialog sad = new SpeakerAdaptationDialog();
-                sad.show();
+                TrainingDialog td = new TrainingDialog();
+
+                td.train("Welton");
+
             }
         }
     }
 
     public void addStatusListener(com.sun.star.frame.XStatusListener xControl,
             com.sun.star.util.URL aURL) {
-        System.out.println("SpeechOO addStatusListener");
+        logger = Logger.getLogger(SpeechOO.class.getName());
+        logger.info("Adicionando listener de Status");
         if (aURL.Path.compareTo("startDictation") == 0) {
             FeatureStateEvent aEvent = new FeatureStateEvent();
             aEvent.FeatureURL = aURL;
@@ -282,7 +295,8 @@ public final class SpeechOO extends WeakBase
 
     public void removeStatusListener(com.sun.star.frame.XStatusListener xControl,
             com.sun.star.util.URL aURL) {
-        System.out.println("SpeechOO removeStatusListener");
+        logger = Logger.getLogger(SpeechOO.class.getName());
+        logger.info("SpeechOO finalizado");
         // add your own code here
     }
 
@@ -290,7 +304,8 @@ public final class SpeechOO extends WeakBase
     public com.sun.star.frame.XDispatch queryDispatch(com.sun.star.util.URL aURL,
             String sTargetFrameName,
             int iSearchFlags) {
-        System.out.println("SpeechOO queryDispatch");
+        logger = Logger.getLogger(SpeechOO.class.getName());
+        logger.info("Envio de consulta");
         if (aURL.Protocol.compareTo("org.speechoo.speechoo:") == 0) {
             if (aURL.Path.compareTo("startDictation") == 0) {
                 return this;
@@ -304,7 +319,8 @@ public final class SpeechOO extends WeakBase
     // com.sun.star.frame.XDispatchProvider:
     public com.sun.star.frame.XDispatch[] queryDispatches(
             com.sun.star.frame.DispatchDescriptor[] seqDescriptors) {
-        System.out.println("SpeechOO queryDispatches");
+        logger = Logger.getLogger(SpeechOO.class.getName());
+       // logger.info("SpeechOO queryDispatches");
         int nCount = seqDescriptors.length;
         com.sun.star.frame.XDispatch[] seqDispatcher =
                 new com.sun.star.frame.XDispatch[seqDescriptors.length];
@@ -319,12 +335,14 @@ public final class SpeechOO extends WeakBase
 
     // com.sun.star.lang.XServiceInfo:
     public String getImplementationName() {
-        System.out.println("SpeechOO getImplementaionName");
+        logger = Logger.getLogger(SpeechOO.class.getName());
+       // logger.info("SpeechOO getImplementaionName");
         return m_implementationName;
     }
 
     public boolean supportsService(String sService) {
-        System.out.println("SpeechOO supportsService");
+        logger = Logger.getLogger(SpeechOO.class.getName());
+      //  logger.info("SpeechOO supportsService");
         int len = m_serviceNames.length;
 
         for (int i = 0; i < len; i++) {
@@ -336,7 +354,8 @@ public final class SpeechOO extends WeakBase
     }
 
     public String[] getSupportedServiceNames() {
-        System.out.println("SpeechOO getSupportedServiceNames");
+        logger = Logger.getLogger(SpeechOO.class.getName());
+       // logger.info("SpeechOO getSupportedServiceNames");
         return m_serviceNames;
     }
 
@@ -378,13 +397,14 @@ public final class SpeechOO extends WeakBase
     }
      */
     public static void main(String args[]) throws InterruptedException {
-        System.out.println("SpeechOO main");
+      //  logger.info("SpeechOO main");
         Thread.sleep(50000);
     }
     private boolean terminated = false;
 
     private void terminate() {
-        System.out.println("SpeechOO terminate");
+        logger = Logger.getLogger(SpeechOO.class.getName());
+       // logger.info("SpeechOO terminate");
         if (terminated == false) {
             terminated = true;
         }
@@ -393,16 +413,19 @@ public final class SpeechOO extends WeakBase
     // usage example:
     // http://wiki.services.openoffice.org/wiki/Documentation/DevGuide/OfficeDev/Using_the_Desktop
     public void queryTermination(EventObject arg0) throws TerminationVetoException {
-        System.out.println("SpeechOO queryTermination");
+        logger = Logger.getLogger(SpeechOO.class.getName());
+       // logger.info("SpeechOO queryTermination");
         // nothing to do
     }
 
     public void notifyTermination(EventObject arg0) {
-        System.out.println("SpeechOO notifyTermination");
+        logger = Logger.getLogger(SpeechOO.class.getName());
+      //  logger.info("SpeechOO notifyTermination");
         terminate();
     }
 
     public void disposing(EventObject arg0) {
-        System.out.println("SpeechOO disposing");
+        logger = Logger.getLogger(SpeechOO.class.getName());
+      //  logger.info("SpeechOO disposing");
     }
 }

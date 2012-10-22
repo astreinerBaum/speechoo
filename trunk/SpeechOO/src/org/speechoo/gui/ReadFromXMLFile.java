@@ -1,10 +1,11 @@
 package org.speechoo.gui;
 
 import java.io.File;
-import org.w3c.dom.*;
-
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.apache.log4j.Logger;
+import org.speechoo.SpeechOO;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
@@ -34,14 +35,16 @@ public class ReadFromXMLFile{
 			System.out.println ("** Parsing error" + ", line "
 					+ err.getLineNumber () + ", uri " + err.getSystemId ());
 			System.out.println(" " + err.getMessage ());
-                        err.printStackTrace();
+                        SpeechOO.logger = Logger.getLogger(ReadFromXMLFile.class.getName());
+                        SpeechOO.logger.error(err);
 
 		} catch (SAXException e) {
 			Exception x = e.getException ();
 			((x == null) ? e : x).printStackTrace ();
 
 		} catch (Throwable t) {
-			t.printStackTrace ();
+			SpeechOO.logger = Logger.getLogger(ReadFromXMLFile.class.getName());
+                        SpeechOO.logger.error(t);
 		}
 	}
 /*

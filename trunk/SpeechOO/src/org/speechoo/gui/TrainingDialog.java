@@ -132,22 +132,29 @@ public class TrainingDialog extends Thread {
 
                 public void setNumberOfFiles(int numberOfFiles) {
                     this.numberOfFiles = numberOfFiles;
-                    System.out.println("Número de arquivos: " + this.numberOfFiles);
+                SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                SpeechOO.logger.info("Número de arquivos: " + this.numberOfFiles);
+                    
                 }
 
                 public void currentExtractFile() {
-                    System.out.println("Analisando arquivo: " + (++currentFile) + "/" + this.numberOfFiles);
-                    xTextComponent.setText("Analisando arquivo:" + currentFile + "/" + numberOfFiles);
+                SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                SpeechOO.logger.info("Analisando arquivo: " + (++currentFile) + "/" + this.numberOfFiles);
+                    //System.out.println("Analisando arquivo: " + (++currentFile) + "/" + this.numberOfFiles);
+                 xTextComponent.setText("Analisando arquivo:" + currentFile + "/" + numberOfFiles);
                 }
 
                 public void adapting() {
-                    System.out.println("Adaptando - aguarde");
-                    xTextComponent.setText("Adaptando - aguarde");
+                SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                SpeechOO.logger.info("Adaptando - aguarde");
+                xTextComponent.setText("Adaptando - aguarde");
+                
                 }
 
                 public void finished() {
                     try {
-                        System.out.println("Adaptação concluída");
+                        SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                        SpeechOO.logger.info("Adaptação concluída");
                         xTextComponent.setText("Adaptação concluída");
                         xNextButtonPropertySet.setPropertyValue("PushButtonType", (short) PushButtonType.OK_value);
                         xNextButtonPropertySet.setPropertyValue("Enabled", true);
@@ -202,7 +209,8 @@ public class TrainingDialog extends Thread {
                             xTextComponent.setText(texts[train]);
                         }
                     } catch (Exception ex) {
-                        Logger.getLogger(TrainingDialog.class.getName()).log(Level.SEVERE, null, ex);
+                        SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                        SpeechOO.logger.error(ex);
                     }
                     throw new UnsupportedOperationException("Not supported yet.");
                 }
@@ -223,12 +231,14 @@ public class TrainingDialog extends Thread {
                         xRecordButtonPropertySet.setPropertyValue("Enabled", false);
                         xStopButtonPropertySet.setPropertyValue("Enabled", true);
                         xNextButtonPropertySet.setPropertyValue("Enabled", false);
-                        System.out.println("gravando: " + recordsPath + "train" + (train + 1) + ".wav");
+                        SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                        SpeechOO.logger.info("gravando: " + recordsPath + "train" + (train + 1) + ".wav");
                         wav = new File(recordsPath + "train" + (train + 1) + ".wav");
                         wav.delete();
                         capture.start(wav);
                     } catch (Exception ex) {
-                        Logger.getLogger(TrainingDialog.class.getName()).log(Level.SEVERE, null, ex);
+                        SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                        SpeechOO.logger.error(ex);
                     }
                     throw new UnsupportedOperationException("Not supported yet.");
                 }
@@ -258,7 +268,8 @@ public class TrainingDialog extends Thread {
                         capture.stop();
 
                     } catch (Exception ex) {
-                        Logger.getLogger(TrainingDialog.class.getName()).log(Level.SEVERE, null, ex);
+                        SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                        SpeechOO.logger.error(ex);
                     }
                     throw new UnsupportedOperationException("Not supported yet.");
                 }
@@ -300,7 +311,8 @@ public class TrainingDialog extends Thread {
                                 for (int i = 1; i <= texts.length; i++) {
                                     wav = new File(recordsPath + "train" + i + ".wav");
                                     if (wav.exists()) {
-                                        System.out.println("gravando: " + recordsPath + "train" + i + ".wav");
+                                        SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                                        SpeechOO.logger.info("gravando: " + recordsPath + "train" + i + ".wav");
                                         labAdaptList.write(adaptacaoPath + "labs" + File.separator + "train" + i + ".lab");
                                         wavMfcAdaptList.write(recordsPath + "train" + i + ".wav");
                                         if (i != (texts.length)) {
@@ -312,7 +324,8 @@ public class TrainingDialog extends Thread {
                                 labAdaptList.close();
                                 wavMfcAdaptList.close();
                             } catch (IOException ex) {
-                                ex.printStackTrace();
+                              SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                              SpeechOO.logger.error(ex);
                             }
                             xRecordButtonPropertySet.setPropertyValue("Enabled", false);
                             xNextButtonPropertySet.setPropertyValue("Label", "Adaptar");
@@ -333,8 +346,6 @@ public class TrainingDialog extends Thread {
                                 xNextButtonPropertySet.setPropertyValue("Label", "Concluir");
                             } else {
                                 speakerAdaptationWindow.close();
-                                SpeakerAdaptationDialog sad = new SpeakerAdaptationDialog();
-                                sad.show();
                             }
                         } else if (train == -1) {
                             xFixedText.setText("Treino " + (++train + 1) + "/" + texts.length);
@@ -345,7 +356,8 @@ public class TrainingDialog extends Thread {
                         }
 
                     } catch (Exception ex) {
-                        Logger.getLogger(TrainingDialog.class.getName()).log(Level.SEVERE, null, ex);
+                        SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                        SpeechOO.logger.error(ex);
                     }
                     throw new UnsupportedOperationException("Not supported yet.");
                 }
@@ -359,7 +371,8 @@ public class TrainingDialog extends Thread {
             speakerAdaptationWindow.dispose();
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+            SpeechOO.logger.error(ex);
         }
     }
 

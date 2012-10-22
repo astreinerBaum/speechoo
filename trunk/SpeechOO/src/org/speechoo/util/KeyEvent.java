@@ -31,6 +31,8 @@ public static com.sun.star.awt.KeyEvent arg1;
                     SpeechOO.dic.setEnabled(false);
                     System.out.println("gram resumed");
                     SpeechOO.gram.setEnabled(true);
+                    SpeechOO.logger = org.apache.log4j.Logger.getLogger(KeyEvent.class.getName());
+                    SpeechOO.logger.info("Modo Comando Ativado");
                     SpeechOO.label.setText("Modo Comando Ativado");
                     SpeechOO.label.setVisible(true);
                 }
@@ -43,6 +45,8 @@ public static com.sun.star.awt.KeyEvent arg1;
                     SpeechOO.dic.setEnabled(true);
                     System.out.println("gram paused");
                     SpeechOO.gram.setEnabled(false);
+                    SpeechOO.logger = org.apache.log4j.Logger.getLogger(KeyEvent.class.getName());
+                    SpeechOO.logger.info("Modo Ditado Ativado");
                     SpeechOO.label.setText("Modo Ditado Ativado");
                     SpeechOO.label.setVisible(true);
                 }

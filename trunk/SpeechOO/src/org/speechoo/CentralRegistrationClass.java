@@ -51,6 +51,7 @@ import java.util.Enumeration;
 import java.util.StringTokenizer;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -73,19 +74,26 @@ public class CentralRegistrationClass {
                     }
                 }
                 catch (ClassNotFoundException ex) {
-                    ex.printStackTrace();
+                    SpeechOO.logger = Logger.getLogger(CentralRegistrationClass.class.getName());
+                    SpeechOO.logger.error(ex);
                 } catch (ClassCastException ex) {
-                    ex.printStackTrace();
+                    SpeechOO.logger = Logger.getLogger(CentralRegistrationClass.class.getName());
+                    SpeechOO.logger.error(ex);
                 } catch (SecurityException ex) {
-                    ex.printStackTrace();
+                    SpeechOO.logger = Logger.getLogger(CentralRegistrationClass.class.getName());
+                    SpeechOO.logger.error(ex);
                 } catch (NoSuchMethodException ex) {
-                    ex.printStackTrace();
+                    SpeechOO.logger = Logger.getLogger(CentralRegistrationClass.class.getName());
+                    SpeechOO.logger.error(ex);
                 } catch (IllegalArgumentException ex) {
-                    ex.printStackTrace();
+                    SpeechOO.logger = Logger.getLogger(CentralRegistrationClass.class.getName());
+                    SpeechOO.logger.error(ex);
                 } catch (InvocationTargetException ex) {
-                    ex.printStackTrace();
+                    SpeechOO.logger = Logger.getLogger(CentralRegistrationClass.class.getName());
+                    SpeechOO.logger.error(ex);
                 } catch (IllegalAccessException ex) {
-                    ex.printStackTrace();
+                    SpeechOO.logger = Logger.getLogger(CentralRegistrationClass.class.getName());
+                    SpeechOO.logger.error(ex);
                 }
             }
         }
@@ -106,19 +114,26 @@ public class CentralRegistrationClass {
                     bResult &= ((Boolean)result).booleanValue();
                 }
                 catch (ClassNotFoundException ex) {
-                    ex.printStackTrace();
+                    SpeechOO.logger = Logger.getLogger(CentralRegistrationClass.class.getName());
+                    SpeechOO.logger.error(ex);
                 } catch (ClassCastException ex) {
-                    ex.printStackTrace();
+                    SpeechOO.logger = Logger.getLogger(CentralRegistrationClass.class.getName());
+                    SpeechOO.logger.error(ex);
                 } catch (SecurityException ex) {
-                    ex.printStackTrace();
+                    SpeechOO.logger = Logger.getLogger(CentralRegistrationClass.class.getName());
+                    SpeechOO.logger.error(ex);
                 } catch (NoSuchMethodException ex) {
-                    ex.printStackTrace();
+                    SpeechOO.logger = Logger.getLogger(CentralRegistrationClass.class.getName());
+                    SpeechOO.logger.error(ex);
                 } catch (IllegalArgumentException ex) {
-                    ex.printStackTrace();
+                    SpeechOO.logger = Logger.getLogger(CentralRegistrationClass.class.getName());
+                    SpeechOO.logger.error(ex);
                 } catch (InvocationTargetException ex) {
-                    ex.printStackTrace();
+                    SpeechOO.logger = Logger.getLogger(CentralRegistrationClass.class.getName());
+                    SpeechOO.logger.error(ex);
                 } catch (IllegalAccessException ex) {
-                    ex.printStackTrace();
+                    SpeechOO.logger = Logger.getLogger(CentralRegistrationClass.class.getName());
+                    SpeechOO.logger.error(ex);
                 }
             }
         }
@@ -144,7 +159,7 @@ public class CentralRegistrationClass {
                 }
             }
         } catch (IOException ex) {
-            ex.printStackTrace();
+            SpeechOO.logger.error(ex);
         }
             
         return "";
