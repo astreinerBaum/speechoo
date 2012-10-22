@@ -15,6 +15,7 @@ import javax.speech.recognition.FinalDictationResult;
 import javax.speech.recognition.ResultAdapter;
 import javax.speech.recognition.ResultEvent;
 import javax.speech.recognition.ResultToken;
+import org.speechoo.SpeechOO;
 import org.speechoo.inputText.InputSentence;
 
 public class FreeDictationListener extends ResultAdapter{
@@ -24,7 +25,8 @@ public class FreeDictationListener extends ResultAdapter{
     
     @Override
     public void resultAccepted(ResultEvent e) {
-        System.out.println("resultAccepted");
+        SpeechOO.logger = org.apache.log4j.Logger.getLogger(FreeDictationListener.class.getName());
+        
         StringBuffer returnTokens = new StringBuffer();
         //StringBuffer returnTokensA = new StringBuffer();
         FinalDictationResult r = (FinalDictationResult) (e.getSource());
@@ -32,8 +34,9 @@ public class FreeDictationListener extends ResultAdapter{
         tokensA = r.getAlternativeTokens(null, null, 0);
        //r.getUnfinalizedTokens();
         for (int i = 0; i < tokens.length; i++) {
-            if (i > 0)
+            if (i > 0) {
                 returnTokens.append(' ');
+            }
             returnTokens.append(tokens[i].getSpokenText());
         }
        /* for (int i = 0; i < tokensA.length; i++){
@@ -42,6 +45,7 @@ public class FreeDictationListener extends ResultAdapter{
 				System.out.println();
                                 }
         }*/
+        SpeechOO.logger.info("Sentença reconhecida:"+ returnTokens.toString());
         inputSentence.insertNewSentence(returnTokens.toString(), tokens.length);
 
          

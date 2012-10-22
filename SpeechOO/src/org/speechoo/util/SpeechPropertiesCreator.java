@@ -8,6 +8,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import org.speechoo.SpeechOO;
 
 /**
  *
@@ -21,17 +22,19 @@ public class SpeechPropertiesCreator {
         File dir = new File(userDir + "/speech.properties");
 
         if (!dir.exists()) {
-            System.out.println("speech.properties inexistente");
+            SpeechOO.logger = org.apache.log4j.Logger.getLogger(SpeechPropertiesCreator.class.getName());
+            SpeechOO.logger.info("speech.properties inexistente");
             BufferedWriter speechProperties;
             try {
                 speechProperties = new BufferedWriter(new FileWriter(userDir + "/speech.properties"));
                 speechProperties.write("PSAPIRecognizerEngineCentral=br.ufpa.laps.jlapsapi.jsapi.JLaPSAPIEngineCentral");
                 speechProperties.close();
             } catch (IOException ex) {
-                ex.printStackTrace();
+              SpeechOO.logger = org.apache.log4j.Logger.getLogger(SpeechPropertiesCreator.class.getName());
+              SpeechOO.logger.error(ex);
             }
-
-            System.out.println("speech.properties criado em: " + dir.getAbsolutePath());
+              SpeechOO.logger = org.apache.log4j.Logger.getLogger(SpeechPropertiesCreator.class.getName());
+              SpeechOO.logger.info("speech.properties criado em: " + dir.getAbsolutePath());
         }
     }
 }

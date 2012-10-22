@@ -20,16 +20,16 @@ public static void main(String entrada, int tokensLength) {
 
 String pathToResources = System.getProperty("user.home")+"/coruja_jlapsapi/target/cogroo";
 RuntimeConfigurationI config = new LegacyRuntimeConfiguration(pathToResources);
+
 // cria instância do corretor gramatical
 TableGramatical c = new TableGramatical();
 Cogroo theCogroo = new Cogroo(config);
+
 // prepara para obter o texto
 // aguarda texto
-
    // verifica erros do texto
    List<Mistake> erros = theCogroo.checkText(entrada);
    //int contador = 1;
-    System.out.println(entrada);
    // imprime detalhes de cada erro
    for (Mistake erro : erros) {
        TableGramatical.cellSeparator = erro.getSuggestions().length;
@@ -42,7 +42,6 @@ Cogroo theCogroo = new Cogroo(config);
       // System.out.println("   Texto com erro '" + entrada.substring(erro.getStart(), erro.getEnd()) + "'");
       // System.out.print(  "   Sugestões " );
       // System.out.println("vai2");
-     System.out.println("Sugestões para o erro:"+erro.getSuggestions().length);
     // System.out.println("eu2");
      TableGramatical.TableGramatical.setValueAt(0, 0, 0);
      TableGramatical.TableGramatical.setValueAt(entrada.substring(erro.getStart(), erro.getEnd()), 0, 1);
@@ -60,12 +59,10 @@ Cogroo theCogroo = new Cogroo(config);
      gramaticalFlag = 1;
      SpeechOO.gram.setEnabled(true);
      aux = CoGrOO.length-(CoGrOO.wrong.split(" ").length-1);
-     System.out.println("palavra com erro:"+wrong.split(" ").length);
-     System.out.println("Tamanho da Frase:"+CoGrOO.length);
-     System.out.println("Parada do FOR:" +CoGrOO.aux);
-     System.out.println(erro.getSuggestions().length);
+     SpeechOO.logger = org.apache.log4j.Logger.getLogger(CoGrOO.class.getName());
+     SpeechOO.logger.info("palavra com erro:"+wrong.split(" ").length);
+     SpeechOO.logger.info("Sugestões para o erro:"+erro.getSuggestions().length);
    }
-System.out.println(entrada);
  
 
 }

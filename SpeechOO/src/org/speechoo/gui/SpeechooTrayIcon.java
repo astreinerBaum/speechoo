@@ -17,16 +17,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.speech.AudioException;
 import javax.speech.EngineStateError;
-
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import org.speechoo.CentralRegistrationClass;
 import org.speechoo.SpeechOO;
 
 public class SpeechooTrayIcon {
@@ -38,13 +36,17 @@ public class SpeechooTrayIcon {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (UnsupportedLookAndFeelException ex) {
-            ex.printStackTrace();
+            SpeechOO.logger = org.apache.log4j.Logger.getLogger(CentralRegistrationClass.class.getName());
+            SpeechOO.logger.error(ex);
         } catch (IllegalAccessException ex) {
-            ex.printStackTrace();
+            SpeechOO.logger = org.apache.log4j.Logger.getLogger(CentralRegistrationClass.class.getName());
+            SpeechOO.logger.error(ex);
         } catch (InstantiationException ex) {
-            ex.printStackTrace();
+            SpeechOO.logger = org.apache.log4j.Logger.getLogger(CentralRegistrationClass.class.getName());
+                        SpeechOO.logger.error(ex);
         } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
+            SpeechOO.logger = org.apache.log4j.Logger.getLogger(CentralRegistrationClass.class.getName());
+            SpeechOO.logger.error(ex);
         }
         /* Turn off metal's use of bold fonts */
         UIManager.put("swing.boldMetal", Boolean.FALSE);
@@ -62,13 +64,17 @@ public class SpeechooTrayIcon {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (UnsupportedLookAndFeelException ex) {
-            ex.printStackTrace();
+           SpeechOO.logger = org.apache.log4j.Logger.getLogger(CentralRegistrationClass.class.getName());
+           SpeechOO.logger.error(ex);
         } catch (IllegalAccessException ex) {
-            ex.printStackTrace();
+           SpeechOO.logger = org.apache.log4j.Logger.getLogger(CentralRegistrationClass.class.getName());
+           SpeechOO.logger.error(ex);
         } catch (InstantiationException ex) {
-            ex.printStackTrace();
+           SpeechOO.logger = org.apache.log4j.Logger.getLogger(CentralRegistrationClass.class.getName());
+           SpeechOO.logger.error(ex);
         } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
+           SpeechOO.logger = org.apache.log4j.Logger.getLogger(CentralRegistrationClass.class.getName());
+           SpeechOO.logger.error(ex);
         }
         /* Turn off metal's use of bold fonts */
         UIManager.put("swing.boldMetal", Boolean.FALSE);
@@ -182,9 +188,11 @@ public class SpeechooTrayIcon {
                     try {
                         SpeechOO.rec.resume();
                     } catch (AudioException ex) {
-                        Logger.getLogger(SpeechooTrayIcon.class.getName()).log(Level.SEVERE, null, ex);
+                        SpeechOO.logger = org.apache.log4j.Logger.getLogger(CentralRegistrationClass.class.getName());
+                        SpeechOO.logger.error(ex);
                     } catch (EngineStateError ex) {
-                        Logger.getLogger(SpeechooTrayIcon.class.getName()).log(Level.SEVERE, null, ex);
+                        SpeechOO.logger = org.apache.log4j.Logger.getLogger(CentralRegistrationClass.class.getName());
+                        SpeechOO.logger.error(ex);
                     }
                     resumed();
                 } else if ("Pausar Reconhecimento".equals(item.getLabel())) {

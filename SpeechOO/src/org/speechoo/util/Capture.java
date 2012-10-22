@@ -15,6 +15,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
+import org.speechoo.SpeechOO;
 
 /**
  *
@@ -83,15 +84,18 @@ public class Capture implements Runnable {
             line.open(format, line.getBufferSize());
         } catch (LineUnavailableException ex) {
             shutdown("Unable to open the line: " + ex);
-            ex.printStackTrace();
+            SpeechOO.logger = org.apache.log4j.Logger.getLogger(Capture.class.getName());
+            SpeechOO.logger.error(ex);
             return;
         } catch (SecurityException ex) {
             shutdown(ex.toString());
-            ex.printStackTrace();
+            SpeechOO.logger = org.apache.log4j.Logger.getLogger(Capture.class.getName());
+            SpeechOO.logger.error(ex);
             return;
         } catch (Exception ex) {
             shutdown(ex.toString());
-            ex.printStackTrace();
+            SpeechOO.logger = org.apache.log4j.Logger.getLogger(Capture.class.getName());
+            SpeechOO.logger.error(ex);
             return;
         }
         
@@ -121,7 +125,8 @@ public class Capture implements Runnable {
             out.flush();
             out.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            SpeechOO.logger = org.apache.log4j.Logger.getLogger(Capture.class.getName());
+            SpeechOO.logger.error(ex);
         }
 
         // load bytes into the audio input stream to save on file
@@ -138,7 +143,8 @@ public class Capture implements Runnable {
         try {
             audioInputStream.reset();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            SpeechOO.logger = org.apache.log4j.Logger.getLogger(Capture.class.getName());
+            SpeechOO.logger.error(ex);
             return;
         }
     }
@@ -152,7 +158,8 @@ public class Capture implements Runnable {
                 long milliseconds = (long) ((audioInputStream.getFrameLength() * 1000) / audioInputStream.getFormat().getFrameRate());
                 duration = milliseconds / 1000.0;
             } catch (Exception ex) {
-                ex.printStackTrace();
+            SpeechOO.logger = org.apache.log4j.Logger.getLogger(Capture.class.getName());
+            SpeechOO.logger.error(ex);
             }
         }
     }
@@ -162,7 +169,8 @@ public class Capture implements Runnable {
         AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
 
         if (audioInputStream == null) {
-            System.out.println("No loaded audio to save");
+            SpeechOO.logger = org.apache.log4j.Logger.getLogger(Capture.class.getName());
+            SpeechOO.logger.error("No loaded audio to save");
             return;
         } else if (file != null) {
             createAudioInputStream(file);
@@ -172,16 +180,19 @@ public class Capture implements Runnable {
         try {
             audioInputStream.reset();
         } catch (Exception e) {
-            System.out.println("Unable to reset stream " + e);
+            SpeechOO.logger = org.apache.log4j.Logger.getLogger(Capture.class.getName());
+            SpeechOO.logger.error("Unable to reset stream " + e);
             return;
         }
 
         try {
             if (AudioSystem.write(audioInputStream, fileType, file) == -1) {
-                throw new IOException("Problems writing to file");
+            SpeechOO.logger = org.apache.log4j.Logger.getLogger(Capture.class.getName());
+            SpeechOO.logger.error("Problems writing to file");
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            SpeechOO.logger = org.apache.log4j.Logger.getLogger(Capture.class.getName());
+            SpeechOO.logger.error(ex);
         }
     }
 }

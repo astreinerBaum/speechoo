@@ -82,10 +82,10 @@ public class CommandsListener extends ResultAdapter{
         }
 
         Recognized = returnTokens.toString();
-        System.out.println("Comando: "+Recognized);
+        SpeechOO.logger = org.apache.log4j.Logger.getLogger(CommandsListener.class.getName());
+        SpeechOO.logger.info("Comando: "+Recognized);
         if(CoGrOO.gramaticalFlag == 1){
     CoGrOO.cellNumber = comp.compare(Recognized);
-    System.out.println(TableGramatical.TableGramatical.getRowCount()-1);
     if(CoGrOO.cellNumber != 0){
             if(CoGrOO.cellNumber==-1 || CoGrOO.cellNumber > TableGramatical.TableGramatical.getRowCount()-1){
                 //System.out.println("entrou");
@@ -99,12 +99,7 @@ public class CommandsListener extends ResultAdapter{
                  j++;
                  }
                  xCursor.gotoRange(xModelCursor.getStart(), true);
-                System.out.println(CoGrOO.wrong);
-                System.out.println(xCursor.getString());
                  if(CoGrOO.wrong.equals(xCursor.getString())==true){
-                System.out.println(CoGrOO.wrong);
-                System.out.println(xCursor.getString());
-                System.out.println(Right);
                 xText.insertString(xCursor, Right, true);
             }
             xWC.gotoEndOfWord(true);
@@ -270,9 +265,11 @@ if(Recognized.length()<6){
                     InputEditor.setUnderline(xCursor);
                 }
             } catch (UnknownPropertyException ex) {
-                Logger.getLogger(CommandsListener.class.getName()).log(Level.SEVERE, null, ex);
+                SpeechOO.logger = org.apache.log4j.Logger.getLogger(CommandsListener.class.getName());
+                SpeechOO.logger.error(ex);
             } catch (WrappedTargetException ex) {
-                Logger.getLogger(CommandsListener.class.getName()).log(Level.SEVERE, null, ex);
+                SpeechOO.logger = org.apache.log4j.Logger.getLogger(CommandsListener.class.getName());
+                SpeechOO.logger.error(ex);
             }
         }
         if(Recognized.equals("centralizar")== true){
@@ -295,9 +292,11 @@ if(Recognized.length()<6){
                     InputEditor.setBold(xCursor);
                 }
             } catch (UnknownPropertyException ex) {
-                Logger.getLogger(CommandsListener.class.getName()).log(Level.SEVERE, null, ex);
+                SpeechOO.logger = org.apache.log4j.Logger.getLogger(CommandsListener.class.getName());
+                SpeechOO.logger.error(ex);
             } catch (WrappedTargetException ex) {
-                Logger.getLogger(CommandsListener.class.getName()).log(Level.SEVERE, null, ex);
+                SpeechOO.logger = org.apache.log4j.Logger.getLogger(CommandsListener.class.getName());
+                SpeechOO.logger.error(ex);
             }
         }
         if(Recognized.equals("itálico")==true){
@@ -309,9 +308,11 @@ if(Recognized.length()<6){
                     InputEditor.setItalic(xCursor);
                 }
             } catch (UnknownPropertyException ex) {
-                Logger.getLogger(CommandsListener.class.getName()).log(Level.SEVERE, null, ex);
+                SpeechOO.logger = org.apache.log4j.Logger.getLogger(CommandsListener.class.getName());
+                SpeechOO.logger.error(ex);
             } catch (WrappedTargetException ex) {
-                Logger.getLogger(CommandsListener.class.getName()).log(Level.SEVERE, null, ex);
+                SpeechOO.logger = org.apache.log4j.Logger.getLogger(CommandsListener.class.getName());
+                SpeechOO.logger.error(ex);
             }
         
         }
@@ -348,7 +349,8 @@ if(Recognized.equals("enter")){
                 InputDevicesControl.keyEnter();
 
             } catch (Exception ex) {
-                Logger.getLogger(CommandsListener.class.getName()).log(Level.SEVERE, null, ex);
+                SpeechOO.logger = org.apache.log4j.Logger.getLogger(CommandsListener.class.getName());
+                SpeechOO.logger.error(ex);
             }
 }
 
