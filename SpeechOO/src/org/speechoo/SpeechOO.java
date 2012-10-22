@@ -62,7 +62,6 @@ import javax.speech.recognition.RuleGrammar;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import org.speechoo.gui.SpeakerAdaptationDialog;
-import org.speechoo.gui.TrainingDialog;
 
 import org.speechoo.recognized.CommandsListener;
 import org.speechoo.recognized.FreeDictationListener;
