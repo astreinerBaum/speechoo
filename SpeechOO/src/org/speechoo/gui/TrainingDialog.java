@@ -306,11 +306,12 @@ public class TrainingDialog extends Thread {
                                 BufferedWriter wavMfcAdaptList, labAdaptList;
                                 wavMfcAdaptList = new BufferedWriter(new FileWriter(adaptacaoUserPath + "wav_mfc_adapt.list"));
                                 labAdaptList = new BufferedWriter(new FileWriter(adaptacaoUserPath + "lab_adapt.list"));
+                                SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
+                                SpeechOO.logger.info("Escrevendo lista de arquivos gravados");
                                 for (int i = 1; i <= texts.length; i++) {
                                     wav = new File(recordsPath + "train" + i + ".wav");
                                     if (wav.exists()) {
-                                        SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
-                                        SpeechOO.logger.info("gravando: " + recordsPath + "train" + i + ".wav");
+
                                         labAdaptList.write(adaptacaoPath + "labs" + File.separator + "train" + i + ".lab");
                                         wavMfcAdaptList.write(recordsPath + "train" + i + ".wav");
                                         if (i != (texts.length)) {
@@ -418,7 +419,7 @@ public class TrainingDialog extends Thread {
 
             br.close();
             int nRecords = countLines(wavsList);
-
+            
             if (nRecords < texts.length - 1) {
                 speakerAdaptationWindow.showInfoBoxMessage(
                         "Erro de adaptação",

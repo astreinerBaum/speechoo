@@ -111,7 +111,9 @@ public class SpeakerAdaptationDialog extends Thread {
                         fileList.write("../LaPSAM-1.5/MMF\n");
                         fileList.write(modelName + ".am");
                         fileList.close();
-                        modelSelectorWindow.close();
+                        TrainingDialog td = new TrainingDialog();
+                        td.train(modelName);
+                        //modelSelectorWindow.close();
                     } catch (IOException ex) {
                         SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
                         SpeechOO.logger.error(ex);
