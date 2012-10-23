@@ -134,7 +134,7 @@
                             <prop oor:name="Title" oor:type="xs:string">
                                 <value/>
                                 <value xml:lang="en"></value>
-                                <value xml:lang="pt-BR">Estado do SpeechOO</value>
+                                <value xml:lang="pt-BR"></value>
                             </prop>
                         </node>
                     </node>
