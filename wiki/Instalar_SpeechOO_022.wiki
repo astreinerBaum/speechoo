@@ -7,9 +7,9 @@ sudo apt-get install libpulse-dev flex sox
 
 ==Passo 2==
 
-Baixe os arquivos para reconhecimento neste link: [http://www.laps.ufpa.br/falabrasil/files/coruja1.7_for_speechoo.tar.gz]
+Baixe os arquivos para reconhecimento neste link: [http://www.laps.ufpa.br/falabrasil/files/coruja_for_speechoo-0.2.2.tar.gz]
 
-Extraia o arquivo *coruja1.7_for_speechoo.tar.gz* que você baixou para a sua home(por exemplo, /home/fulano).
+Extraia o arquivo *coruja_for_speechoo-0.2.2.tar.gz* que você baixou para a sua home(por exemplo, /home/fulano).
 
 *Obs*:Uma pasta chamada *coruja_jlapsapi* será criada na sua home após a extração.
 
