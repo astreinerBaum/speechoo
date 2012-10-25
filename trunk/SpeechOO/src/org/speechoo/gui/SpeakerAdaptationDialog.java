@@ -113,7 +113,6 @@ public class SpeakerAdaptationDialog extends Thread {
                         fileList.close();
                         TrainingDialog td = new TrainingDialog();
                         td.train(modelName);
-                        //modelSelectorWindow.close();
                     } catch (IOException ex) {
                         SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
                         SpeechOO.logger.error(ex);
