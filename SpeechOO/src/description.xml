@@ -33,7 +33,7 @@
 -->
 <!--Created with OpenOffice.org API plug-in for NetBeans Version 2.0.6-->
 <description xmlns="http://openoffice.org/extensions/description/2006" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <version value="0.2"/>
+    <version value="1.0"/>
     <identifier value="org.speechoo.SpeechOO"/>
     <icon>
         <default xlink:href="images/gnome-sound-recorder_26.png"/>
@@ -54,3 +54,4 @@
         </simple-license>
     </registration>
 </description>
+<!--Created with Apache OpenOffice API plug-in for NetBeans Version 2.0.6.000205-->
