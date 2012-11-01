@@ -374,7 +374,7 @@
         <zip update="true" destfile="${uno.package.name}">
             <zipfileset dir="${dialogs.dir}" includes="${dialog.content.extensions}" prefix="dialogs"/>
         </zip>
-    </target>   
+    </target> 
     
     <target name="-do-uno-package" description="Creates UNO extension pacakge" depends="-uno-package-with-license,-uno-package-with-help,-uno-package-with-dialogs,-uno-package-with-description">
         <echo message="creating UNO extension package ..."/>
