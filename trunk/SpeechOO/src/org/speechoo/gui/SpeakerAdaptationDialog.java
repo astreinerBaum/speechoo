@@ -113,6 +113,7 @@ public class SpeakerAdaptationDialog extends Thread {
                         fileList.close();
                         TrainingDialog td = new TrainingDialog();
                         td.train(modelName);
+                        modelSelectorWindow.close();
                     } catch (IOException ex) {
                         SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
                         SpeechOO.logger.error(ex);
@@ -209,7 +210,7 @@ public class SpeakerAdaptationDialog extends Thread {
                             AcousticModelSelector.changeText("-h adaptacao/" + modelName + "/" + modelName + ".am");
                             SpeechOO.logger = org.apache.log4j.Logger.getLogger(TrainingDialog.class.getName());
                             SpeechOO.logger.info("-h adaptacao/" + modelName + "/" + modelName + ".am");
-                            modelSelectorWindow.showInfoBoxMessage("Seleção de Modelo", "Modelo " + modelName + " selecionado com sucesso!", "infobox");
+                            modelSelectorWindow.showInfoBoxMessage("Seleção de Modelo", "Modelo " + modelName + " selecionado com sucesso! Reinicie para que as alterações tenham efeito", "infobox");
                             modelSelectorWindow.close();
                         }
                     } catch (Exception ex) {

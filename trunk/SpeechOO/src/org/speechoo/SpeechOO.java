@@ -32,6 +32,8 @@ package org.speechoo;
 
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.comp.helper.BootstrapException;
+import com.sun.star.deployment.PackageInformationProvider;
+import com.sun.star.deployment.XPackageInformationProvider;
 import com.sun.star.frame.FeatureStateEvent;
 import com.sun.star.frame.TerminationVetoException;
 import com.sun.star.frame.XDispatch;
@@ -101,20 +103,9 @@ public final class SpeechOO extends WeakBase
     private SwingConstants Format;
     public static Logger logger = Logger.getLogger(SpeechOO.class.getName());
     public SpeechOO(XComponentContext context) {
-        org.apache.log4j.xml.DOMConfigurator.configure(System.getProperty("user.home")+"/speechoo/SpeechOO/log4j.xml");
-        PropertyConfigurator.configure(System.getProperty("user.home")+ "/speechoo/SpeechOO/src/org/speechoo/log4j.properties");
-        logger.info("Criando interface do SpeechOO");
+ 
         m_xContext = context;  
-
-        frame.setFocusableWindowState(false); 
-        frame.setVisible(false); 
-        frame.setSize(200, 50);
-	frame.setUndecorated(true); 
-	frame.setLocation(850, 1000); 
-        label.setFont(new Font("Serif",12, 12)); 
-	label.setHorizontalAlignment(Format.CENTER); 
-        label.setSize(20, 10); 
-        frame.add(label); 
+     
         }
         
     //
@@ -150,6 +141,24 @@ public final class SpeechOO extends WeakBase
 
     @SuppressWarnings("static-access")
     private void initialize() throws Exception, BootstrapException{
+        
+        XPackageInformationProvider xPackageInformationProvider =
+                PackageInformationProvider.get(SpeechOO.m_xContext);
+        String oxtLocation = xPackageInformationProvider.getPackageLocation(SpeechOO.extensionIdentifier).substring(7);//retira file:/
+        org.apache.log4j.xml.DOMConfigurator.configure(oxtLocation+"/dialogs/log4j.xml");
+        PropertyConfigurator.configure(oxtLocation+"/dialogs/log4j.properties");
+        
+        logger.info("Criando interface do SpeechOO");
+        frame.setFocusableWindowState(false); 
+        frame.setVisible(false); 
+        frame.setSize(200, 50);
+	frame.setUndecorated(true); 
+	frame.setLocation(850, 1000); 
+        label.setFont(new Font("Serif",12, 12)); 
+	label.setHorizontalAlignment(Format.CENTER); 
+        label.setSize(20, 10); 
+        frame.add(label);
+        
         logger = Logger.getLogger(SpeechOO.class.getName());
         //logger.info("SpeechOO initialize");
 
