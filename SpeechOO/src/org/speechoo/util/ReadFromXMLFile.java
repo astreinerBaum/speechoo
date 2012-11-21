@@ -1,4 +1,4 @@
-package org.speechoo.gui;
+package org.speechoo.util;
 
 import java.io.File;
 import javax.xml.parsers.DocumentBuilder;

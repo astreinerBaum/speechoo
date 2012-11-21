@@ -27,7 +27,7 @@ import javax.speech.recognition.ResultAdapter;
 import javax.speech.recognition.ResultEvent;
 import javax.speech.recognition.ResultToken;
 import org.speechoo.SpeechOO;
-import org.speechoo.gui.InputDevicesControl;
+import org.speechoo.util.InputDevicesControl;
 import org.speechoo.inputText.InputEditor;
 import org.speechoo.inputText.InputSentence;
 import org.speechoo.util.CoGrOO;

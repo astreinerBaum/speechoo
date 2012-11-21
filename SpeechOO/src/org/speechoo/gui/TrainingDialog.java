@@ -34,6 +34,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.speechoo.SpeechOO;
 import org.speechoo.util.Capture;
+import org.speechoo.util.ReadFromXMLFile;
 import ufpa.asr.frontend.Adaptador;
 import ufpa.asr.frontend.AdaptationProgress;
 

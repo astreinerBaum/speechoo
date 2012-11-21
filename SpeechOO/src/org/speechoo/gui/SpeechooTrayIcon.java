@@ -2,7 +2,7 @@ package org.speechoo.gui;
 
 /**
  *
- * @author 10080000701
+ * @author Hugo Santos
  */
 
 import java.awt.AWTException;
