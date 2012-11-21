@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.speechoo.gui;
+package org.speechoo.util;
 
 /**
  *

@@ -20,7 +20,7 @@ import com.sun.star.uno.UnoRuntime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.speechoo.SpeechOO;
-import org.speechoo.gui.InputDevicesControl;
+import org.speechoo.util.InputDevicesControl;
 import org.speechoo.util.CoGrOO;
 import org.speechoo.util.PrintAndSave;
 
